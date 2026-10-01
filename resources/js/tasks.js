@@ -1,16 +1,13 @@
+import { completeTask, createTask, getTasks, deleteTask } from "./task-api";
+
+import { createDeleteModal } from "./delete-modal";
+
+const taskList = document.getElementById("task-list");
+const taskForm = document.getElementById("task-form");
+const statusFilter = document.getElementById("status-filter");
+
 async function loadTasks() {
-    const filter = document.getElementById("status-filter").value;
-
-    let url = "/api/tasks";
-
-    if (filter) {
-        url += "?status=" + filter;
-    }
-
-    const response = await fetch(url);
-    const tasks = await response.json();
-
-    const taskList = document.getElementById("task-list");
+    const tasks = await getTasks(statusFilter.value);
 
     taskList.innerHTML = "";
 
@@ -38,8 +35,7 @@ async function loadTasks() {
             task.priority +
             '">' +
             task.priority +
-            " priority" +
-            "</span>" +
+            " priority</span>" +
             '<span class="badge status-' +
             task.status +
             '">' +
@@ -61,76 +57,45 @@ async function loadTasks() {
     });
 }
 
-async function completeTask(id) {
-    const response = await fetch("/api/tasks/" + id + "/complete", {
-        method: "PATCH",
-    });
+const deleteModal = createDeleteModal(async function (id) {
+    const response = await deleteTask(id);
 
     if (response.ok) {
         loadTasks();
     }
-}
+});
 
-async function deleteTask(id) {
-    const response = await fetch("/api/tasks/" + id, {
-        method: "DELETE",
-    });
+taskList.addEventListener("click", async function (event) {
+    const id = event.target.dataset.id;
 
-    if (response.ok) {
-        loadTasks();
-    }
-}
-
-document
-    .getElementById("task-list")
-    .addEventListener("click", function (event) {
-        if (event.target.classList.contains("complete-button")) {
-            const id = event.target.dataset.id;
-
-            completeTask(id);
-        }
-
-        if (event.target.classList.contains("delete-button")) {
-            const id = event.target.dataset.id;
-
-            deleteTask(id);
-        }
-    });
-
-document
-    .getElementById("status-filter")
-    .addEventListener("change", function () {
-        loadTasks();
-    });
-
-document
-    .getElementById("task-form")
-    .addEventListener("submit", async function (event) {
-        event.preventDefault();
-
-        const title = document.getElementById("title").value;
-
-        const description = document.getElementById("description").value;
-
-        const priority = document.getElementById("priority").value;
-
-        const response = await fetch("/api/tasks", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                title: title,
-                description: description,
-                priority: priority,
-            }),
-        });
+    if (event.target.classList.contains("complete-button")) {
+        const response = await completeTask(id);
 
         if (response.ok) {
-            document.getElementById("task-form").reset();
-
             loadTasks();
         }
+    }
+
+    if (event.target.classList.contains("delete-button")) {
+        deleteModal.open(id);
+    }
+});
+
+statusFilter.addEventListener("change", loadTasks);
+
+taskForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const response = await createTask({
+        title: document.getElementById("title").value,
+        description: document.getElementById("description").value,
+        priority: document.getElementById("priority").value,
     });
+
+    if (response.ok) {
+        taskForm.reset();
+        loadTasks();
+    }
+});
 
 loadTasks();
