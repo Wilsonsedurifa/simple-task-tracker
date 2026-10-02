@@ -3,19 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         $query = Task::query();
 
-        if ($request->has('status')) {
-            $query->where('status', $request->status);
+        $validator = Validator::make($request->query(), [
+            'status' => ['nullable', 'in:pending,completed'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $validator->errors(),
+            ], 400);
         }
 
         $tasks = $query
+            ->when($request->filled('status'), function (Builder $query) use ($request): void {
+                $query->where('status', $request->string('status')->toString());
+            })
+            ->orderByRaw("
+                CASE status
+                    WHEN 'pending' THEN 1
+                    WHEN 'completed' THEN 2
+                    ELSE 3
+                END
+            ")
             ->orderByRaw("
                 CASE priority
                     WHEN 'high' THEN 1
@@ -30,54 +50,65 @@ class TaskController extends Controller
         return response()->json($tasks);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        if (!$request->filled('title')) {
+        $validator = Validator::make($request->all(), $this->taskRules());
+
+        if ($validator->fails()) {
             return response()->json([
-                'message' => 'Title is required.'
+                'message' => 'The given data was invalid.',
+                'errors' => $validator->errors(),
             ], 400);
         }
 
-        $task = Task::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'priority' => $request->priority ?? 'low',
+        $task = Task::create($validator->validated() + [
             'status' => 'pending',
         ]);
 
         return response()->json($task, 201);
     }
 
-    public function complete(int $id)
+    public function update(Request $request, Task $task): JsonResponse
     {
-        $task = Task::find($id);
+        $validator = Validator::make($request->all(), $this->taskRules());
 
-        if (!$task) {
+        if ($validator->fails()) {
             return response()->json([
-                'message' => 'Task not found.'
-            ], 404);
+                'message' => 'The given data was invalid.',
+                'errors' => $validator->errors(),
+            ], 400);
         }
 
-        $task->status = 'completed';
-        $task->save();
+        $task->update($validator->validated());
 
-        return response()->json($task, 200);
+        return response()->json($task);
     }
 
-    public function destroy(int $id)
+    public function complete(Task $task): JsonResponse
     {
-        $task = Task::find($id);
+        $task->update(['status' => 'completed']);
 
-        if (!$task) {
-            return response()->json([
-                'message' => 'Task not found.'
-            ], 404);
-        }
+        return response()->json($task);
+    }
 
+    public function destroy(Task $task): JsonResponse
+    {
         $task->delete();
 
         return response()->json([
-            'message' => 'Task deleted successfully.'
-        ], 200);
+            'message' => 'Task deleted successfully.',
+        ]);
+    }
+
+    /**
+     * @return array<string, array<int, string>>
+     */
+    private function taskRules(): array
+    {
+        return [
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'priority' => ['required', 'in:low,medium,high'],
+        ];
     }
 }

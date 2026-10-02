@@ -1,58 +1,99 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Simple Task Tracker
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A lightweight Laravel task manager for creating tasks, assigning a priority, completing work, filtering by status, and viewing completion statistics.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Create tasks with a required title, optional description, and low, medium, or high priority.
+- Edit a task's title, description, and priority without changing its completion status.
+- View tasks ordered by priority, then oldest creation date.
+- Complete and delete tasks without a full-page refresh.
+- Filter the list by all, pending, or completed tasks.
+- Search task titles and descriptions within the selected status filter.
+- View total, pending, completed, and completion-rate statistics.
+- Use light or dark mode; the selected theme is remembered in the browser.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.5+
+- Composer
+- Node.js and npm
+- MySQL
 
-## Learning Laravel
+## Local setup
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Clone the repository and enter it.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+   ```bash
+   git clone <repository-url>
+   cd simple-task-tracker
+   ```
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+2. Install the PHP and JavaScript dependencies.
 
-## Agentic Development
+   ```bash
+   composer install
+   npm install
+   ```
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+3. Copy the environment file and create an application key.
+
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+   On Windows PowerShell, use `Copy-Item .env.example .env` instead of `cp`.
+
+4. Set the `DB_*` values in `.env` for a MySQL database, then run the migrations.
+
+   ```bash
+   php artisan migrate
+   ```
+
+5. Start the app and Vite in separate terminals.
+
+   ```bash
+   php artisan serve
+   npm run dev
+   ```
+
+6. Open `http://127.0.0.1:8000/tasks`.
+
+For a production asset build, run `npm run build`.
+
+## API
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| GET | `/api/tasks?status=pending` | Lists tasks; `status` is optional (`pending` or `completed`). |
+| POST | `/api/tasks` | Creates a task with `title`, optional `description`, and `priority`. |
+| PATCH | `/api/tasks/{id}` | Updates a task's title, description, and priority. |
+| PATCH | `/api/tasks/{id}/complete` | Marks a task as completed. |
+| DELETE | `/api/tasks/{id}` | Deletes a task. |
+
+The API returns `201` for a created task, `200` for successful reads/updates/deletes, `400` for invalid task input, and `404` when a task does not exist.
+
+## Tests
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+php artisan test --compact
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+`tests/TaskSorterTest.php` verifies the required `TaskSorter::sortTasks()` priority and date ordering. `tests/Feature/TaskApiTest.php` covers task creation, editing, validation, filtering, completion, deletion, and missing-task responses.
 
-## Contributing
+## Technical decisions
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Pending tasks are ordered before completed tasks so the next actionable work stays visible first. Within each group, high-priority tasks appear before medium and low priorities, then older tasks come first.
+- Completed tasks are visually separated and subdued instead of removed, preserving task history without distracting from active work.
+- The API returns `400` for invalid input to match the assessment specification. Validated data is the only data passed to the model for persistence.
+- Task text is escaped before it is rendered in the browser, preventing task titles and descriptions from being interpreted as HTML.
+- The UI works without a page refresh. Search is client-side because this lightweight tracker already loads its task list, while the `N` keyboard shortcut focuses the new-task title field when the user is not typing in another control.
 
-## Code of Conduct
+## AI Disclosure
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+AI assistance was used through OpenAI Codex to review and refine this project.
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Assisted areas: Laravel API validation and route model binding, the `Task` factory and feature tests, sorter-test naming/registration, README documentation, and a review of the existing Blade/vanilla-JavaScript UI.
+- Human review and changes: the generated suggestions were checked against Laravel 13 documentation and the existing project structure; the API behavior was aligned to the assignment's required status codes; the existing UI was retained as the active `/tasks` experience; and the resulting PHP code was formatted and tested.
+- Responsibility: every submitted file should be reviewed and understood by the repository owner before submission.

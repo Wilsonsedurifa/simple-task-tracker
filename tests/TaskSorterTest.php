@@ -16,7 +16,7 @@ class TaskSorterTest extends TestCase
         $this->sorter = new TaskSorter();
     }
 
-    public function testSortsByPriorityHighMediumLow(): void
+    public function test_sorts_tasks_by_priority(): void
     {
         $tasks = [
             ['id' => 1, 'priority' => 'low', 'created_at' => '2026-01-01 10:00:00'],
@@ -29,7 +29,7 @@ class TaskSorterTest extends TestCase
         $this->assertSame([2, 3, 1], array_column($sorted, 'id'));
     }
 
-    public function testSortsByOldestFirstWhenPrioritiesMatch(): void
+    public function test_sorts_oldest_task_first_when_priorities_match(): void
     {
         $tasks = [
             ['id' => 1, 'priority' => 'high', 'created_at' => '2026-03-01 10:00:00'],
@@ -42,7 +42,7 @@ class TaskSorterTest extends TestCase
         $this->assertSame([2, 3, 1], array_column($sorted, 'id'));
     }
 
-    public function testPriorityTakesPrecedenceOverDate(): void
+    public function test_gives_priority_precedence_over_creation_date(): void
     {
         $tasks = [
             ['id' => 1, 'priority' => 'low', 'created_at' => '2026-01-01 10:00:00'],
