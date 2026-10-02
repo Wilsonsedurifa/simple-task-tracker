@@ -6,6 +6,11 @@
 .phpactor.json
 .phpunit.result.cache
 /.idea
+/.agents
+/.claude
+/.codex
+/.cursor
+/.kiro
 /.nova
 /.phpunit.cache
 /.vscode
