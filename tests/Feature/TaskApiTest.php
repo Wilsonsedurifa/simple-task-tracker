@@ -3,12 +3,28 @@
 namespace Tests\Feature;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Tests\TestCase;
 
 class TaskApiTest extends TestCase
 {
     use LazilyRefreshDatabase;
+
+    private User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
+    }
+
+    private function createTask(array $attributes = []): Task
+    {
+        return Task::factory()->for($this->user)->create($attributes);
+    }
 
     public function test_creates_a_task_and_returns_201(): void
     {
@@ -28,6 +44,7 @@ class TaskApiTest extends TestCase
             'title' => 'Write project README',
             'priority' => 'high',
             'status' => 'pending',
+            'user_id' => $this->user->id,
         ]);
     }
 
@@ -60,11 +77,11 @@ class TaskApiTest extends TestCase
 
     public function test_lists_pending_tasks_before_completed_tasks(): void
     {
-        $pendingTask = Task::factory()->create([
+        $pendingTask = $this->createTask([
             'priority' => 'low',
             'status' => 'pending',
         ]);
-        $completedTask = Task::factory()->create([
+        $completedTask = $this->createTask([
             'priority' => 'high',
             'status' => 'completed',
         ]);
@@ -77,8 +94,8 @@ class TaskApiTest extends TestCase
 
     public function test_filters_tasks_by_status(): void
     {
-        $pendingTask = Task::factory()->create(['status' => 'pending']);
-        Task::factory()->create(['status' => 'completed']);
+        $pendingTask = $this->createTask(['status' => 'pending']);
+        $this->createTask(['status' => 'completed']);
 
         $this->getJson('/api/tasks?status=pending')
             ->assertOk()
@@ -89,7 +106,7 @@ class TaskApiTest extends TestCase
 
     public function test_marks_a_task_as_completed(): void
     {
-        $task = Task::factory()->create(['status' => 'pending']);
+        $task = $this->createTask(['status' => 'pending']);
 
         $this->patchJson("/api/tasks/{$task->id}/complete")
             ->assertOk()
@@ -103,7 +120,7 @@ class TaskApiTest extends TestCase
 
     public function test_updates_a_task(): void
     {
-        $task = Task::factory()->create([
+        $task = $this->createTask([
             'title' => 'Draft project notes',
             'description' => 'Initial notes',
             'priority' => 'low',
@@ -131,7 +148,7 @@ class TaskApiTest extends TestCase
 
     public function test_returns_400_when_an_updated_task_has_invalid_data(): void
     {
-        $task = Task::factory()->create();
+        $task = $this->createTask();
 
         $this->patchJson("/api/tasks/{$task->id}", [
             'title' => '',
@@ -157,7 +174,7 @@ class TaskApiTest extends TestCase
 
     public function test_deletes_a_task(): void
     {
-        $task = Task::factory()->create();
+        $task = $this->createTask();
 
         $this->deleteJson("/api/tasks/{$task->id}")
             ->assertOk()

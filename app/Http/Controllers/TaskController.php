@@ -12,7 +12,7 @@ class TaskController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $query = Task::query();
+        $query = Task::query()->where('user_id', $request->user()->id);
 
         $validator = Validator::make($request->query(), [
             'status' => ['nullable', 'in:pending,completed'],
@@ -61,7 +61,7 @@ class TaskController extends Controller
             ], 400);
         }
 
-        $task = Task::create($validator->validated() + [
+        $task = $request->user()->tasks()->create($validator->validated() + [
             'status' => 'pending',
         ]);
 
@@ -70,6 +70,7 @@ class TaskController extends Controller
 
     public function update(Request $request, Task $task): JsonResponse
     {
+        $task = $this->ownedTask($request, $task);
         $validator = Validator::make($request->all(), $this->taskRules());
 
         if ($validator->fails()) {
@@ -86,6 +87,7 @@ class TaskController extends Controller
 
     public function complete(Task $task): JsonResponse
     {
+        abort_unless($task->user_id === request()->user()->id, 404);
         $task->update(['status' => 'completed']);
 
         return response()->json($task);
@@ -93,6 +95,7 @@ class TaskController extends Controller
 
     public function destroy(Task $task): JsonResponse
     {
+        abort_unless($task->user_id === request()->user()->id, 404);
         $task->delete();
 
         return response()->json([
@@ -110,5 +113,12 @@ class TaskController extends Controller
             'description' => ['nullable', 'string'],
             'priority' => ['required', 'in:low,medium,high'],
         ];
+    }
+
+    private function ownedTask(Request $request, Task $task): Task
+    {
+        abort_unless($task->user_id === $request->user()->id, 404);
+
+        return $task;
     }
 }
