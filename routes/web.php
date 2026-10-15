@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
@@ -24,17 +23,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/email/verify', [EmailVerificationController::class, 'notice'])->name('verification.notice');
-    Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
-        ->middleware('throttle:6,1')
-        ->name('verification.verify');
-    Route::post('/email/verification-notification', [EmailVerificationController::class, 'send'])
-        ->middleware('throttle:3,1')
-        ->name('verification.send');
-    Route::get('/email/status', [EmailVerificationController::class, 'status'])->name('verification.status');
-    Route::post('/email/start-over', [EmailVerificationController::class, 'restart'])->name('verification.restart');
-
-    Route::middleware('verified')->group(function () {
+    Route::view('/continue', 'auth.continue')->name('continue');
+    Route::post('/continue', fn () => redirect()->route('tasks'))->name('continue.store');
     Route::get('/tasks', fn () => view('tasks.index'))->name('tasks');
 
     Route::prefix('api')->group(function () {
@@ -51,5 +41,4 @@ Route::middleware('auth')->group(function () {
         $request->session()->regenerateToken();
         return redirect()->route('login');
     })->name('logout');
-    });
 });

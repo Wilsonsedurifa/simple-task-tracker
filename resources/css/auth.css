@@ -64,6 +64,12 @@
 .verify-note { margin:16px 0 0; color:var(--muted); font-size:14px; text-align:center; }
 .restart-form { margin-top:24px; text-align:center; }
 .restart-form button { padding:0; border:0; background:none; color:var(--accent); cursor:pointer; text-decoration:underline; font:inherit; }
+.auth-page:has(.continue-card) { display:flex; align-items:center; justify-content:center; width:min(100% - 32px, 520px); }
+.continue-card { width:100%; padding:32px 30px; border:1px solid var(--line); border-radius:var(--radius-lg); background:var(--surface); }
+.continue-card h1 { margin:12px 0 16px; font:400 clamp(2.25rem, 8vw, 3.75rem)/1.05 var(--serif); }
+.continue-card h1 em { color:var(--accent); }
+.continue-card > p:not(.auth-label) { margin:0 0 28px; color:var(--muted); }
+.continue-card form { display:grid; }
 
 @media (min-width:1024px) {
     .auth-page { grid-template-columns:minmax(0, 1fr) 440px; gap:80px; }
@@ -73,5 +79,6 @@
     .auth-mockup { display:block; }
     .auth-page:has(.verify-card) { grid-template-columns:minmax(0, 1fr); width:min(100% - 32px, 640px); }
     .verify-card { padding:40px; }
+    .continue-card { padding:40px; }
 }
 @media (hover:hover) { .auth-button:hover { background:var(--primary-hover); } .btn-google:hover { border-color:var(--accent); } .password-toggle:hover, .auth-switch a:hover, .text-link:hover { text-decoration:underline; } }

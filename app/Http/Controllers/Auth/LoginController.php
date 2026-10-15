@@ -17,14 +17,14 @@ class LoginController extends Controller
     {
         $key = 'login:'.strtolower($request->string('email')->toString()).'|'.$request->ip();
         if (RateLimiter::tooManyAttempts($key, 5)) {
-            return back()->withErrors(['email' => 'Please wait '.RateLimiter::availableIn($key).' seconds before trying again.'])->onlyInput('email');
+            return redirect()->route('login')->withErrors(['email' => 'Please wait '.RateLimiter::availableIn($key).' seconds before trying again.'])->onlyInput('email');
         }
         if (! Auth::attempt($request->safe()->only(['email', 'password']), $request->boolean('remember'))) {
             RateLimiter::hit($key, 60);
-            return back()->withErrors(['email' => 'These credentials do not match our records.'])->onlyInput('email');
+            return redirect()->route('login')->withErrors(['email' => 'These credentials do not match our records.'])->onlyInput('email');
         }
         RateLimiter::clear($key);
         $request->session()->regenerate();
-        return redirect()->intended(route('tasks'));
+        return redirect()->route('continue');
     }
 }

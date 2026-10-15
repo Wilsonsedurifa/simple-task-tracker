@@ -37,7 +37,7 @@ class GoogleAuthIntentTest extends TestCase
 
         $this->withSession(['google_auth_intent' => 'login'])
             ->get(route('auth.google.callback'))
-            ->assertRedirect('/tasks');
+            ->assertRedirect(route('continue'));
 
         $this->assertAuthenticatedAs($user);
         $this->assertDatabaseCount('users', 1);
@@ -53,7 +53,7 @@ class GoogleAuthIntentTest extends TestCase
 
         $this->withSession(['google_auth_intent' => 'login'])
             ->get(route('auth.google.callback'))
-            ->assertRedirect('/tasks');
+            ->assertRedirect(route('continue'));
 
         $this->assertAuthenticatedAs($user);
         $this->assertDatabaseHas('users', ['id' => $user->id, 'google_id' => 'google-member']);
@@ -66,7 +66,7 @@ class GoogleAuthIntentTest extends TestCase
 
         $this->withSession(['google_auth_intent' => 'register'])
             ->get(route('auth.google.callback'))
-            ->assertRedirect('/tasks');
+            ->assertRedirect(route('continue'));
 
         $this->assertAuthenticated();
         $this->assertDatabaseHas('users', [

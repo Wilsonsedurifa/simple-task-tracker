@@ -17,8 +17,15 @@ class Task extends Model
         'description',
         'priority',
         'status',
+        'due_date',
+        'completed_at',
         'user_id',
     ];
+
+    protected function casts(): array
+    {
+        return ['due_date' => 'date', 'completed_at' => 'datetime'];
+    }
 
     public function user()
     {

@@ -61,6 +61,14 @@ class TaskApiTest extends TestCase
         $this->assertDatabaseCount('tasks', 0);
     }
 
+    public function test_guest_api_requests_are_rejected_with_401(): void
+    {
+        $this->app['auth']->logout();
+
+        $this->getJson('/api/tasks')->assertUnauthorized();
+        $this->postJson('/api/tasks', ['title' => 'Unauthorised', 'priority' => 'low'])->assertUnauthorized();
+    }
+
     public function test_returns_400_when_priority_is_invalid(): void
     {
         $response = $this->postJson('/api/tasks', [
@@ -187,5 +195,30 @@ class TaskApiTest extends TestCase
     {
         $this->deleteJson('/api/tasks/999')
             ->assertNotFound();
+    }
+
+    public function test_a_user_cannot_read_or_modify_another_users_tasks(): void
+    {
+        $otherUser = User::factory()->create();
+        $otherTask = Task::factory()->for($otherUser)->create(['status' => 'pending']);
+        $ownTask = $this->createTask();
+
+        $this->getJson('/api/tasks')
+            ->assertOk()
+            ->assertJsonCount(1)
+            ->assertJsonPath('0.id', $ownTask->id);
+
+        $this->patchJson("/api/tasks/{$otherTask->id}/complete")->assertNotFound();
+        $this->patchJson("/api/tasks/{$otherTask->id}", [
+            'title' => 'Attempted change',
+            'priority' => 'high',
+        ])->assertNotFound();
+        $this->deleteJson("/api/tasks/{$otherTask->id}")->assertNotFound();
+
+        $this->assertDatabaseHas('tasks', [
+            'id' => $otherTask->id,
+            'status' => 'pending',
+            'title' => $otherTask->title,
+        ]);
     }
 }

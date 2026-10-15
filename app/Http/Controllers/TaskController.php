@@ -88,7 +88,7 @@ class TaskController extends Controller
     public function complete(Task $task): JsonResponse
     {
         abort_unless($task->user_id === request()->user()->id, 404);
-        $task->update(['status' => 'completed']);
+        $task->update(['status' => 'completed', 'completed_at' => now()]);
 
         return response()->json($task);
     }
@@ -112,6 +112,7 @@ class TaskController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'priority' => ['required', 'in:low,medium,high'],
+            'due_date' => ['nullable', 'date_format:Y-m-d', 'after_or_equal:today'],
         ];
     }
 

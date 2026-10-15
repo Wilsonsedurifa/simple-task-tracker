@@ -234,6 +234,6 @@ class GoogleAuthController extends Controller
         Auth::login($user, true);
         $request->session()->regenerate();
 
-        return redirect()->intended('/tasks');
+        return redirect()->route('continue');
     }
 }
