@@ -21,17 +21,17 @@
             @include('tasks.partials.mobile-header')
             @include('tasks.partials.topbar')
             <main id="main" class="dashboard-content" tabindex="-1">
-                <header class="app-page-title"><div><h1 id="@yield('heading-id','app-page-heading')">@yield('heading')</h1><p>@yield('subtitle')</p></div>@yield('page-actions')</header>
+                @include('partials.page-title')
                 @yield('content')
             </main>
         </div>
     </div>
     @include('tasks.partials.workspace-dialogs')
-    <dialog id="logout-modal" class="modal" aria-labelledby="logout-title"><form method="POST" action="{{ route('logout') }}" class="modal-body">@csrf<div class="db-dialog-icon" aria-hidden="true">&#8599;</div><h2 id="logout-title" class="modal-title">Taking a break?</h2><p class="modal-text">Your tasks are saved. You can pick up where you left off when you return.</p><div class="modal-actions"><button id="cancel-logout" type="button" class="button button-secondary">Stay here</button><button type="submit" class="button button-danger">Log out</button></div></form></dialog>
+    @include('partials.logout-modal')
     @include('tasks.partials.appearance')
     @include('tasks.partials.mobile-navigation')
     @include('tasks.partials.notification-dropdown')
-    <div id="toasts" class="toasts" aria-live="polite"></div>
+    @include('partials.toast-container')
     @include('tasks.partials.pet-adoption')
     @include('layouts.partials.offline', ['appHasToasts' => true])
 </body>

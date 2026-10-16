@@ -14,6 +14,7 @@ export async function appSettingsChecks(page, browser, base) {
     assert.ok(appTasksCsv([{ title: '=1+1', description: 'comma, quote"\nnewline' }]).includes('"\'=1+1"'));
     await page.setViewportSize({ width: 1280, height: 950 });
     await page.goto(base + '/settings');
+    await page.waitForFunction(() => !document.getElementById('app-completed-summary')?.textContent.startsWith('Loading'));
     await page.waitForFunction(() => document.querySelector('#app-completed-summary')?.textContent.includes('1 completed'));
     const userId = await page.locator('body').getAttribute('data-app-user-id');
     assert.equal(await page.locator('#app-settings-tab-appearance').getAttribute('aria-selected'), 'true');
@@ -27,15 +28,18 @@ export async function appSettingsChecks(page, browser, base) {
     const saved = await page.evaluate(id => JSON.parse(localStorage.getItem('app-settings:' + id)), userId);
     assert.equal(saved.defaultView, 'list'); assert.equal(saved.showCompleted, false);
     await page.goto(base + '/tasks');
+    await page.waitForFunction(() => !document.getElementById('app-completed-summary')?.textContent.startsWith('Loading'));
     await page.waitForFunction(() => document.querySelector('#task-list')?.getAttribute('aria-busy') === 'false');
     assert.equal(await page.locator('#view-mode-list').getAttribute('aria-pressed'), 'true');
     assert.equal(await page.locator('#sort-filter').inputValue(), 'deadline');
     await page.locator('#view-mode-board').click();
     assert.equal(await page.locator('[data-column="completed"]').isVisible(), false);
     await page.goto(base + '/tasks?status=completed&view=board');
+    await page.waitForFunction(() => !document.getElementById('app-completed-summary')?.textContent.startsWith('Loading'));
     await page.waitForFunction(() => document.querySelector('#task-board-container')?.getAttribute('aria-busy') === 'false');
     assert.equal(await page.locator('[data-column="completed"]').isVisible(), true);
     await page.goto(base + '/settings#appearance');
+    await page.waitForFunction(() => !document.getElementById('app-completed-summary')?.textContent.startsWith('Loading'));
     await page.locator('#app-density').selectOption('compact');
     await page.locator('#app-motion').selectOption('reduce');
     assert.equal(await page.locator('html').getAttribute('data-app-density'), 'compact');
@@ -62,6 +66,7 @@ export async function appSettingsChecks(page, browser, base) {
         }
         await page.locator('#app-settings-tab-appearance').click();
         await page.reload();
+    await page.waitForFunction(() => !document.getElementById('app-completed-summary')?.textContent.startsWith('Loading'));
         assert.equal(await page.locator('html').getAttribute('data-theme-mode'), mode);
         assert.equal(await page.locator('#app-settings-accents input:checked').inputValue(), await page.locator('html').getAttribute('data-accent'));
     }
@@ -132,6 +137,7 @@ export async function appSettingsChecks(page, browser, base) {
         assert.equal((await appApi('/api/tasks/' + restored.id + '/complete', 'PATCH')).status, 200);
     }
     await page.goto(base + '/settings#preferences');
+    await page.waitForFunction(() => !document.getElementById('app-completed-summary')?.textContent.startsWith('Loading'));
     await page.locator('#app-default-view').selectOption('board');
     await page.locator('#app-default-sort').selectOption('priority');
     await page.locator('#app-week-start').selectOption('monday');
@@ -180,6 +186,7 @@ export async function appSettingsChecks(page, browser, base) {
     await page.screenshot({ path: 'storage/app/ui-review/settings-mobile.png', fullPage: true });
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto(base + '/dashboard');
+    await page.waitForFunction(() => !document.getElementById('app-completed-summary')?.textContent.startsWith('Loading'));
     await page.waitForFunction(() => document.querySelector('#db-summary-total')?.textContent === '5');
     assert.deepEqual(appErrors, []);
     assert.deepEqual(appConsole.filter(message => !/Failed to load resource:.*\b(400|500)\b/.test(message)), []);
