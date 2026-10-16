@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { appPetMood, appPetBadges } from '../../resources/js/modules/app-pet-data.js';
+import { appPetMood, appPetBadges } from '../../resources/js/features/pet/data.js';
 const today = new Date(2026, 9, 15, 12), pet = { name: '<Mochi>', level: 3, longest_streak: 4, completed_count: 5 };
 const pending = date => ({ status: 'pending', due_date: date });
 const done = date => ({ status: 'completed', completed_at: date });

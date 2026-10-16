@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { appCalendarDate, appCalendarMonth, appCalendarMonthKey, appCalendarDays, appCalendarWeek, appCalendarBuckets } from '../../resources/js/modules/app-calendar-data.js';
+import { appCalendarDate, appCalendarMonth, appCalendarMonthKey, appCalendarDays, appCalendarWeek, appCalendarBuckets } from '../../resources/js/features/calendar/data.js';
 import { appDateInput, appDateOnly, appMinimumDueDate } from '../../resources/js/core/dates.js';
 
 const fallback = new Date(2026, 9, 15);

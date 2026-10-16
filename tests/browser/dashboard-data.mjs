@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { appGreeting, appCompletionDays, appRecentCompleted, appRelativeTime } from '../../resources/js/modules/app-dashboard-data.js';
+import { appGreeting, appCompletionDays, appRecentCompleted, appRelativeTime } from '../../resources/js/features/dashboard/data.js';
 
 assert.equal(appGreeting(new Date(2026, 9, 15, 1), 'Art'), 'Magandang gabi, Art');
 assert.equal(appGreeting(new Date(2026, 9, 15, 8), 'Art'), 'Magandang umaga, Art');

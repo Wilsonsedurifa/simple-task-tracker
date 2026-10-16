@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { appCsvCell, appTasksCsv } from '../../resources/js/modules/app-export.js';
+import { appCsvCell, appTasksCsv } from '../../resources/js/features/settings/data-export.js';
 
 export async function appSettingsChecks(page, browser, base) {
     const appOriginalPage = page;

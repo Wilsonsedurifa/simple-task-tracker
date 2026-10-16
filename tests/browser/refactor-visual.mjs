@@ -29,7 +29,7 @@ try {
     async function capture(target,route,theme,width) {
         await target.setViewportSize({width,height:950});
         await target.addInitScript(value=>{localStorage.setItem('task-tracker-theme',value);localStorage.setItem('lp-theme',value);},theme);
-        await target.goto(env.APP_URL+route);await target.evaluate(()=>document.fonts.ready);
+        await target.goto(env.APP_URL+route);await target.waitForLoadState('networkidle');await target.evaluate(()=>document.fonts.ready);
         if(await target.locator('.app-workspace').count())await target.waitForFunction(()=>![...document.querySelectorAll('main [aria-busy="true"]')].some(node=>node.getClientRects().length)&&(!document.querySelector('[data-app-pet-loading]')||document.querySelector('[data-app-pet-loading]').hidden));
         await target.evaluate(()=>{document.activeElement?.blur();window.scrollTo(0,0);document.querySelector('#main')?.scrollTo(0,0);});
         await target.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));

@@ -1,44 +1,25 @@
 import { appTaskState, appInitTaskBadge } from './core/state.js';
-import { appOpenCreate, appInitDialogs } from './modules/app-dialog.js';
-import { appInitTasks } from './modules/app-tasks.js';
-import { appInitDashboard } from './modules/app-dashboard.js';
-import { appInitAppearance } from './modules/app-appearance.js';
-import { appInitShell } from './modules/app-shell.js';
-import { appInitCalendar } from './modules/app-calendar.js';
-import { appInitSettings } from './modules/app-settings.js';
-import { appInitNotifications } from './modules/app-notifications.js';
-import { appInitPreferences } from './modules/app-preferences.js';
-import { appInitPet } from './modules/app-pet.js';
-import { appInitMobile } from './modules/app-mobile.js';
-import { appInitMobileHome } from './modules/app-mobile-home.js';
-import { appInitMobileTaskScreens } from './modules/app-mobile-task-screens.js';
-import { appInitMobileAccount } from './modules/app-mobile-account.js';
-import { appInitOffline } from './modules/app-offline.js';
-import { appInitPublicAuth } from './modules/app-public-auth.js';
+import { appOpenCreate, appInitDialogs } from './features/task-dialog/dialog.js';
 
-function appInitGlobalSearch() {
-    const search = document.getElementById('task-search');
-    search?.addEventListener('keydown', event => {
-        if (event.key === 'Enter' && document.body.dataset.page !== 'tasks') {
-            event.preventDefault();
-            location.assign('/tasks?q=' + encodeURIComponent(search.value.trim()));
-        }
-    });
-    document.addEventListener('keydown', event => {
-        const target = event.target;
-        const typing = target instanceof HTMLElement && Boolean(target.closest('input,textarea,select,[contenteditable="true"]'));
-        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
-            if (document.querySelector('dialog[open]')) return;
-            event.preventDefault(); search?.focus(); search?.select();
-        }
-        if (event.key.toLowerCase() === 'n' && !typing && !event.ctrlKey && !event.metaKey && !event.altKey && !document.querySelector('dialog[open]')) {
-            event.preventDefault(); appOpenCreate();
-        }
-    });
+import { appInitAppearance } from './shell/appearance.js';
+import { appInitShell } from './shell/nav.js';
+
+import { appInitNotifications } from './features/notifications/page.js';
+import { appInitPreferences } from './shell/preferences.js';
+import { appInitPet } from './features/pet/widget.js';
+import { appInitMobile } from './shell/mobile.js';
+
+import { appInitMobileTaskScreens } from './features/mobile/task-screens.js';
+import { appInitMobileAccount } from './features/mobile/account.js';
+import { appInitOffline } from './shell/offline.js';
+import { appInitPublicAuth } from './shell/public-auth.js';
+
+import { appInitGlobalSearch } from './shell/search.js';
+
+async function appSafeInit(name, init) {
+    try { await init(); } catch (error) { console.error('Task Tracker '+name+':', error); }
 }
-function appSafeInit(name, init) {
-    try { init(); } catch (error) { console.error('Task Tracker '+name+':', error); }
-}
+async function appBoot() {
 appSafeInit('offline', appInitOffline);
 if (document.body.classList.contains('app-workspace')) {
 appSafeInit('preferences', appInitPreferences);
@@ -51,11 +32,21 @@ appSafeInit('global search', appInitGlobalSearch);
 appSafeInit('pet', appInitPet);
 appSafeInit('mobile foundation', appInitMobile);
 appSafeInit('mobile task screens', appInitMobileTaskScreens);
-if (document.body.dataset.page === 'tasks') appSafeInit('task page', appInitTasks);
-if (document.body.dataset.page === 'dashboard') appSafeInit('dashboard', appInitDashboard);
-if (document.body.dataset.page === 'dashboard') appSafeInit('mobile home', appInitMobileHome);
-if (document.body.dataset.page === 'calendar') appSafeInit('calendar', appInitCalendar);
-if (document.body.dataset.page === 'settings') appSafeInit('settings', appInitSettings);
+const appPages = {
+    tasks: () => import('./pages/tasks.js').then(module => module.appInitTasks()),
+    dashboard: async () => {
+        const page = await import('./pages/dashboard.js');
+        await appSafeInit('dashboard', page.appInitDashboard);
+        const mobile = await import('./features/mobile/home.js');
+        await appSafeInit('mobile home', mobile.appInitMobileHome);
+    },
+    calendar: () => import('./pages/calendar.js').then(module => module.appInitCalendar()),
+    settings: () => import('./pages/settings.js').then(module => module.appInitSettings()),
+};
+const appPage = document.body.dataset.page;
+if (appPages[appPage]) await appSafeInit(appPage + ' page', appPages[appPage]);
 appSafeInit('mobile account', appInitMobileAccount);
 appTaskState.load().catch(() => {});
 } else appSafeInit('public auth', appInitPublicAuth);
+}
+appBoot();

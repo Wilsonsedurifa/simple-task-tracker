@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import { appDeriveNotifications, appLatestNotifications, appNotificationGroup, appNotificationRelative } from '../../resources/js/modules/app-notification-data.js';
-import { appNotificationReadKey, appReadNotificationState, appSaveNotificationState } from '../../resources/js/modules/app-notification-storage.js';
+import { appDeriveNotifications, appLatestNotifications, appNotificationGroup, appNotificationRelative } from '../../resources/js/features/notifications/derive.js';
+import { appNotificationReadKey, appReadNotificationState, appSaveNotificationState } from '../../resources/js/features/notifications/read-state.js';
 
 const now = new Date(2026, 9, 15, 12);
 const tasks = [
