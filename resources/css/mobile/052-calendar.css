@@ -1,0 +1,36 @@
+/* mobile — calendar; original cascade segment 52. */
+@media (max-width:767px) {
+    .app-calendar-toolbar { align-items:center; margin-bottom:16px; }
+    .app-calendar-toolbar h2 { font-size:17px; margin:0; }
+    #app-calendar-summary,#app-calendar-empty,.app-agenda-week-header { display:none; }
+    .app-calendar-agenda { border:0; padding:0; background:transparent; }
+    #app-calendar-week { grid-template-columns:repeat(7,minmax(0,1fr)); gap:3px; touch-action:pan-y; }
+    #app-calendar-week .app-week-day { border:0; background:transparent; color:var(--text); outline:0; padding:6px 0; min-height:82px; }
+    #app-calendar-week .app-week-day small { font-size:10px; color:var(--muted); }
+    #app-calendar-week .app-week-day strong,.app-mobile-date-number { display:grid; place-items:center; width:36px; height:36px; border-radius:var(--app-radius-circle); font-size:13px; }
+    #app-calendar-week [aria-pressed="true"] strong,.app-mobile-calendar-date[aria-pressed="true"] .app-mobile-date-number { background:var(--primary-text); color:var(--surface); }
+    #app-calendar-week [aria-current="date"] strong,.app-mobile-calendar-date[aria-current="date"] .app-mobile-date-number { outline:1px solid var(--primary-text); outline-offset:2px; }
+    #app-calendar-week .app-week-count,.app-mobile-calendar-dot { display:block; width:5px; height:5px; min-width:0; min-height:0; padding:0; border-radius:var(--app-radius-circle); font-size:0; background:var(--primary-text); }
+    #app-calendar-week .app-week-count:empty,.app-mobile-calendar-dot:empty { background:transparent; }
+    #app-calendar-expand.app-calendar-expand { display:flex!important; width:100%; justify-content:center; align-items:center; gap:6px; min-height:44px; border:0; border-bottom:1px solid var(--border); color:var(--primary-text); background:transparent; font:600 12px var(--app-shell-font); cursor:pointer; margin-bottom:14px; }
+    .app-calendar-expand svg { width:18px; height:18px; flex:none; }
+    .app-calendar-expand[aria-expanded="true"] svg { transform:rotate(180deg); }
+    .app-mobile-calendar-month:not([hidden]) { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:4px 0; padding:8px 0 16px; margin-bottom:16px; border-bottom:1px solid var(--border); }
+    .app-mobile-calendar-weekday { text-align:center; font-size:10px; color:var(--muted); padding:8px 0; }
+    .app-mobile-calendar-date { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; min-height:48px; border:0; padding:3px 0; color:var(--text); background:transparent; font:inherit; cursor:pointer; }
+    .app-mobile-calendar-outside { color:var(--muted); }
+    .app-mobile-calendar-date:focus-visible,#app-calendar-week button:focus-visible { outline:3px solid var(--primary-text); outline-offset:1px; border-radius:var(--radius-md); }
+    .app-agenda-day-header { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    #app-agenda-date,.app-mobile-agenda-heading { font:700 14px/1.5 var(--app-shell-font); color:var(--text); margin:0; }
+    #app-agenda-add { width:100%; min-height:44px; margin-bottom:12px; }
+    #app-agenda-count { font-size:11px; }
+    .app-mobile-agenda-heading { padding:12px; margin:20px 0 10px; background:var(--primary-soft); border-radius:var(--radius-md); }
+    .app-mobile-calendar-overdue { color:var(--danger-text)!important; }
+    .app-mobile-calendar-stage { display:block; color:var(--muted); font-size:10px; margin-top:4px; }
+    #app-agenda-tasks .app-task-row { margin-bottom:8px; }
+    .app-calendar-sidebar { margin-top:8px; }
+    .app-calendar-unscheduled { padding:14px; }
+    .app-calendar-unscheduled summary { min-height:44px; align-content:center; }
+}
+/* M3 adapts shared task controls and native dialogs on phones only. */
+.app-mobile-only,.app-mobile-detail-status,.app-mobile-detail-actions { display:none!important; }

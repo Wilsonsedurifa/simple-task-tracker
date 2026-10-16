@@ -1,0 +1,44 @@
+/* base — reset; original cascade segment 7. */
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body.app-body {
+    font-family:
+        "Plus Jakarta Sans",
+        "Inter",
+        system-ui,
+        -apple-system,
+        sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* ---------- Desktop App Shell Layout ---------- */
+
+.app-shell {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}

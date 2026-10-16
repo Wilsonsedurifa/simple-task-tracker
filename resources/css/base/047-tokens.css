@@ -1,0 +1,4 @@
+/* base — tokens; original cascade segment 47. */
+/* M1 foundation: public/auth redesign is intentionally all-width; workspace
+   changes below are phone-only. No tablet/desktop shell rules are replaced. */
+:root { --accent:var(--primary); --app-splash-bg:#08152d; --app-splash-surface:#153565; --app-splash-text:#f8fbff; --app-splash-muted:#c5d4ec; --app-mobile-nav-height:80px; }

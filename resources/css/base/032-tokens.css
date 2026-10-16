@@ -1,0 +1,6 @@
+/* base — tokens; original cascade segment 32. */
+:root {
+    --app-board-shadow: inset -16px 0 18px -18px var(--text);
+    --app-drawer-shadow: var(--shadow-lg);
+    --app-radius-none: 0;
+}

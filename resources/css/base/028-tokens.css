@@ -1,0 +1,8 @@
+/* base — tokens; original cascade segment 28. */
+/* Shared shell. Token declarations include all preset/preview colors. */
+:root {
+    --app-sidebar-width:260px; --app-radius-pill:999px; --app-radius-circle:50%; --app-radius-preview:6px; --app-radius-mini:2px; --app-shell-font:"Plus Jakarta Sans","Inter",system-ui,sans-serif;
+    --app-accent-blue:#2563eb; --app-accent-emerald:#047857; --app-accent-violet:#6d28d9; --app-accent-amber:#92400e; --app-accent-sky:#0369a1;
+    --app-accent-pink:#be185d; --app-accent-lavender:#7555c7; --app-accent-mint:#137b63; --app-accent-peach:#b84f27; --app-accent-babyblue:#256cab; --app-accent-red:#dc2626;
+    --app-check-ink:#fff; --app-accent-shade:#000; --app-preview-light:#f8fafc; --app-preview-dark:#111827; --app-preview-kawaii:#fff0f6; --app-preview-racing:#242429;
+}

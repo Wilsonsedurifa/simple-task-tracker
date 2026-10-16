@@ -1,0 +1,17 @@
+/* layout — shell; original cascade segment 8. */
+/* ---------- 1. Left Sidebar Navigation ---------- */
+
+.sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    z-index: 40;
+    transition: transform 0.25s ease;
+}

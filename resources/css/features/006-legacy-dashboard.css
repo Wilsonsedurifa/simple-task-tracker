@@ -1,0 +1,10 @@
+/* features — legacy-dashboard; original cascade segment 6. */
+/* ---------- Base Reset ---------- */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}

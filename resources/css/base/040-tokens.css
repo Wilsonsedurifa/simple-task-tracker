@@ -1,0 +1,3 @@
+/* base — tokens; original cascade segment 40. */
+/* Original pet palettes. Species and room colors stay inside token blocks. */
+:root { --pet-ink:#342d46; --pet-inner:#e9a9b7; --pet-cream:#fff3db; --pet-gold:#ad6900; --pet-tear:#2181a5; --pet-room:var(--surface-muted); --pet-floor:var(--primary-soft); }

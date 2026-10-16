@@ -1,0 +1,108 @@
+/* components — stat-cards; original cascade segment 12. */
+/* Metric Stats Row (4 cards matching the mockup) */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.stat:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-icon-wrapper {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+
+.stat-icon-wrapper svg {
+    width: 22px;
+    height: 22px;
+}
+
+.stat-icon-blue {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+[data-theme="dark"] .stat-icon-blue {
+    background: rgba(37, 99, 235, 0.2);
+    color: #60a5fa;
+}
+
+.stat-icon-emerald {
+    background: #d1fae5;
+    color: #059669;
+}
+
+[data-theme="dark"] .stat-icon-emerald {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+}
+
+.stat-icon-amber {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+[data-theme="dark"] .stat-icon-amber {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+}
+
+.stat-icon-rose {
+    background: #ffe4e6;
+    color: #e11d48;
+}
+
+[data-theme="dark"] .stat-icon-rose {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+}
+
+.stat-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+}
+
+.stat-value {
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+}
+
+/* ---------- Desktop Master-Detail Workspace Grid ---------- */
+
+.desktop-workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 390px;
+    gap: 24px;
+    align-items: start;
+}

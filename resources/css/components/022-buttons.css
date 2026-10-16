@@ -1,0 +1,64 @@
+/* components — buttons; original cascade segment 22. */
+.button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--ring);
+}
+
+.button-primary {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(37, 99, 235, 0.25);
+}
+
+.button-primary:hover {
+    background: var(--primary-hover);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+}
+
+.button-secondary {
+    background: var(--surface-muted);
+    border-color: var(--border);
+    color: var(--text);
+}
+
+.button-secondary:hover {
+    background: var(--surface);
+    border-color: var(--border-strong);
+}
+
+.button-danger {
+    background: var(--danger);
+    color: #ffffff;
+}
+
+.button-danger:hover {
+    background: var(--danger-solid-hover);
+}
+
+.button-danger-outline {
+    background: transparent;
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.button-danger-outline:hover {
+    background: var(--danger-soft);
+}
+
+.button-block {
+    width: 100%;
+}
+
+.button-lg {
+    padding: 12px 20px;
+    font-size: 14px;
+}
+
+/* Form Fields */
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
