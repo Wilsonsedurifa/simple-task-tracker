@@ -1,18 +1,13 @@
-import { appTaskState } from './app-state.js';
-import { appDateInput, appLocalDate, appMinimumDueDate } from './app-dates.js';
+import { APP_MOBILE_QUERY } from '../core/constants.js';
+import { appGet, appElement as appNode } from '../core/dom.js';
+import { appTaskState } from '../core/state.js';
+import { appDateInput, appLocalDate, appMinimumDueDate } from '../core/dates.js';
 import { appReadWeekStart } from './app-preferences.js';
 import { appCalendarDate, appCalendarMonth, appCalendarMonthKey, appCalendarDays, appCalendarWeek, appCalendarBuckets } from './app-calendar-data.js';
 import { appOpenTask, appOpenCreate, appOpenDelete } from './app-dialog.js';
 import { appTaskNode, appIcon } from './app-task-components.js';
-import { appToast } from './app-api.js';
+import { appToast } from '../core/api.js';
 
-const appGet = id => document.getElementById(id);
-function appNode(tag, className, text) {
-    const node = document.createElement(tag);
-    if (className) node.className = className;
-    if (text !== undefined) node.textContent = String(text);
-    return node;
-}
 function appToday() { const now = new Date(); return appCalendarDate(now.getFullYear(), now.getMonth(), now.getDate()); }
 function appMinimumDate() { return appLocalDate(appMinimumDueDate(document.querySelector('meta[name="app-timezone"]')?.content || 'UTC')); }
 function appCanCreate(date) { return date && date >= appMinimumDate() && date.getFullYear() >= 1 && date.getFullYear() <= 9999; }
@@ -22,7 +17,7 @@ function appTaskCount(number) { return number + (number === 1 ? ' task' : ' task
 export function appInitCalendar() {
     const root = appGet('app-calendar'), grid = appGet('app-calendar-grid'), popover = appGet('app-calendar-day');
     if (!root || !grid || !popover) return;
-    const mobile = matchMedia('(max-width: 767px)');
+    const mobile = matchMedia(APP_MOBILE_QUERY);
     let month = appCalendarMonth(new URL(location.href).searchParams.get('month'));
     let selected = appCalendarMonthKey(month) === appCalendarMonthKey(appToday()) ? appToday() : new Date(month);
     let weekStart = appReadWeekStart(), buckets = new Map(), dayKey = '', dayTrigger = null;

@@ -1,3 +1,4 @@
+import { appReadStorage, appWriteStorage } from '../core/storage.js';
 const appWelcomeMemory = new Map();
 
 // A local, one-time greeting, not a pushed message or an assigned task.
@@ -5,10 +6,10 @@ export function appReadWelcome(userId, create = false) {
     if (!userId) return null;
     const key = 'app-notifications-welcome:' + userId;
     let timestamp = appWelcomeMemory.get(key);
-    try { const saved = Number(localStorage.getItem(key)); if (saved > 0 && Number.isFinite(saved)) timestamp = saved; } catch {}
+    { const saved = Number(appReadStorage(key).value); if (saved > 0 && Number.isFinite(saved)) timestamp = saved; }
     if (!timestamp && create) {
         timestamp = Date.now();
-        try { localStorage.setItem(key, String(timestamp)); } catch {}
+        appWriteStorage(key, String(timestamp));
     }
     if (!timestamp) return null;
     appWelcomeMemory.set(key, timestamp);

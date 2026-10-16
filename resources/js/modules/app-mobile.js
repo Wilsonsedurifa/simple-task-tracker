@@ -1,10 +1,11 @@
+import { APP_MOBILE_QUERY } from '../core/constants.js';
 import { appOpenCreate } from './app-dialog.js';
 import { appMobileElement, appMobilePickerSheet } from './app-mobile-components.js';
 import { appOpenMobileTaskActions } from './app-mobile-task-actions.js';
 
 export function appInitMobile() {
     if (!document.body.classList.contains('app-workspace')) return;
-    const media = matchMedia('(max-width: 767px)'), header = document.querySelector('[data-app-mobile-header]');
+    const media = matchMedia(APP_MOBILE_QUERY), header = document.querySelector('[data-app-mobile-header]');
     const slot = header?.querySelector('[data-app-mobile-controls]'), search = document.querySelector('.app-global-search'), view = document.querySelector('.app-view-switcher');
     const controls = [search, view].filter(Boolean).map(node => { const marker = document.createComment('mobile control home'); node.before(marker); return { node, marker }; });
     const main = document.getElementById('main'), originalLabel = main?.getAttribute('aria-labelledby');

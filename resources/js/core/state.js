@@ -1,5 +1,5 @@
-import { appRequest, appToast, appAssertOnline } from './app-api';
-import { appDateOnly } from './app-dates';
+import { appRequest, appToast, appAssertOnline } from './api.js';
+import { appDateOnly } from './dates.js';
 
 let appTasks = [];
 let appLoaded = false;

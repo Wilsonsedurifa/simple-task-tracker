@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { appDateInput, appLocalDate, appTaskGroup } from '../../resources/js/modules/app-dates.js';
+import { appDateInput, appLocalDate, appTaskGroup } from '../../resources/js/core/dates.js';
 
 const today = new Date(2026, 9, 15, 23, 59);
 const task = due_date => ({ status: 'pending', due_date });

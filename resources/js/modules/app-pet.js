@@ -1,5 +1,7 @@
-import { appTaskState } from './app-state.js';
-import { appRequest, appToast } from './app-api.js';
+import { APP_API } from '../core/constants.js';
+import { appReadStorage, appWriteStorage } from '../core/storage.js';
+import { appTaskState } from '../core/state.js';
+import { appRequest, appToast } from '../core/api.js';
 import { appReadSettings, appReducedMotion } from './app-preferences.js';
 import { appPetMood, appPetBadges } from './app-pet-data.js';
 import { appPetArt } from './app-pet-art.js';
@@ -10,8 +12,8 @@ const appPetNode = (tag, className, text) => { const node = document.createEleme
 let appPet = null, appPetLoaded = false, appPetVersion = 0, appPetBurstUntil = 0, appPetLastTouch = 0, appPetReturnFocus = null;
 let appPetLevels = [], appPetError = false, appPetBurstTimer, appPetLastSeen = 0;
 function appPetKey(type) { return 'app-pet-' + type + ':' + (document.body?.dataset.appUserId || 'guest'); }
-function appPetRead(type) { try { return localStorage.getItem(appPetKey(type)); } catch { return null; } }
-function appPetWrite(type, value) { try { localStorage.setItem(appPetKey(type), String(value)); } catch {} }
+function appPetRead(type) { return appReadStorage(appPetKey(type)).value; }
+function appPetWrite(type, value) { appWriteStorage(appPetKey(type), String(value)); }
 function appPetStatic() { return appReducedMotion() || appReadSettings().reducePetMotion; }
 function appPetFlame() {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'), path = document.createElementNS(svg.namespaceURI, 'path');
@@ -85,7 +87,7 @@ function appPetRender() {
 async function appPetLoad(remember = true) {
     const version = ++appPetVersion;
     try {
-        const data = await appRequest('/api/pet');
+        const data = await appRequest(APP_API.pet);
         if (version !== appPetVersion) return;
         if (!data || !Object.hasOwn(data, 'pet')) throw Error('Your companion could not be loaded.');
         appPet = data.pet; appPetLoaded = true; appPetError = false; appPetRender(); appPetSyncEdit();
@@ -157,7 +159,7 @@ function appPetFormInit(form, editing) {
         if (editing && appPet) for (const key of Object.keys(data)) if (data[key] === appPet[key]) delete data[key];
         busy = true; const submit = form.querySelector('[type="submit"]'); if (submit) submit.disabled = true;
         try {
-            const result = await appRequest('/api/pet', { method: editing ? 'PATCH' : 'POST', body: JSON.stringify(data) });
+            const result = await appRequest(APP_API.pet, { method: editing ? 'PATCH' : 'POST', body: JSON.stringify(data) });
             appPet = result.pet; appPetLoaded = true; appPetError = false; appPetSeen(appPet.level); appPetWrite('invite', 'adopted'); appPetRender();
             if (editing) { if (name) name.value = appPet.name; if (species) species.value = appPet.species; }
             if (!editing) { appPetGet('app-pet-adoption')?.close(); appPetSyncEdit(); }

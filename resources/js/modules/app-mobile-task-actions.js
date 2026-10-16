@@ -1,5 +1,5 @@
-import { appTaskState } from './app-state.js';
-import { appToast } from './app-api.js';
+import { appTaskState } from '../core/state.js';
+import { appToast } from '../core/api.js';
 import { appOpenTask } from './app-dialog.js';
 import { appMobileElement, appMobileSheet } from './app-mobile-components.js';
 

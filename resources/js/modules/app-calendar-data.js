@@ -1,4 +1,4 @@
-import { appDateInput } from './app-dates.js';
+import { appDateInput } from '../core/dates.js';
 
 export function appCalendarDate(year, month, day = 1) {
     const date = new Date(0);

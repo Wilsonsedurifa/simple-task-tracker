@@ -1,9 +1,10 @@
-import { appTaskState } from './app-state';
-import { appToast } from './app-api';
-import { appDateInput, appDueLabel, appMinimumDueDate } from './app-dates';
+import { APP_MOBILE_QUERY, APP_API } from '../core/constants.js';
+import { appGet } from '../core/dom.js';
+import { appTaskState } from '../core/state.js';
+import { appToast } from '../core/api.js';
+import { appDateInput, appDueLabel, appMinimumDueDate } from '../core/dates.js';
 
 const appLabels = { todo: 'To do', in_progress: 'In progress', review: 'Review' };
-const appGet = id => document.getElementById(id);
 let appActive = null;
 let appSnapshot = null;
 let appTrigger = null;
@@ -31,7 +32,7 @@ function appCounter(prefix) {
     const area = appGet(prefix === 'create' ? 'description' : 'edit-description');
     const count = appGet('app-'+prefix+'-description-count');
     if (area && count) { count.textContent=area.value.length+'/1000'; count.classList.toggle('app-limit',area.value.length===1000); }
-    if (area && (prefix==='edit' || matchMedia('(max-width: 767px)').matches)) { area.style.setProperty('--app-textarea-height','auto'); area.style.setProperty('--app-textarea-height',area.scrollHeight+'px'); }
+    if (area && (prefix==='edit' || matchMedia(APP_MOBILE_QUERY).matches)) { area.style.setProperty('--app-textarea-height','auto'); area.style.setProperty('--app-textarea-height',area.scrollHeight+'px'); }
     if (prefix==='edit') { const save=appGet('save-edit-button'); if(save)save.disabled=appSaving||!Object.keys(appChanges()).length; }
 }
 function appError(prefix, error = null) {
@@ -66,7 +67,7 @@ function appFocusReturn() {
 function appRenderView(task) {
     appText('detail-title',task.title);appText('detail-description',task.description || 'No description added.');
     appGet('detail-title')?.setAttribute('title',task.title);
-    const appPhone = matchMedia('(max-width: 767px)').matches;
+    const appPhone = matchMedia(APP_MOBILE_QUERY).matches;
     appText('detail-status-text',task.status==='completed'?'Completed':appPhone ? ({ todo:'Pending', in_progress:'In Progress', review:'Review' }[task.stage] || 'Pending') : appLabels[task.stage] || 'To do');
     appText('detail-priority-badge',task.priority);appText('detail-created-date',task.created_at?new Date(task.created_at).toLocaleString():'');
     const badge=appGet('detail-priority-badge');if(badge)badge.className='badge badge-'+task.priority;
@@ -170,7 +171,7 @@ export function appInitDialogs() {
         event.preventDefault();if(appSaving)return;
         const values=appValues('create'), button=appGet('submit-button');appSaving=true;if(button)button.disabled=true;appError('create');
         try{
-            const task=await appTaskState.mutate('/api/tasks','POST',{...values,description:values.description || null,due_date:values.due_date || null});
+            const task=await appTaskState.mutate(APP_API.tasks,'POST',{...values,description:values.description || null,due_date:values.due_date || null});
             if(appCreatedStage==='completed')await appTaskState.mutate('/api/tasks/'+task.id+'/complete','PATCH');
             create?.close();appToast('Task created.');
         }catch(error){appError('create',error);}finally{appSaving=false;if(button)button.disabled=false;}

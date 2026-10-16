@@ -1,10 +1,8 @@
+import { appElement as appMobileElement } from '../core/dom.js';
 import { appIcon, appTaskNode } from './app-task-components.js';
 import { appCloseOnBackdrop } from './app-appearance.js';
 
-export function appMobileElement(tag, className, text) {
-    const node = document.createElement(tag); if (className) node.className = className;
-    if (text !== undefined) node.textContent = String(text); return node;
-}
+export { appElement as appMobileElement } from '../core/dom.js';
 export function appMobileStatCard({ label, value, tone = 'accent', icon = 'check', action, href }) {
     const card = appMobileElement(href ? 'a' : action ? 'button' : 'div', 'app-mobile-stat-card');
     if (href) card.setAttribute('href', href);

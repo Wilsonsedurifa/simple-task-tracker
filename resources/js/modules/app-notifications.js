@@ -1,27 +1,22 @@
-import { appTaskState } from './app-state.js';
+import { APP_MOBILE_QUERY } from '../core/constants.js';
+import { appGet, appElement as appNode } from '../core/dom.js';
+import { appTaskState } from '../core/state.js';
 import { appSetUnreadCount } from './app-shell.js';
 import { appOpenTask } from './app-dialog.js';
 import { appIcon } from './app-task-components.js';
-import { appDateInput } from './app-dates.js';
-import { appToast } from './app-api.js';
+import { appDateInput } from '../core/dates.js';
+import { appToast } from '../core/api.js';
 import { appDeriveNotifications, appLatestNotifications, appNotificationTypes, appNotificationGroup, appNotificationRelative } from './app-notification-data.js';
 import { appNotificationReadKey, appReadNotificationState, appSaveNotificationState } from './app-notification-storage.js';
 import { appReadWelcome, appMobileNotificationTime } from './app-notification-welcome.js';
 
-const appGet = id => document.getElementById(id);
-function appNode(tag, className, text) {
-    const node = document.createElement(tag);
-    if (className) node.className = className;
-    if (text !== undefined) node.textContent = String(text);
-    return node;
-}
 
 export function appInitNotifications() {
     const bell = appGet('app-notification-bell'), dropdown = appGet('app-notification-dropdown'), preview = appGet('app-notification-preview'), feed = appGet('app-notification-feed');
     if (!bell || !dropdown || !preview) return;
     const userId = document.body.dataset.appUserId || '', storageKey = appNotificationReadKey(userId);
     let saved = appReadNotificationState(userId), items = [], filter = 'all', error = null;
-    const appPhone = matchMedia('(max-width:767px)'), appWelcomeKey = 'app-notifications-welcome:' + userId;
+    const appPhone = matchMedia(APP_MOBILE_QUERY), appWelcomeKey = 'app-notifications-welcome:' + userId;
     function appBuildItems(tasks) {
         items = appDeriveNotifications(tasks);
         const welcome = appPhone.matches ? appReadWelcome(userId, document.body.dataset.page === 'notifications') : null;

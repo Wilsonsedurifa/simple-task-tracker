@@ -1,3 +1,4 @@
+import { appWriteStorage, appReadJsonStorage } from '../core/storage.js';
 const appDefaults = { defaultView: 'board', defaultSort: 'priority', weekStart: 'monday', showCompleted: true, density: 'comfortable', motion: 'system', showPet: true, reducePetMotion: false };
 const appChoices = { defaultView: ['board', 'list'], defaultSort: ['priority', 'deadline'], weekStart: ['monday', 'sunday'], density: ['comfortable', 'compact'], motion: ['system', 'reduce'] };
 let appMemory = null;
@@ -6,7 +7,7 @@ export function appSettingsKey() {
 }
 export function appReadSettings() {
     let values = appMemory;
-    if (!values) { try { values = JSON.parse(localStorage.getItem(appSettingsKey()) || '{}'); } catch {} }
+    if (!values) values = appReadJsonStorage(appSettingsKey()).value;
     const settings = { ...appDefaults };
     if (!values || typeof values !== 'object') return settings;
     for (const [key, choices] of Object.entries(appChoices)) if (choices.includes(values[key])) settings[key] = values[key];
@@ -25,7 +26,7 @@ export function appApplyPreferences() {
 export function appSaveSettings(values) {
     appMemory = { ...appReadSettings(), ...values };
     let saved = true;
-    try { localStorage.setItem(appSettingsKey(), JSON.stringify(appMemory)); } catch { saved = false; }
+    saved = appWriteStorage(appSettingsKey(), JSON.stringify(appMemory));
     appApplyPreferences();
     dispatchEvent(new CustomEvent('app:settings', { detail: { ...appReadSettings(), saved } }));
     return saved;

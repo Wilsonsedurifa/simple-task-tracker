@@ -1,4 +1,4 @@
-import { appLocalDate } from './app-dates.js';
+import { appLocalDate } from '../core/dates.js';
 
 /** Pure local-calendar mood derivation. Precedence is proud > happy >
  * sad/worried > sleepy > idle. Never sorts or mutates the shared task array.

@@ -1,9 +1,4 @@
-const appSvgNS = 'http://www.w3.org/2000/svg';
-function appPetShape(tag, attrs = {}) {
-    const node = document.createElementNS(appSvgNS, tag);
-    for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, String(value));
-    return node;
-}
+import { appSvgElement as appPetShape } from '../core/dom.js';
 // Original geometric artwork. One rig per species; level/mood classes swap
 // posture, face, proportions and accessories without loading images or fonts.
 export function appPetArt(species, level = 1, mood = 'idle') {

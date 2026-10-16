@@ -1,10 +1,11 @@
+import { APP_MOBILE_QUERY } from '../core/constants.js';
 import { appMobileElement } from './app-mobile-components.js';
 import { appIcon } from './app-task-components.js';
 import { appRefreshTaskPresentation } from './app-dialog.js';
 
 // Adapt the real forms and detail nodes; never create a second task or form state.
 export function appInitMobileTaskScreens() {
-    const appMedia = matchMedia('(max-width: 767px)'), appMoves = [];
+    const appMedia = matchMedia(APP_MOBILE_QUERY), appMoves = [];
     function appMove(node, destination, first = false) {
         if (!node || !destination) return;
         const marker = document.createComment('task screen desktop position'); node.before(marker);

@@ -1,4 +1,4 @@
-import { appToast } from './app-api.js';
+import { appToast } from '../core/api.js';
 
 const appMutationControls = 'button[type="submit"], [data-action="toggle-check"], [data-action="delete"], #detail-complete-btn, #app-detail-start, #app-detail-review, #app-confirm-delete-completed, [data-app-mutation]';
 export function appInitOffline() {

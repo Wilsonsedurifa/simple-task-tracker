@@ -1,4 +1,4 @@
-import { appLocalDate, appDateInput } from './app-dates.js';
+import { appLocalDate, appDateInput } from '../core/dates.js';
 import { appRelativeTime } from './app-dashboard-data.js';
 
 export const appNotificationTypes = {

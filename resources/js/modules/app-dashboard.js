@@ -1,17 +1,13 @@
-import { appTaskState } from './app-state.js';
-import { appToast } from './app-api.js';
-import { appLocalDate, appDateInput, appTaskGroup } from './app-dates.js';
+import { APP_API } from '../core/constants.js';
+import { appReadStorage, appWriteStorage } from '../core/storage.js';
+import { appGet, appElement as appNode } from '../core/dom.js';
+import { appTaskState } from '../core/state.js';
+import { appToast } from '../core/api.js';
+import { appLocalDate, appDateInput, appTaskGroup } from '../core/dates.js';
 import { appGreeting, appCompletionDays, appRecentCompleted, appRelativeTime } from './app-dashboard-data.js';
 import { appTaskNode, appIcon } from './app-task-components.js';
 import { appOpenTask, appOpenCreate, appOpenDelete } from './app-dialog.js';
 
-const appGet = id => document.getElementById(id);
-function appNode(tag, className, text) {
-    const node = document.createElement(tag);
-    if (className) node.className = className;
-    if (text !== undefined) node.textContent = String(text);
-    return node;
-}
 function appText(id, text) { const node = appGet(id); if (node) node.textContent = String(text); }
 function appEmpty(title, copy, action = null, label = 'Add a task') {
     const empty = appNode('div', 'app-designed-empty app-dashboard-empty');
@@ -26,7 +22,7 @@ export function appInitDashboard() {
     const root = document.querySelector('.app-dashboard-grid');
     if (!root) return;
     let appTab = 'deadlines', appDay = '', appSubmitting = false;
-    try { const saved = localStorage.getItem('app-dashboard-tab'); if (['deadlines', 'active', 'done'].includes(saved)) appTab = saved; } catch {}
+    { const saved = appReadStorage('app-dashboard-tab').value; if (['deadlines', 'active', 'done'].includes(saved)) appTab = saved; }
     function appHeader() {
         const now = new Date(), firstName = document.querySelector('.user-name')?.textContent.trim().split(/\s+/)[0] || '';
         appText('db-greeting', appGreeting(now, firstName));
@@ -42,7 +38,7 @@ export function appInitDashboard() {
             if (panel) panel.hidden = name !== tab;
         }
         if (focus) appGet('app-tab-' + tab)?.focus();
-        try { localStorage.setItem('app-dashboard-tab', tab); } catch {}
+        appWriteStorage('app-dashboard-tab', tab);
     }
     function appChart(tasks) {
         const days = appCompletionDays(tasks), maximum = Math.max(1, ...days.map(day => day.count));
@@ -219,7 +215,7 @@ export function appInitDashboard() {
         const controls = [...form.querySelectorAll('input,select,textarea,button')]; controls.forEach(control => { control.disabled = true; });
         appText('app-quick-submit', 'Adding…');
         try {
-            await appTaskState.mutate('/api/tasks', 'POST', values);
+            await appTaskState.mutate(APP_API.tasks, 'POST', values);
             form.reset(); if (details) details.hidden = true;
             toggle?.setAttribute('aria-expanded', 'false'); if (toggle) toggle.textContent = 'Add details';
             appText('app-quick-count', '0/1000'); appGet('app-quick-count')?.classList.remove('app-limit'); appToast('Task added.');

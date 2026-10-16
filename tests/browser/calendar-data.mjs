@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { appCalendarDate, appCalendarMonth, appCalendarMonthKey, appCalendarDays, appCalendarWeek, appCalendarBuckets } from '../../resources/js/modules/app-calendar-data.js';
-import { appDateInput, appDateOnly, appMinimumDueDate } from '../../resources/js/modules/app-dates.js';
+import { appDateInput, appDateOnly, appMinimumDueDate } from '../../resources/js/core/dates.js';
 
 const fallback = new Date(2026, 9, 15);
 for (const invalid of [null, '', '2026-00', '2026-13', 'garbage', '2026-1', '0000-01']) assert.equal(appCalendarMonthKey(appCalendarMonth(invalid, fallback)), '2026-10');

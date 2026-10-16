@@ -1,3 +1,4 @@
+import { appReadStorage, appWriteStorage } from '../core/storage.js';
 const appModes = ['light', 'dark', 'system', 'kawaii', 'racing'];
 const appNormalAccents = ['blue', 'emerald', 'violet', 'amber', 'sky'];
 const appAccentSets = {
@@ -11,12 +12,12 @@ let appReturnFocus = null;
 let appCurrentMode = null;
 
 function appWritePreference(key, value) {
-    try { localStorage.setItem(key, value); } catch {}
+    appWriteStorage(key, value);
 }
 function appReadAccent(mode) {
     if (appAccentCache.has(mode)) return appAccentCache.get(mode);
     let value;
-    try { value = localStorage.getItem('task-accent-' + mode); } catch {}
+    value = appReadStorage('task-accent-' + mode).value;
     return appAccentSets[mode].includes(value) ? value : appAccentSets[mode][0];
 }
 function appUpdateMeta() {

@@ -1,24 +1,19 @@
-import { appTaskState } from './app-state';
-import { appToast } from './app-api';
+import { APP_MOBILE_QUERY } from '../core/constants.js';
+import { appGet, appElement as appElement } from '../core/dom.js';
+import { appTaskState } from '../core/state.js';
+import { appToast } from '../core/api.js';
 import { appOpenTask, appOpenDelete, appOpenCreate } from './app-dialog';
-import { appLocalDate, appTaskGroup as appGroup } from './app-dates';
+import { appLocalDate, appTaskGroup as appGroup } from '../core/dates.js';
 import { appTaskNode, appIcon } from './app-task-components';
 import { appReadSettings, appSaveSettings, appReducedMotion } from './app-preferences';
 
-const appGet = id => document.getElementById(id);
 const appStageLabels = { todo: 'To do', in_progress: 'In progress', review: 'Review', completed: 'Completed' };
 const appMoving = new Set();
-function appElement(tag, className, text) {
-    const node = document.createElement(tag);
-    if (className) node.className = className;
-    if (text !== undefined) node.textContent = String(text);
-    return node;
-}
 export function appInitTasks() {
     const list = appGet('task-list'), board = appGet('task-board-container');
     if (!list || !board) return;
     const params = new URLSearchParams(location.search);
-    const appPhone = matchMedia('(max-width: 767px)');
+    const appPhone = matchMedia(APP_MOBILE_QUERY);
     const filters = {
         status: ['pending', 'in_progress', 'completed'].includes(params.get('status')) ? params.get('status') : '',
         priority: ['high', 'medium', 'low'].includes(params.get('priority')) ? params.get('priority') : '',

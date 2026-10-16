@@ -1,11 +1,12 @@
-import { appTaskState } from './app-state.js';
-import { appLocalDate } from './app-dates.js';
+import { APP_MOBILE_QUERY } from '../core/constants.js';
+import { appTaskState } from '../core/state.js';
+import { appLocalDate } from '../core/dates.js';
 import { appMobileElement, appMobileStatCard } from './app-mobile-components.js';
 import { appIcon } from './app-task-components.js';
 
 export function appInitMobileAccount() {
     const profile = document.getElementById('app-mobile-profile'), settings = document.getElementById('app-settings');
-    const media = matchMedia('(max-width:767px)'), page = document.body.dataset.page;
+    const media = matchMedia(APP_MOBILE_QUERY), page = document.body.dataset.page;
     for (const tab of document.querySelectorAll('[data-app-settings-tab]')) { const icon = appIcon('reopen'); icon.classList.add('app-mobile-only','app-profile-chevron'); icon.querySelector('path')?.setAttribute('d','m9 5 7 7-7 7'); tab.append(icon); }
     const heading = document.querySelector('.app-mobile-heading-row');
     let back;

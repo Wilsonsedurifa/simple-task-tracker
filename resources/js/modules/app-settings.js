@@ -1,8 +1,8 @@
 import { appReadSettings, appSaveSettings } from './app-preferences.js';
-import { appTaskState } from './app-state.js';
-import { appRequest, appToast } from './app-api.js';
+import { appTaskState } from '../core/state.js';
+import { appRequest, appToast } from '../core/api.js';
 import { appTasksCsv } from './app-export.js';
-import { appDateInput } from './app-dates.js';
+import { appDateInput } from '../core/dates.js';
 
 function appSettingsTabs() {
     const tabs = [...document.querySelectorAll('[data-app-settings-tab]')];

@@ -1,4 +1,4 @@
-import { appTaskState, appInitTaskBadge } from './modules/app-state.js';
+import { appTaskState, appInitTaskBadge } from './core/state.js';
 import { appOpenCreate, appInitDialogs } from './modules/app-dialog.js';
 import { appInitTasks } from './modules/app-tasks.js';
 import { appInitDashboard } from './modules/app-dashboard.js';

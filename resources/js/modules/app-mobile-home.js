@@ -1,5 +1,6 @@
-import { appTaskState } from './app-state.js';
-import { appLocalDate } from './app-dates.js';
+import { APP_MOBILE_QUERY } from '../core/constants.js';
+import { appTaskState } from '../core/state.js';
+import { appLocalDate } from '../core/dates.js';
 import { appOpenCreate } from './app-dialog.js';
 import { appMobileStatCard, appMobileTaskRow } from './app-mobile-components.js';
 
@@ -18,7 +19,7 @@ export function appMobileHomeData(tasks, now = new Date()) {
 export function appInitMobileHome() {
     const root = document.getElementById('app-mobile-home'); if (!root) return;
     const appFind = id => document.getElementById(id);
-    const media = matchMedia('(max-width: 767px)');
+    const media = matchMedia(APP_MOBILE_QUERY);
     const pet = document.querySelector('[data-app-pet-widget]'), error = appFind('db-summary-error');
     const homes = [[pet, appFind('app-mobile-home-pet')], [error, appFind('app-mobile-home-error')]].filter(([node, slot]) => node && slot).map(([node, slot]) => {
         const marker = document.createComment('mobile home restore'); node.before(marker); return { node, slot, marker };

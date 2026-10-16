@@ -1,4 +1,4 @@
-import { appLocalDate } from './app-dates.js';
+import { appLocalDate } from '../core/dates.js';
 
 export function appGreeting(date, name = '') {
     const hour = date.getHours();
