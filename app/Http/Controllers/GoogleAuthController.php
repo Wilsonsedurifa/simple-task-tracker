@@ -35,10 +35,14 @@ class GoogleAuthController extends Controller
         try {
             $googleUser = Socialite::driver('google')->user();
         } catch (InvalidStateException) {
-            Log::warning('Google OAuth callback had an invalid state.', ['ip' => $request->ip()]);
+            try {
+                $googleUser = Socialite::driver('google')->stateless()->user();
+            } catch (Throwable $fallbackException) {
+                Log::warning('Google OAuth callback had an invalid state.', ['ip' => $request->ip(), 'error' => $fallbackException->getMessage()]);
 
-            return $this->backToIntent($intent)
-                ->withErrors(['email' => 'Nag-expire ang Google sign-in session. Subukan ulit.']);
+                return $this->backToIntent($intent)
+                    ->withErrors(['email' => 'Nag-expire ang Google sign-in session. Subukan ulit.']);
+            }
         } catch (Throwable $exception) {
             Log::error('Google OAuth callback failed.', [
                 'exception' => $exception::class,
