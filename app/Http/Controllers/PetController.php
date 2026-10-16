@@ -7,8 +7,7 @@ use App\Services\PetService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
+use App\Http\Requests\SavePetRequest;
 
 class PetController extends Controller
 {
@@ -19,31 +18,19 @@ class PetController extends Controller
         return response()->json(['pet' => $pet ? $service->describe($pet) : null]);
     }
 
-    public function store(Request $request, PetService $service): JsonResponse
+    public function store(SavePetRequest $request, PetService $service): JsonResponse
     {
         return $this->save($request, $service, false);
     }
 
-    public function update(Request $request, PetService $service): JsonResponse
+    public function update(SavePetRequest $request, PetService $service): JsonResponse
     {
         return $this->save($request, $service, true);
     }
 
-    private function save(Request $request, PetService $service, bool $editing): JsonResponse
+    private function save(SavePetRequest $request, PetService $service, bool $editing): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'species' => [$editing ? 'sometimes' : 'required', 'required', 'string', Rule::in(config('pets.species'))],
-            'name' => [$editing ? 'sometimes' : 'required', 'required', 'string', 'max:20', function (string $attribute, mixed $value, \Closure $fail): void {
-                if (is_string($value) && preg_match('/^\s*$/u', $value)) {
-                    $fail('The name field is required.');
-                }
-            }],
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['message' => 'The given data was invalid.', 'errors' => $validator->errors()], 400);
-        }
-
-        return DB::transaction(function () use ($request, $service, $editing, $validator): JsonResponse {
+        return DB::transaction(function () use ($request, $service, $editing): JsonResponse {
             $user = User::whereKey($request->user()->id)->lockForUpdate()->firstOrFail();
             $pet = $user->pet()->lockForUpdate()->first();
             if ((! $editing && $pet !== null) || ($editing && $pet === null)) {
@@ -52,9 +39,9 @@ class PetController extends Controller
                 return response()->json(['message' => $message, 'errors' => ['pet' => [$message]]], 400);
             }
             if ($editing) {
-                $pet->update($validator->validated());
+                $pet->update($request->validated());
             } else {
-                $pet = $user->pet()->create($validator->validated())->refresh();
+                $pet = $user->pet()->create($request->validated())->refresh();
             }
 
             return response()->json(['pet' => $service->describe($pet)], $editing ? 200 : 201);

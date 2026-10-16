@@ -29,6 +29,11 @@ class Task extends Model
         return ['due_date' => 'date', 'completed_at' => 'datetime', 'stage' => 'string', 'xp_awarded_at' => 'datetime'];
     }
 
+    public function scopeForUser(\Illuminate\Database\Eloquent\Builder $query, int $userId): \Illuminate\Database\Eloquent\Builder
+    {
+        return $query->where('user_id', $userId);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
