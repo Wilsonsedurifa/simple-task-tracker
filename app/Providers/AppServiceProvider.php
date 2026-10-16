@@ -24,6 +24,13 @@ class AppServiceProvider extends ServiceProvider
     {
         if ($this->app->environment('production')) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
+            $liveUrl = 'https://simple-task-tracker-production.up.railway.app';
+            \Illuminate\Support\Facades\URL::forceRootUrl($liveUrl);
+
+            $googleRedirect = config('services.google.redirect');
+            if (! $googleRedirect || str_contains((string) $googleRedirect, 'localhost') || str_contains((string) $googleRedirect, '127.0.0.1')) {
+                config(['services.google.redirect' => $liveUrl . '/auth/google/callback']);
+            }
         }
 
         // Browser/feature tests must use built assets even when a developer has Vite running.
