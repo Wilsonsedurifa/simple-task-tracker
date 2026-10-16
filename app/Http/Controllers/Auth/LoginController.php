@@ -8,10 +8,18 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    public function create(): View { return view('auth.login'); }
+    public function create(Request $request): View
+    {
+        $returnTo = $request->query('return_to');
+        if (is_string($returnTo) && str_starts_with($returnTo, '/') && ! str_starts_with($returnTo, '//') && ! preg_match('/[\x00-\x20\\\\]/', $returnTo)) {
+            $request->session()->put('url.intended', $returnTo);
+        }
+        return view('auth.login');
+    }
 
     public function store(LoginRequest $request): RedirectResponse
     {

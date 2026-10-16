@@ -1,0 +1,68 @@
+/* features — legacy-inspector; original cascade segment 21. */
+.detail-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.detail-secondary-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* Empty detail panel */
+
+.detail-empty {
+    padding: 48px 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+}
+
+.detail-empty-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--surface-muted);
+    display: grid;
+    place-items: center;
+    color: var(--muted);
+}
+
+.detail-empty-icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+.detail-empty-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.detail-empty-text {
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* ---------- Common UI Components & Buttons ---------- */
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    font-size: 13.5px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: center;
+}

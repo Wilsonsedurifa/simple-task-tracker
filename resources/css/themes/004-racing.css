@@ -1,0 +1,8 @@
+/* themes — racing; original cascade segment 4. */
+[data-theme="racing"] {
+    color-scheme:dark; --bg:#101114; --surface:#1c1e23; --surface-muted:#282b32; --surface-hover:#30343c;
+    --text:#f8fafc; --text-soft:#e2e8f0; --muted:#b3bac6; --border:#363b45; --border-strong:#626b7b; --border-subtle:#30343c;
+    --primary:#dc2626; --primary-hover:#b91c1c; --primary-soft:#dc262626; --primary-text:#fca5a5; --ring:#ef444450;
+    --success-text:#6ee7b7; --success-soft:#064e3b; --warning-text:#fde68a; --warning-soft:#713f12; --danger-text:#fecaca; --danger-soft:#7f1d1d;
+    --radius-xl:10px; --radius-lg:8px; --radius-md:6px;
+}

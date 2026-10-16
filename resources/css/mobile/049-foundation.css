@@ -1,0 +1,2 @@
+/* mobile — foundation; original cascade segment 49. */
+@media (prefers-reduced-motion:reduce) { .app-workspace :is(.app-task-list,.app-mobile-sheet-body) { scroll-behavior:auto; } }

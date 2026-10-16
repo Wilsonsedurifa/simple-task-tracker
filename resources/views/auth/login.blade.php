@@ -12,7 +12,7 @@
 
     <section class="auth-card" aria-labelledby="login-heading">
         <p class="auth-label">Log in</p>
-        <h2 id="login-heading">Pick up where you left off.</h2>
+        <h1 id="login-heading">Pick up where you left off.</h1>
 
         <form method="POST" action="{{ route('login.store') }}">
             @csrf

@@ -1,0 +1,86 @@
+/* features — task-list; original cascade segment 34. */
+.app-task-stat { display:flex; align-items:center; gap:14px; padding:20px; min-width:0; text-align:left; border:1px solid var(--border); border-radius:var(--radius-lg); background:var(--surface); color:var(--text); box-shadow:var(--shadow-xs); cursor:pointer; font:inherit; }
+.app-task-stat:hover,.app-task-stat[aria-pressed="true"] { border-color:var(--primary); background:var(--primary-soft); }
+.app-task-stat strong { display:block; font-size:28px; line-height:1.3; font-variant-numeric:tabular-nums; }
+.app-stat-label { display:block; color:var(--text-soft); font-size:12px; margin-bottom:6px; }
+.app-stat-icon { display:grid; place-items:center; width:42px; height:42px; flex:none; background:var(--primary-soft); color:var(--primary-text); border-radius:var(--radius-md); }
+.app-stat-icon svg { width:22px; height:22px; flex:none; }
+.app-has-overdue .app-stat-icon { color:var(--danger-text); background:var(--danger-soft); }
+.app-has-overdue strong { color:var(--danger-text); }
+.app-tasks-workspace { min-width:0; }
+.app-task-toolbar { display:grid; grid-template-columns:minmax(300px,1fr) minmax(140px,180px) minmax(160px,190px); align-items:end; gap:16px; margin-bottom:20px; }
+.app-toolbar-field { display:grid; gap:7px; font-size:12px; color:var(--muted); }
+.app-toolbar-field .input { width:100%; min-height:44px; padding:10px 12px; }
+.app-status-control { display:flex; gap:4px; padding:4px; border:1px solid var(--border); background:var(--surface); border-radius:var(--radius-md); min-width:0; }
+.app-status-control button { flex:1; min-height:40px; border:0; background:var(--surface); color:var(--text-soft); border-radius:var(--radius-sm); cursor:pointer; font:inherit; font-size:12px; white-space:nowrap; padding:8px; }
+.app-status-control button[aria-pressed="true"] { background:var(--primary-soft); color:var(--primary-text); font-weight:700; }
+.app-status-control span { margin-left:4px; font-variant-numeric:tabular-nums; }
+.app-filter-chips { display:flex; gap:8px; flex-wrap:wrap; margin:0 0 18px; }
+.app-filter-chip,.app-clear-filters { font:inherit; font-size:12px; cursor:pointer; min-height:36px; padding:7px 12px; border-radius:var(--radius-md); }
+.app-filter-chip { background:var(--primary-soft); color:var(--primary-text); border:1px solid var(--primary); overflow-wrap:anywhere; }
+.app-clear-filters { color:var(--primary-text); background:var(--surface); border:1px solid var(--border); }
+.app-task-board { display:grid; grid-template-columns:repeat(4,minmax(260px,1fr)); align-items:start; gap:14px; overflow-x:auto; padding:2px 2px 20px; scroll-snap-type:x proximity; scrollbar-width:auto; scrollbar-color:var(--border-strong) var(--surface-muted); overscroll-behavior-x:contain; }
+.app-task-board::-webkit-scrollbar { height:10px; }
+.app-task-board::-webkit-scrollbar-thumb { background:var(--border-strong); border-radius:var(--radius-sm); }
+.app-board-column { min-width:0; min-height:350px; padding:12px; background:var(--surface-muted); border:1px solid var(--border); border-radius:var(--radius-lg); scroll-snap-align:start; transition:background-color .15s,border-color .15s; }
+.app-column-header { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:4px 0 14px; }
+.app-column-header h3 { display:flex; align-items:center; gap:8px; margin:0; font-size:13px; }
+.app-stage-dot,.app-priority-dot { display:inline-block; width:7px; height:7px; border-radius:var(--app-radius-circle); background:currentColor; flex:none; }
+.app-stage-dot { color:var(--primary); }
+.app-stage-inprogress { color:var(--warning); }
+.app-stage-review { color:var(--info); }
+.app-stage-completed { color:var(--success); }
+.app-column-count { color:var(--text-soft); background:var(--surface); padding:2px 7px; font-size:11px; border-radius:var(--radius-sm); }
+.app-column-add { display:flex; justify-content:center; align-items:center; gap:7px; width:100%; min-height:40px; margin-bottom:12px; background:var(--surface); color:var(--muted); border:1px dashed var(--border-strong); border-radius:var(--radius-md); cursor:pointer; font:inherit; font-size:12px; }
+.app-column-add:hover { color:var(--primary-text); border-color:var(--primary); }
+.app-column-add svg { width:16px; height:16px; flex:none; }
+.app-column-cards { display:grid; gap:12px; min-height:180px; }
+.app-board-card.kanban-card { display:grid; grid-template-columns:28px minmax(0,1fr); gap:10px; position:relative; margin:0; padding:14px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); box-shadow:var(--shadow-xs); cursor:pointer; min-width:0; }
+.app-board-card:hover { border-color:var(--border-strong); box-shadow:var(--shadow-md); transform:none; }
+.app-task-copy { min-width:0; }
+.app-task-title { font-size:13px; font-weight:700; line-height:1.5; margin:0; overflow-wrap:anywhere; color:var(--text); display:block; }
+.app-board-card .app-task-title { white-space:normal; overflow:visible; text-overflow:clip; }
+.app-task-preview { color:var(--muted); font-size:12px; line-height:1.6; margin:5px 0 0; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow-wrap:anywhere; }
+.app-task-metadata { display:flex; gap:7px; align-items:center; flex-wrap:wrap; min-width:0; }
+.app-board-card .app-task-metadata { grid-column:1/-1; }
+.app-task-due { font-size:11px; line-height:1.5; color:var(--text-soft); background:var(--surface-muted); padding:3px 6px; border-radius:var(--radius-sm); overflow-wrap:anywhere; }
+.app-is-overdue { color:var(--danger-text); background:var(--danger-soft); }
+.app-task-priority { display:inline-flex; align-items:center; gap:5px; font-size:10px; }
+.app-workspace .app-task-priority.badge-high,.app-task-drawer .badge-high { background:var(--danger-soft); color:var(--danger-text); }
+.app-workspace .app-task-priority.badge-medium,.app-task-drawer .badge-medium { background:var(--warning-soft); color:var(--warning-text); }
+.app-workspace .app-task-priority.badge-low,.app-task-drawer .badge-low { background:var(--success-soft); color:var(--success-text); }
+.app-task-actions { display:flex; gap:2px; align-items:center; position:relative; }
+.app-board-card .app-task-actions { grid-column:1/-1; justify-content:flex-end; border-top:1px solid var(--border); padding-top:6px; }
+.app-task-action { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; min-width:36px; flex:none; padding:8px; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--surface); color:var(--text-soft); cursor:pointer; }
+.app-task-action svg { width:18px; height:18px; flex:none; }
+.app-task-action:hover { background:var(--primary-soft); color:var(--primary-text); border-color:var(--primary); }
+.app-action-delete:hover { color:var(--danger-text); background:var(--danger-soft); border-color:var(--danger); }
+.app-action-toggle-check { width:28px; min-width:28px; height:28px; padding:5px; border-radius:var(--app-radius-circle); color:var(--muted); }
+.app-is-completed .app-action-toggle-check { background:var(--success-soft); color:var(--success-text); border-color:var(--success); }
+.app-is-completed .app-task-title { text-decoration:line-through; color:var(--text-soft); }
+.app-move-menu { position:absolute; right:0; top:100%; min-width:170px; padding:5px; border:1px solid var(--border); background:var(--surface); box-shadow:var(--shadow-lg); border-radius:var(--radius-md); z-index:10; }
+.app-move-menu button { display:block; width:100%; padding:10px 12px; min-height:40px; text-align:left; border:0; background:var(--surface); color:var(--text); font:inherit; font-size:12px; border-radius:var(--radius-sm); cursor:pointer; }
+.app-move-menu button:hover,.app-move-menu button:focus-visible { background:var(--primary-soft); color:var(--primary-text); }
+.app-move-menu[popover] { position:fixed; inset:var(--app-menu-top) auto auto var(--app-menu-left); margin:0; width:180px; }
+.app-sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
+.app-drop-target { outline:2px dashed var(--primary); outline-offset:-3px; background:var(--primary-soft); }
+.app-dragging { opacity:.45; }
+.app-task-row.task-row { display:grid; grid-template-columns:28px minmax(0,1fr) auto auto; gap:16px; align-items:center; margin:0; padding:18px; border:1px solid var(--border); border-radius:var(--radius-md); background:var(--surface); cursor:pointer; }
+.app-task-list { display:grid; gap:10px; }
+.app-task-row .app-task-preview { -webkit-line-clamp:1; }
+.app-task-row .app-task-actions { border-left:1px solid var(--border); padding-left:12px; }
+.app-list-group { display:flex; align-items:center; gap:8px; font-size:13px; margin:14px 0 2px; }
+.app-list-group span { font-size:11px; color:var(--muted); border:1px solid var(--border); padding:2px 7px; border-radius:var(--radius-sm); }
+.app-designed-empty { padding:24px 10px; text-align:center; color:var(--text-soft); min-width:0; }
+.app-designed-empty > svg { width:32px; height:32px; flex:none; color:var(--primary-text); margin:0 auto 12px; }
+.app-designed-empty h3 { font-size:14px; color:var(--text); margin:0 0 8px; }
+.app-designed-empty p { font-size:12px; line-height:1.7; margin:0 0 16px; }
+.app-designed-empty .button { font-size:12px; }
+.app-column-cards .app-designed-empty { border:1px dashed var(--border-strong); border-radius:var(--radius-md); }
+.app-task-empty,.app-task-error { padding:28px; border:1px solid var(--border); border-radius:var(--radius-lg); background:var(--surface); }
+.app-task-error { margin-bottom:18px; color:var(--danger-text); }
+.app-task-skeleton { min-height:125px; background:var(--surface-muted); border:1px solid var(--border); border-radius:var(--radius-md); animation:app-task-pulse 1.2s ease-in-out infinite alternate; }
+.app-column-cards .app-task-skeleton { background:var(--surface); }
+@keyframes app-task-pulse { from { opacity:.4; } to { opacity:1; } }
+/* The native dialog supplies focus containment and the accessible modal layer. */
+#app-task-dialog.app-task-drawer { position:fixed; inset:0 0 0 auto; margin:0; width:min(440px,100vw); max-width:100vw; height:100dvh; max-height:100dvh; padding:0; border:0; border-left:1px solid var(--border); border-radius:0; overflow:hidden; background:var(--surface); color:var(--text); box-shadow:var(--app-drawer-shadow); }

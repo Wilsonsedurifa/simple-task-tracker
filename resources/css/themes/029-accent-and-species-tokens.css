@@ -1,0 +1,17 @@
+/* themes — accent-and-species-tokens; original cascade segment 29. */
+html[data-accent="blue"]{--primary:var(--app-accent-blue)}
+html[data-accent="emerald"]{--primary:var(--app-accent-emerald)}
+html[data-accent="violet"]{--primary:var(--app-accent-violet)}
+html[data-accent="amber"]{--primary:var(--app-accent-amber)}
+html[data-accent="sky"]{--primary:var(--app-accent-sky)}
+html[data-accent="pink"]{--primary:var(--app-accent-pink)}
+html[data-accent="lavender"]{--primary:var(--app-accent-lavender)}
+html[data-accent="mint"]{--primary:var(--app-accent-mint)}
+html[data-accent="peach"]{--primary:var(--app-accent-peach)}
+html[data-accent="babyblue"]{--primary:var(--app-accent-babyblue)}
+html[data-accent="red"]{--primary:var(--app-accent-red)}
+html[data-accent] {
+    --primary-hover:color-mix(in srgb,var(--primary) 85%,var(--app-accent-shade));
+    --primary-soft:color-mix(in srgb,var(--primary) 12%,var(--surface));
+    --primary-text:var(--primary-hover); --ring:color-mix(in srgb,var(--primary) 28%,transparent);
+}

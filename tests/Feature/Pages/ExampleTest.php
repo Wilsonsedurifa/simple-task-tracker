@@ -1,0 +1,22 @@
+<?php
+
+namespace Tests\Feature\Pages;
+
+// use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class ExampleTest extends TestCase
+{
+    /**
+     * A basic test example.
+     */
+    public function test_the_application_returns_a_successful_response(): void
+    {
+        $response = $this->get('/welcome');
+
+        $response
+            ->assertOk()
+            ->assertSee('Task Tracker')
+            ->assertSee('Grow a little friend.');
+    }
+}

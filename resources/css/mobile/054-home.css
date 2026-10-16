@@ -1,0 +1,40 @@
+/* mobile — home; original cascade segment 54. */
+@media (max-width:767px) {
+    [data-page="dashboard"] .app-dashboard-stats,
+    [data-page="dashboard"] .app-dashboard-main,
+    [data-page="dashboard"] .app-dashboard-side { display:none; }
+    .app-mobile-home { display:grid; gap:24px; min-width:0; }
+    .app-mobile-home h2 { margin:0 0 12px; font:700 15px var(--app-shell-font); color:var(--text); }
+    .app-mobile-home-stats { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .app-mobile-home-stats .app-mobile-stat-card { text-decoration:none; min-height:94px; min-width:0; padding:14px 12px; }
+    .app-mobile-home-stats .app-mobile-stat-card>span:last-child>span { font-size:11px; font-weight:600; }
+    .app-mobile-home-stats strong { font-variant-numeric:tabular-nums; line-height:1.3; }
+    .app-mobile-home-stats [data-app-tone="success"] .app-mobile-stat-icon { background:var(--success-soft); color:var(--success-text); }
+    .app-mobile-home-stats [data-app-tone="warning"] .app-mobile-stat-icon { background:var(--warning-soft); color:var(--warning-text); }
+    .app-mobile-home-stats [data-app-tone="danger"] .app-mobile-stat-icon { background:var(--danger-soft); color:var(--danger-text); }
+    .app-mobile-home-actions { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+    .app-mobile-home-actions>a,.app-mobile-home-actions>button { display:flex; flex-direction:column; align-items:center; gap:8px; min-height:76px; padding:0 2px; border:0; background:transparent; color:var(--primary-text); text-decoration:none; font:600 11px var(--app-shell-font); cursor:pointer; }
+    .app-mobile-home-actions span { display:grid; place-items:center; width:48px; height:48px; background:var(--primary-soft); border-radius:var(--app-radius-circle); }
+    .app-mobile-home-actions svg { width:22px; height:22px; flex:none; }
+    .app-mobile-home-actions>a:nth-child(3) span { background:var(--success-soft); color:var(--success-text); }
+    .app-mobile-home-actions>button:last-child span { background:var(--surface-muted); color:var(--muted); }
+    .app-mobile-home-pet:empty,.app-mobile-home-error:empty { display:none; }
+    .app-mobile-home-pet:has(>[hidden]) { display:none; }
+    .app-mobile-home-pet .app-pet-compact { height:360px; }
+    .app-mobile-home-pet .app-pet-room { height:110px; min-height:110px; }
+    .app-mobile-home-pet .app-pet-creature { width:80px; height:80px; }
+    .app-mobile-home-pet .app-pet-placeholder { min-height:250px; }
+    .app-mobile-home-error:has(>[hidden]) { display:none; }
+    .app-mobile-home-tasks { min-width:0; }
+    .app-mobile-home-tasks .app-mobile-section-header h2 { margin:0; }
+    .app-mobile-home-tasks .app-task-row { margin-bottom:8px; }
+    #app-mobile-home-overdue { margin-bottom:16px; }
+    #app-mobile-home-overdue summary { min-height:44px; padding:10px 4px; color:var(--danger-text); font-weight:700; cursor:pointer; }
+    #app-mobile-overdue-count { margin-left:8px; padding:2px 8px; background:var(--danger-soft); border-radius:var(--app-radius-pill); font-variant-numeric:tabular-nums; }
+    .app-mobile-home-empty { text-align:center; padding:28px 18px; border:1px solid var(--border); border-radius:var(--radius-lg); background:color-mix(in srgb,var(--accent) 5%,var(--surface)); }
+    .app-mobile-home-empty h3 { font-size:16px; margin:0 0 8px; color:var(--text); }
+    .app-mobile-home-empty p { font-size:13px; color:var(--muted); margin:0 0 18px; }
+    .app-mobile-home-empty .button { min-height:44px; }
+}
+@media (min-width:768px) and (max-width:1023px) { .app-nav-item>.app-notification-count { right:3px; top:3px; font-size:8px; min-width:18px; height:18px; } }
+@media (max-width:639px) { .app-notifications-toolbar { align-items:start; } .app-notifications-toolbar .button { font-size:12px; } .app-notification-row { grid-template-columns:34px minmax(0,1fr) 8px; gap:11px; padding:14px 12px; } .app-notification-icon { width:34px; height:34px; } .app-notification-message { font-size:12px; } .app-notification-dropdown { padding:14px; } .app-notification-compact { padding:11px 9px; gap:8px; } }

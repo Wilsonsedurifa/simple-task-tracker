@@ -1,0 +1,17 @@
+/* components — alerts; original cascade segment 24. */
+.alert-error {
+    background: var(--danger-soft);
+    color: var(--danger-text);
+    border: 1px solid var(--danger);
+}
+
+/* ---------- Modals / Dialogs ---------- */
+
+.modal {
+    border: 0;
+    background: transparent;
+    padding: 16px;
+    margin: auto;
+    max-width: 520px;
+    width: 100%;
+}

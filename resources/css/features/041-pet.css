@@ -1,0 +1,2 @@
+/* features — pet; original cascade segment 41. */
+[data-theme="dark"],[data-theme="racing"] { --pet-room:var(--surface-muted); --pet-floor:var(--primary-soft); }

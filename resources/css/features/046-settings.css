@@ -1,0 +1,55 @@
+/* features — settings; original cascade segment 46. */
+.app-settings-layout { display:grid; grid-template-columns:180px minmax(0,1fr); gap:24px; align-items:start; }
+.app-settings-nav { position:sticky; top:24px; display:grid; gap:6px; padding:8px; border:1px solid var(--border); border-radius:var(--radius-lg); background:var(--surface); }
+.app-settings-nav button { min-height:44px; text-align:left; padding:10px 14px; border:1px solid transparent; border-radius:var(--radius-md); background:transparent; color:var(--muted); font:inherit; font-weight:600; cursor:pointer; }
+.app-settings-nav button:hover { background:var(--surface-muted); color:var(--text); }
+.app-settings-nav button[aria-selected="true"] { background:var(--primary-soft); border-color:var(--primary); color:var(--primary-text); }
+.app-settings-panels { min-width:0; max-width:900px; }
+.app-settings-panel { padding:clamp(16px,3vw,30px); background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); box-shadow:var(--shadow-xs); }
+.app-settings-panel h2 { font-size:22px; margin:0 0 8px; }
+.app-settings-panel h3 { font-size:16px; margin:0 0 10px; }
+.app-settings-help { font-size:13px; line-height:1.65; color:var(--muted); margin:8px 0 16px; overflow-wrap:anywhere; }
+.app-settings-panel .app-theme-options { margin-top:24px; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); }
+.app-settings-theme-option { min-height:62px; font-size:13px; }
+.app-settings-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; margin-top:24px; }
+.app-settings-panel .field { display:flex; flex-direction:column; gap:8px; margin:0; min-width:0; }
+.app-settings-panel .field>label,.app-settings-checkbox label { font-size:13px; font-weight:700; color:var(--text); }
+.app-settings-panel .field>input,.app-settings-panel .field>select { width:100%; min-width:0; min-height:46px; box-sizing:border-box; background:var(--surface); color:var(--text); border:1px solid var(--border-strong); border-radius:var(--radius-md); padding:10px 12px; font:inherit; }
+.app-settings-panel .field>input[readonly] { color:var(--muted); }
+.app-settings-panel .field .app-settings-help { margin:0; }
+.app-settings-checkbox { display:flex; align-items:start; gap:12px; }
+.app-settings-checkbox>input { width:22px; height:22px; flex:none; margin:0; accent-color:var(--primary); }
+.app-settings-checkbox label { display:block; cursor:pointer; }
+.app-settings-preview { display:flex; align-items:center; flex-wrap:wrap; gap:var(--app-density-gap); padding:var(--app-density-space); margin-top:24px; border:1px solid var(--border); border-radius:var(--radius-lg); background:var(--surface-muted); }
+.app-settings-preview>div { flex:1 1 180px; }
+.app-settings-preview .app-settings-help { margin:4px 0 0; }
+.app-settings-preview-chip { display:inline-flex; align-items:center; min-height:32px; padding:4px 12px; border-radius:var(--app-radius-circle); background:var(--primary-soft); color:var(--primary-text); font-size:12px; font-weight:700; }
+.app-settings-form { display:grid; gap:18px; margin-top:24px; max-width:560px; }
+.app-settings-form>.button { justify-self:start; }
+.app-settings-actions { display:flex; flex-wrap:wrap; gap:12px; }
+.app-settings-panel .button { min-height:44px; white-space:normal; }
+.app-settings-divider { border-top:1px solid var(--border); padding-top:24px; margin-top:28px; }
+.app-settings-confirm { padding:18px; margin-top:20px; border:1px solid var(--danger); border-radius:var(--radius-md); background:var(--danger-soft); color:var(--text); }
+.app-settings-confirm p { font-size:13px; line-height:1.6; margin:0 0 16px; }
+.app-settings-danger.button-secondary { color:var(--danger-text); border-color:var(--danger-text); }
+.app-settings-danger.button-primary { background:var(--danger-soft); border-color:var(--danger-text); color:var(--danger-text); }
+.app-settings-layout :is(button,input,select):focus-visible { outline:3px solid var(--primary-text); outline-offset:3px; }
+.app-settings-panel input[aria-invalid="true"] { border-color:var(--danger); }
+.app-settings-accent-option[data-accent="blue"] { --app-swatch:var(--app-accent-blue); }
+.app-settings-accent-option[data-accent="emerald"] { --app-swatch:var(--app-accent-emerald); }
+.app-settings-accent-option[data-accent="violet"] { --app-swatch:var(--app-accent-violet); }
+.app-settings-accent-option[data-accent="amber"] { --app-swatch:var(--app-accent-amber); }
+.app-settings-accent-option[data-accent="sky"] { --app-swatch:var(--app-accent-sky); }
+.app-settings-accent-option[data-accent="pink"] { --app-swatch:var(--app-accent-pink); }
+.app-settings-accent-option[data-accent="lavender"] { --app-swatch:var(--app-accent-lavender); }
+.app-settings-accent-option[data-accent="mint"] { --app-swatch:var(--app-accent-mint); }
+.app-settings-accent-option[data-accent="peach"] { --app-swatch:var(--app-accent-peach); }
+.app-settings-accent-option[data-accent="babyblue"] { --app-swatch:var(--app-accent-babyblue); }
+.app-settings-accent-option[data-accent="red"] { --app-swatch:var(--app-accent-red); }
+[data-app-density="compact"] .app-task-row.task-row,[data-app-density="compact"] .app-dashboard-card,[data-app-density="compact"] .app-board-card { padding:var(--app-density-space); }
+[data-app-density="compact"] .app-task-stats { gap:var(--app-density-gap); }
+.app-task-board[data-app-show-completed="false"] { grid-template-columns:repeat(3,minmax(260px,1fr)); }
+@media (min-width:1280px) { .app-task-board[data-app-show-completed="false"] { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media (max-width:767px) { .app-settings-layout { grid-template-columns:1fr; gap:16px; } .app-settings-nav { position:static; } .app-settings-fields { grid-template-columns:1fr; gap:22px; } .app-settings-preview>.button { width:100%; } }
+[data-app-motion="reduce"] *,[data-app-motion="reduce"] *::before,[data-app-motion="reduce"] *::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; }
+.app-notification-tabs button:focus-visible,.app-notification-dropdown-footer a:focus-visible { outline:3px solid var(--primary); outline-offset:3px; }

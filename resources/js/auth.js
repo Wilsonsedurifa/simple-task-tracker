@@ -1,3 +1,4 @@
+// : existing UI behavior and lifecycle, initialized explicitly by the app boot.
 document.querySelectorAll('[data-password-toggle]').forEach((button)=>button.addEventListener('click',()=>{const input=document.getElementById(button.dataset.passwordToggle);const visible=input.type==='password';input.type=visible?'text':'password';button.textContent=visible?'Hide':'Show';button.setAttribute('aria-label',visible?'Hide password':'Show password');button.setAttribute('aria-pressed',String(visible));}));
 const password=document.querySelector('input[name="password"]'),hint=document.querySelector('[data-password-hint]');if(password&&hint)password.addEventListener('input',()=>hint.classList.toggle('is-valid',password.value.length>=8));
 document.querySelector('[data-register-form]')?.addEventListener('submit',()=>{const button=document.querySelector('[data-submit]');button.disabled=true;button.textContent='Creating account...'});

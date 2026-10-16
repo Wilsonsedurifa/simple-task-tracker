@@ -1,0 +1,7 @@
+<div id="app-notification-dropdown" class="app-notification-dropdown" popover="auto" role="dialog" aria-labelledby="app-notification-dropdown-title" tabindex="-1">
+    <header class="app-notification-dropdown-header"><div><h2 id="app-notification-dropdown-title">Notifications</h2><p class="app-dashboard-hint" id="app-notification-preview-summary">Your latest task reminders</p></div><button id="app-notification-close" type="button" class="app-task-action" aria-label="Close notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 6 12 12 M18 6 6 18"/></svg></button></header>
+    <p class="app-notification-storage-note" data-app-notification-storage role="status" hidden>Read status is temporary in this tab because browser storage is unavailable.</p>
+    <div id="app-notification-preview-error" class="app-task-error" role="alert" hidden></div>
+    <div id="app-notification-preview" class="app-notification-preview" aria-busy="true"><div class="app-task-skeleton" aria-hidden="true"></div><div class="app-task-skeleton" aria-hidden="true"></div></div>
+    <footer class="app-notification-dropdown-footer"><button type="button" class="app-clear-filters" data-app-mark-all disabled>Mark all as read</button><a id="app-notification-view-all" class="app-dashboard-link" href="{{ route('notifications') }}">View all <span aria-hidden="true">→</span></a></footer>
+</div>

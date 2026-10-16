@@ -1,0 +1,7 @@
+/* themes — accent-and-species-tokens; original cascade segment 43. */
+[data-species="cat"] { --pet-fur:#e8b56e; --pet-patch:#a36a30; }
+[data-species="dog"] { --pet-fur:#d4a478; --pet-patch:#72513a; }
+[data-species="bunny"] { --pet-fur:#f1d8e8; --pet-patch:#bc7c9f; }
+[data-species="fox"] { --pet-fur:#e79a61; --pet-patch:#8c4a32; }
+[data-species="dragon"] { --pet-fur:#8cc9b5; --pet-patch:#4d8c84; }
+[data-species="panda"] { --pet-fur:#ece8e2; --pet-patch:#554e64; }
