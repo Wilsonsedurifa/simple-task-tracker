@@ -1,3 +1,4 @@
+// calendar/labels: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appCalendarDate } from './data.js';
 import { appLocalDate, appMinimumDueDate } from '../../core/dates.js';
 export function appToday() { const now = new Date(); return appCalendarDate(now.getFullYear(), now.getMonth(), now.getDate()); }

@@ -57,7 +57,8 @@ try {
     await page.waitForURL(url=>url.pathname==='/calendar');
     await page.waitForFunction(()=>document.querySelector('#sidebar-task-count')?.textContent==='4');
     assert.equal(reads,1,'Calendar performs one shared fetch');
-    if (process.argv.includes('--landing-only')) await lpLandingChecks(browser,env.APP_URL);
+    if (process.argv.includes('--settings-only')) await appSettingsChecks(page,browser,env.APP_URL);
+    else if (process.argv.includes('--landing-only')) await lpLandingChecks(browser,env.APP_URL);
     else if (process.argv.includes('--mobile-account-only')) await appMobileAccountChecks(page,browser,env.APP_URL);
     else if (process.argv.includes('--mobile-calendar-only')) await appMobileCalendarChecks(page,browser,env.APP_URL);
     else if (process.argv.includes('--mobile-tasks-only')) await appMobileTaskChecks(page,browser,env.APP_URL);

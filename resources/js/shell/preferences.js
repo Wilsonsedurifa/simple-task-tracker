@@ -1,9 +1,11 @@
+// preferences: existing UI behavior and lifecycle, initialized explicitly by the app boot.
+import { APP_STORAGE } from '../core/constants.js';
 import { appWriteStorage, appReadJsonStorage } from '../core/storage.js';
 const appDefaults = { defaultView: 'board', defaultSort: 'priority', weekStart: 'monday', showCompleted: true, density: 'comfortable', motion: 'system', showPet: true, reducePetMotion: false };
 const appChoices = { defaultView: ['board', 'list'], defaultSort: ['priority', 'deadline'], weekStart: ['monday', 'sunday'], density: ['comfortable', 'compact'], motion: ['system', 'reduce'] };
 let appMemory = null;
 export function appSettingsKey() {
-    return 'app-settings:' + (document.body?.dataset.appUserId || 'guest');
+    return APP_STORAGE.settings + (document.body?.dataset.appUserId || 'guest');
 }
 export function appReadSettings() {
     let values = appMemory;

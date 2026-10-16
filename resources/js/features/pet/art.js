@@ -1,3 +1,4 @@
+// pet/art: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appSvgElement as appPetShape } from '../../core/dom.js';
 // Original geometric artwork. One rig per species; level/mood classes swap
 // posture, face, proportions and accessories without loading images or fonts.

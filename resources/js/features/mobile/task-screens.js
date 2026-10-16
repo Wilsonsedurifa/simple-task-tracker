@@ -1,3 +1,4 @@
+// mobile/task screens: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { APP_MOBILE_QUERY } from '../../core/constants.js';
 import { appMobileElement } from './components.js';
 import { appIcon } from '../tasks/row.js';

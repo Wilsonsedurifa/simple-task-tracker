@@ -1,3 +1,4 @@
+// dashboard/data: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appLocalDate } from '../../core/dates.js';
 
 export function appGreeting(date, name = '') {

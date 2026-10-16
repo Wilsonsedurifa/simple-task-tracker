@@ -1,15 +1,15 @@
+// dashboard: existing UI behavior and lifecycle, initialized explicitly by the app boot.
+import { APP_STORAGE } from '../core/constants.js';
 import { appInitQuickAdd } from '../features/dashboard/quick-add.js';
-import { APP_API } from '../core/constants.js';
 import { appReadStorage, appWriteStorage } from '../core/storage.js';
-import { appGet, appElement as appNode } from '../core/dom.js';
+import { appGet, appText, appElement as appNode } from '../core/dom.js';
 import { appTaskState } from '../core/state.js';
-import { appToast } from '../core/api.js';
+import { appToast } from '../core/toast.js';
 import { appLocalDate, appDateInput, appTaskGroup } from '../core/dates.js';
-import { appGreeting, appCompletionDays, appRecentCompleted, appRelativeTime } from '../features/dashboard/data.js';
+import { appGreeting, appRecentCompleted } from '../features/dashboard/data.js';
 import { appTaskNode, appIcon } from '../features/tasks/row.js';
 import { appOpenTask, appOpenCreate, appOpenDelete } from '../features/task-dialog/dialog.js';
 
-function appText(id, text) { const node = appGet(id); if (node) node.textContent = String(text); }
 function appEmpty(title, copy, action = null, label = 'Add a task') {
     const empty = appNode('div', 'app-designed-empty app-dashboard-empty');
     empty.append(appIcon('check'), appNode('h3', '', title), appNode('p', '', copy));
@@ -27,7 +27,7 @@ export function appInitDashboard() {
     const root = document.querySelector('.app-dashboard-grid');
     if (!root) return;
     let appTab = 'deadlines', appDay = '';
-    { const saved = appReadStorage('app-dashboard-tab').value; if (['deadlines', 'active', 'done'].includes(saved)) appTab = saved; }
+    { const saved = appReadStorage(APP_STORAGE.dashboardTab).value; if (['deadlines', 'active', 'done'].includes(saved)) appTab = saved; }
     function appHeader() {
         const now = new Date(), firstName = document.querySelector('.user-name')?.textContent.trim().split(/\s+/)[0] || '';
         appText('db-greeting', appGreeting(now, firstName));
@@ -43,7 +43,7 @@ export function appInitDashboard() {
             if (panel) panel.hidden = name !== tab;
         }
         if (focus) appGet('app-tab-' + tab)?.focus();
-        appWriteStorage('app-dashboard-tab', tab);
+        appWriteStorage(APP_STORAGE.dashboardTab, tab);
     }
     function appWeek(open, today, overdue) {
         const strip = appGet('app-week-strip'), actions = appGet('app-week-actions');

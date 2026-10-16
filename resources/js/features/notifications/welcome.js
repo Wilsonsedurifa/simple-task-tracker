@@ -1,10 +1,12 @@
+// notifications/welcome: existing UI behavior and lifecycle, initialized explicitly by the app boot.
+import { APP_STORAGE } from '../../core/constants.js';
 import { appReadStorage, appWriteStorage } from '../../core/storage.js';
 const appWelcomeMemory = new Map();
 
 // A local, one-time greeting, not a pushed message or an assigned task.
 export function appReadWelcome(userId, create = false) {
     if (!userId) return null;
-    const key = 'app-notifications-welcome:' + userId;
+    const key = APP_STORAGE.welcome + userId;
     let timestamp = appWelcomeMemory.get(key);
     { const saved = Number(appReadStorage(key).value); if (saved > 0 && Number.isFinite(saved)) timestamp = saved; }
     if (!timestamp && create) {

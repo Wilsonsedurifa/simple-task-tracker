@@ -1,4 +1,7 @@
-import { appRequest, appToast, appAssertOnline } from './api.js';
+// state: existing UI behavior and lifecycle, initialized explicitly by the app boot.
+import { APP_API } from './constants.js';
+import { appRequest, appAssertOnline } from './api.js';
+import { appToast } from './toast.js';
 import { appDateOnly } from './dates.js';
 
 let appTasks = [];
@@ -47,7 +50,7 @@ export const appTaskState = {
         appTasks = appTasks.map(task => task === original ? optimistic : task);
         appPublish();
         try {
-            const result = await appRequest('/api/tasks/' + id + endpoint, { method: 'PATCH', ...(completed ? {} : { body: JSON.stringify({ stage: destination }) }) });
+            const result = await appRequest(APP_API.tasks + '/' + id + endpoint, { method: 'PATCH', ...(completed ? {} : { body: JSON.stringify({ stage: destination }) }) });
             if (completed) appPublishReward(result);
         } catch (error) {
             appMoves.delete(key);
@@ -73,7 +76,7 @@ export const appTaskState = {
         if (appLoaded && !force && sort === appSort) return appTasks;
         appSort = sort === 'priority' ? 'priority' : 'deadline';
         const version = ++appVersion;
-        appPending = appRequest('/api/tasks?sort=' + appSort).then(tasks => {
+        appPending = appRequest(APP_API.tasks + '?sort=' + appSort).then(tasks => {
             if (!Array.isArray(tasks)) throw Error('Unexpected task response. Please reload.');
             if (version === appVersion) {
                 appTasks = tasks.map(task => appMoves.get(String(task.id)) || appNormalizeTask(task));

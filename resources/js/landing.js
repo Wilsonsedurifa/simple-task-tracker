@@ -1,3 +1,4 @@
+// : existing UI behavior and lifecycle, initialized explicitly by the app boot.
 function lpInit(name, init) {
     try { init(); } catch (error) { console.error('Landing ' + name + ':', error); }
 }

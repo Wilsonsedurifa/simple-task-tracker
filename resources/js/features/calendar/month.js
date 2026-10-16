@@ -1,9 +1,8 @@
-import { appGet, appElement as appNode } from '../../core/dom.js';
-import { appTaskState } from '../../core/state.js';
+// calendar/month: existing UI behavior and lifecycle, initialized explicitly by the app boot.
+import { appElement as appNode } from '../../core/dom.js';
 import { appDateInput, appLocalDate } from '../../core/dates.js';
-import { appCalendarDate, appCalendarMonthKey, appCalendarDays, appCalendarWeek } from './data.js';
-import { appToday, appMinimumDate, appCanCreate, appDateLabel, appTaskCount } from './labels.js';
-import { appTaskNode } from '../tasks/row.js';
+import { appCalendarMonthKey, appCalendarDays } from './data.js';
+import { appToday, appCanCreate, appDateLabel, appTaskCount } from './labels.js';
 
 function appPill(task) {
     const completed = task.status === 'completed', overdue = !completed && appLocalDate(task.due_date) < appToday();

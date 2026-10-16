@@ -1,3 +1,4 @@
+// board/dnd: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 export function appInitDnd(board, appMove) {
     let appDragId = null;
     board.addEventListener('dragstart', event => {

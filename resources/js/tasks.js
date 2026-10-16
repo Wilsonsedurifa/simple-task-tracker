@@ -1,5 +1,6 @@
+// App entry: initialize the shared shell, then load only the active page controller.
 import { appTaskState, appInitTaskBadge } from './core/state.js';
-import { appOpenCreate, appInitDialogs } from './features/task-dialog/dialog.js';
+import { appInitDialogs } from './features/task-dialog/dialog.js';
 
 import { appInitAppearance } from './shell/appearance.js';
 import { appInitShell } from './shell/nav.js';

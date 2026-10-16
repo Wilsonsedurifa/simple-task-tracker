@@ -1,3 +1,4 @@
+// notifications/derive: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appLocalDate, appDateInput } from '../../core/dates.js';
 import { appRelativeTime } from '../dashboard/data.js';
 

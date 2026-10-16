@@ -1,8 +1,8 @@
+// dashboard/quick add: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { APP_API } from '../../core/constants.js';
-import { appGet, appElement as appNode } from '../../core/dom.js';
+import { appGet, appText, appElement as appNode } from '../../core/dom.js';
 import { appTaskState } from '../../core/state.js';
 import { appToast } from '../../core/toast.js';
-function appText(id, text) { const node = appGet(id); if (node) node.textContent = String(text); }
 export function appInitQuickAdd() {
     let appSubmitting = false;
     const form = appGet('app-quick-form'), details = appGet('app-quick-details'), toggle = appGet('app-quick-toggle'), description = appGet('app-quick-description');

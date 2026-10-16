@@ -12,20 +12,20 @@
 
 ## Feature inventory (regression checklist)
 
-- [ ] Guest marketing page, four independent themes, menu, FAQ, local pet demo, no-JS fallback.
-- [ ] Login/register validation, Google auth routes, intended URL, Continue, protected routes, POST/CSRF logout confirmation.
-- [ ] Single owner-scoped task state/fetch; CSRF, 401/419 flows, offline prevention/no queue, navigation badges.
-- [ ] Tasks server priority/deadline sorting; URL/search/status/stage/priority/date filters; counts and removable chips.
-- [ ] Board/list preferences; four board stages, native DnD, accessible Move menu, optimistic rollback.
-- [ ] Shared create/edit/details/delete dialogs; deep links/Back, focus, changed-only edits, old deadlines, description maximum and discard guard.
-- [ ] Dashboard greeting/date, summaries, progress, seven-day chart/table, Quick add, persisted side-panel tabs/week filtering.
-- [ ] Calendar month/week navigation, local-date bucketing, keyboard grid, day popover, past-date create guard, Unscheduled.
-- [ ] Derived notifications, per-user/cross-tab read state, dropdown/All/Unread/mark-all, midnight IDs, local Welcome.
-- [ ] Settings appearance/preferences/profile/password/export CSV/JSON/completed bulk delete, inline errors and confirmations.
-- [ ] Pet adoption/species/rename, original SVG levels/moods, reward-once/cap/streak, celebrations, badges and visibility preferences.
-- [ ] Five app themes, per-theme accents, no flash, density/motion, keyboard focus, reduced motion and responsive shell.
-- [ ] Mobile Home/Tasks/Add/Edit/Details/Calendar/Profile/Settings/Notifications; shared sheets, swipe, keyboard viewport handling.
-- [ ] Error pages, retry/empty/loading states, safe text rendering, no client task sorting.
+- [x] Guest marketing page, four independent themes, menu, FAQ, local pet demo, no-JS fallback.
+- [x] Login/register validation, Google auth routes, intended URL, Continue, protected routes, POST/CSRF logout confirmation.
+- [x] Single owner-scoped task state/fetch; CSRF, 401/419 flows, offline prevention/no queue, navigation badges.
+- [x] Tasks server priority/deadline sorting; URL/search/status/stage/priority/date filters; counts and removable chips.
+- [x] Board/list preferences; four board stages, native DnD, accessible Move menu, optimistic rollback.
+- [x] Shared create/edit/details/delete dialogs; deep links/Back, focus, changed-only edits, old deadlines, description maximum and discard guard.
+- [x] Dashboard greeting/date, summaries, progress, seven-day chart/table, Quick add, persisted side-panel tabs/week filtering.
+- [x] Calendar month/week navigation, local-date bucketing, keyboard grid, day popover, past-date create guard, Unscheduled.
+- [x] Derived notifications, per-user/cross-tab read state, dropdown/All/Unread/mark-all, midnight IDs, local Welcome.
+- [x] Settings appearance/preferences/profile/password/export CSV/JSON/completed bulk delete, inline errors and confirmations.
+- [x] Pet adoption/species/rename, original SVG levels/moods, reward-once/cap/streak, celebrations, badges and visibility preferences.
+- [x] Five app themes, per-theme accents, no flash, density/motion, keyboard focus, reduced motion and responsive shell.
+- [x] Mobile Home/Tasks/Add/Edit/Details/Calendar/Profile/Settings/Notifications; shared sheets, swipe, keyboard viewport handling.
+- [x] Error pages, retry/empty/loading states, safe text rendering, no client task sorting.
 
 ## File inventory / responsibilities
 
@@ -89,3 +89,7 @@ Adaptation rule: do not create empty/stub target files merely to match a suggest
 ## Commits / phase order
 
 0–1 baseline/map → 2 core extraction → 3 order-preserving CSS → 4 feature modules/dynamic page boot → 5 Blade composition → 6 PHP/services/requests/resources/tests → 7 proven cleanup/documentation/final audit. Each phase is independently gated and committed.
+
+## Completed verification
+
+All phase gates passed and each phase is committed. Final PHP: **94 tests / 848 assertions**. Final build: PASS. Full browser interactions: PASS with zero baseline JS errors/warnings. Final visual check: **72/72 identical screenshots, zero geometry differences**. Original CSS hash and byte count are unchanged. See `REFACTOR_REPORT.md` for exact bundle/file measurements, feature results, adaptations and the explicitly retained long-initializer limitations; `REFACTOR_CHANGED_FILES.md` lists every changed path.

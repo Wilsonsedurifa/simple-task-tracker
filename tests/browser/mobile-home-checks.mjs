@@ -55,6 +55,7 @@ export async function appMobileHomeChecks(page, browser, base) {
     await mobile.locator('.app-mobile-home-actions a').filter({ hasText: 'Filter' }).click();
     await mobile.locator('#app-mobile-picker').waitFor({ state: 'visible' });
     await mobile.keyboard.press('Escape');
+    await mobile.waitForFunction(() => document.documentElement.dataset.appMobileHistoryBusy !== 'true');
     await mobile.goto(base + '/dashboard');
     for (const width of [768, 1024, 1280, 1920]) {
         await mobile.setViewportSize({ width, height: 950 });

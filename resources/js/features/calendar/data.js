@@ -1,3 +1,4 @@
+// calendar/data: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appDateInput } from '../../core/dates.js';
 
 export function appCalendarDate(year, month, day = 1) {

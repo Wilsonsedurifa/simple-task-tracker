@@ -1,8 +1,6 @@
-import { appReadSettings, appSaveSettings } from '../../shell/preferences.js';
-import { appTaskState } from '../../core/state.js';
-import { appRequest, appToast } from '../../core/api.js';
-import { appTasksCsv } from './data-export.js';
-import { appDateInput } from '../../core/dates.js';
+// settings/account: existing UI behavior and lifecycle, initialized explicitly by the app boot.
+import { appRequest } from '../../core/api.js';
+import { appToast } from '../../core/toast.js';
 
 import { appClearErrors, appShowErrors } from './errors.js';
 

@@ -1,3 +1,4 @@
+// board/board: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appGet } from '../../core/dom.js';
 import { appReadSettings } from '../../shell/preferences.js';
 import { appTaskNode } from '../tasks/row.js';

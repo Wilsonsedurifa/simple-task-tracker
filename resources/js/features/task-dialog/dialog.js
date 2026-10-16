@@ -1,9 +1,10 @@
+// task dialog/dialog: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appRenderView } from './view-panel.js';
 import { APP_MOBILE_QUERY, APP_API } from '../../core/constants.js';
-import { appGet } from '../../core/dom.js';
+import { appGet, appText } from '../../core/dom.js';
 import { appTaskState } from '../../core/state.js';
-import { appToast } from '../../core/api.js';
-import { appDateInput, appDueLabel, appMinimumDueDate } from '../../core/dates.js';
+import { appToast } from '../../core/toast.js';
+import { appDateInput, appMinimumDueDate } from '../../core/dates.js';
 
 const appLabels = { todo: 'To do', in_progress: 'In progress', review: 'Review' };
 let appActive = null;
@@ -14,7 +15,6 @@ let appCreatedStage = 'todo';
 let appDiscardAction = null;
 let appKeepAction = null;
 let appMode = 'view';
-function appText(id, text) { const element = appGet(id); if (element) element.textContent = text; }
 function appValues(prefix) {
     const form = appGet(prefix === 'create' ? 'task-form' : 'edit-task-form');
     return {
@@ -149,7 +149,7 @@ export function appInitDialogs() {
         const values=appValues('create'), button=appGet('submit-button');appSaving=true;if(button)button.disabled=true;appError('create');
         try{
             const task=await appTaskState.mutate(APP_API.tasks,'POST',{...values,description:values.description || null,due_date:values.due_date || null});
-            if(appCreatedStage==='completed')await appTaskState.mutate('/api/tasks/'+task.id+'/complete','PATCH');
+            if(appCreatedStage==='completed')await appTaskState.mutate(APP_API.tasks + '/'+task.id+'/complete','PATCH');
             create?.close();appToast('Task created.');
         }catch(error){appError('create',error);}finally{appSaving=false;if(button)button.disabled=false;}
     });
@@ -157,7 +157,7 @@ export function appInitDialogs() {
     appGet('edit-task-form')?.addEventListener('submit',async event=>{
         event.preventDefault();const changes=appChanges();if(appSaving||!Object.keys(changes).length)return;
         appSaving=true;appCounter('edit');appError('edit');
-        try{await appTaskState.mutate('/api/tasks/'+appActive,'PATCH',changes);appSetMode('view');const task=appTaskState.tasks.find(task=>task.id===appActive);if(task)appRenderView(task);appToast('Changes saved.');appGet('detail-edit-btn')?.focus();}
+        try{await appTaskState.mutate(APP_API.tasks + '/'+appActive,'PATCH',changes);appSetMode('view');const task=appTaskState.tasks.find(task=>task.id===appActive);if(task)appRenderView(task);appToast('Changes saved.');appGet('detail-edit-btn')?.focus();}
         catch(error){if(error.status===404){view?.close();appUpdateUrl(null);appToast('This task was deleted or is no longer available.','error');await appTaskState.load({force:true}).catch(()=>{});}else appError('edit',error);}
         finally{appSaving=false;appCounter('edit');}
     });
@@ -166,11 +166,11 @@ export function appInitDialogs() {
     appGet('detail-close-btn')?.addEventListener('click',()=>appGuard(appCloseTask));
     appGet('detail-delete-btn')?.addEventListener('click',()=>{const bar=appGet('app-drawer-delete');if(bar)bar.hidden=false;appGet('app-cancel-drawer-delete')?.focus();});
     appGet('app-cancel-drawer-delete')?.addEventListener('click',()=>{const bar=appGet('app-drawer-delete');if(bar)bar.hidden=true;appGet('detail-delete-btn')?.focus();});
-    appGet('app-confirm-drawer-delete')?.addEventListener('click',async event=>{if(appSaving)return;appSaving=true;event.currentTarget.disabled=true;try{await appTaskState.mutate('/api/tasks/'+appActive,'DELETE');view?.close();appUpdateUrl(null);appToast('Task deleted.');}catch(error){appToast(error.message,'error');}finally{appSaving=false;appGet('app-confirm-drawer-delete')?.removeAttribute('disabled');}});
+    appGet('app-confirm-drawer-delete')?.addEventListener('click',async event=>{if(appSaving)return;appSaving=true;event.currentTarget.disabled=true;try{await appTaskState.mutate(APP_API.tasks + '/'+appActive,'DELETE');view?.close();appUpdateUrl(null);appToast('Task deleted.');}catch(error){appToast(error.message,'error');}finally{appSaving=false;appGet('app-confirm-drawer-delete')?.removeAttribute('disabled');}});
     for(const [id,stage] of [['app-detail-start','in_progress'],['app-detail-review','review']])appGet(id)?.addEventListener('click',async event=>{if(appSaving)return;appSaving=true;event.currentTarget.disabled=true;try{await appTaskState.move(appActive,stage);appToast('Moved to '+appLabels[stage]+'.');}catch(error){appToast(error.message,'error');}finally{appSaving=false;appGet(id)?.removeAttribute('disabled');}});
     appGet('app-clear-due')?.addEventListener('click',()=>{const field=appGet('app-edit-due');if(field)field.value='';appCounter('edit');});
     appGet('detail-complete-btn')?.addEventListener('click',async event=>{if(appSaving)return;appSaving=true;event.currentTarget.disabled=true;try{await appToggleTask(appActive);}catch(error){appToast(error.message,'error');}finally{appSaving=false;appGet('detail-complete-btn')?.removeAttribute('disabled');}});
-    appGet('confirm-delete-button')?.addEventListener('click',async event=>{if(appSaving)return;appSaving=true;event.currentTarget.disabled=true;try{await appTaskState.mutate('/api/tasks/'+appActive,'DELETE');appGet('delete-modal')?.close();view?.close();appUpdateUrl(null);appToast('Task deleted.');}catch(error){appToast(error.message,'error');}finally{appSaving=false;appGet('confirm-delete-button')?.removeAttribute('disabled');}});
+    appGet('confirm-delete-button')?.addEventListener('click',async event=>{if(appSaving)return;appSaving=true;event.currentTarget.disabled=true;try{await appTaskState.mutate(APP_API.tasks + '/'+appActive,'DELETE');appGet('delete-modal')?.close();view?.close();appUpdateUrl(null);appToast('Task deleted.');}catch(error){appToast(error.message,'error');}finally{appSaving=false;appGet('confirm-delete-button')?.removeAttribute('disabled');}});
     view?.addEventListener('cancel',event=>{event.preventDefault();appGuard(appCloseTask);});
     let backdrop=false;view?.addEventListener('pointerdown',event=>{backdrop=event.target===view;});
     view?.addEventListener('click',event=>{const rect=view.getBoundingClientRect();if(backdrop&&event.target===view&&(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom))appGuard(appCloseTask);backdrop=false;});

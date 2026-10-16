@@ -1,3 +1,4 @@
+// appearance: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appReadStorage, appWriteStorage } from '../core/storage.js';
 const appModes = ['light', 'dark', 'system', 'kawaii', 'racing'];
 const appNormalAccents = ['blue', 'emerald', 'violet', 'amber', 'sky'];

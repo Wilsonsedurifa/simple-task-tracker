@@ -1,14 +1,15 @@
+// pet/widget: existing UI behavior and lifecycle, initialized explicitly by the app boot.
+import { appGet as appPetGet, appElement as appPetNode } from '../../core/dom.js';
 import { APP_API } from '../../core/constants.js';
 import { appReadStorage, appWriteStorage } from '../../core/storage.js';
 import { appTaskState } from '../../core/state.js';
-import { appRequest, appToast } from '../../core/api.js';
+import { appRequest } from '../../core/api.js';
+import { appToast } from '../../core/toast.js';
 import { appReadSettings, appReducedMotion } from '../../shell/preferences.js';
 import { appPetMood, appPetBadges } from './data.js';
 import { appPetArt } from './art.js';
 import { appCloseOnBackdrop } from '../../shell/appearance.js';
 
-const appPetGet = id => document.getElementById(id);
-const appPetNode = (tag, className, text) => { const node = document.createElement(tag); if (className) node.className = className; if (text !== undefined) node.textContent = text; return node; };
 let appPet = null, appPetLoaded = false, appPetVersion = 0, appPetBurstUntil = 0, appPetLastTouch = 0, appPetReturnFocus = null;
 let appPetLevels = [], appPetError = false, appPetBurstTimer, appPetLastSeen = 0;
 function appPetKey(type) { return 'app-pet-' + type + ':' + (document.body?.dataset.appUserId || 'guest'); }

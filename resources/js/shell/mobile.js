@@ -1,3 +1,4 @@
+// mobile: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { APP_MOBILE_QUERY } from '../core/constants.js';
 import { appOpenCreate } from '../features/task-dialog/dialog.js';
 import { appMobileElement, appMobilePickerSheet } from '../features/mobile/components.js';

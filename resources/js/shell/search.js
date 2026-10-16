@@ -1,3 +1,4 @@
+// search: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appOpenCreate } from '../features/task-dialog/dialog.js';
 
 export function appInitGlobalSearch() {

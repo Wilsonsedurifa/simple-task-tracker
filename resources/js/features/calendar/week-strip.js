@@ -1,3 +1,4 @@
+// calendar/week strip: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appGet, appElement as appNode } from '../../core/dom.js';
 import { appTaskState } from '../../core/state.js';
 import { appDateInput, appLocalDate } from '../../core/dates.js';

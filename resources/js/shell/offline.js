@@ -1,4 +1,5 @@
-import { appToast } from '../core/api.js';
+// offline: existing UI behavior and lifecycle, initialized explicitly by the app boot.
+import { appToast } from '../core/toast.js';
 
 const appMutationControls = 'button[type="submit"], [data-action="toggle-check"], [data-action="delete"], #detail-complete-btn, #app-detail-start, #app-detail-review, #app-confirm-delete-completed, [data-app-mutation]';
 export function appInitOffline() {

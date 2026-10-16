@@ -1,3 +1,5 @@
+// notifications/page: existing UI behavior and lifecycle, initialized explicitly by the app boot.
+import { APP_STORAGE } from '../../core/constants.js';
 import { APP_MOBILE_QUERY } from '../../core/constants.js';
 import { appGet, appElement as appNode } from '../../core/dom.js';
 import { appTaskState } from '../../core/state.js';
@@ -5,7 +7,7 @@ import { appSetUnreadCount } from '../../shell/nav.js';
 import { appOpenTask } from '../task-dialog/dialog.js';
 import { appIcon } from '../tasks/row.js';
 import { appDateInput } from '../../core/dates.js';
-import { appToast } from '../../core/api.js';
+import { appToast } from '../../core/toast.js';
 import { appDeriveNotifications, appLatestNotifications, appNotificationTypes, appNotificationGroup, appNotificationRelative } from './derive.js';
 import { appNotificationReadKey, appReadNotificationState, appSaveNotificationState } from './read-state.js';
 import { appReadWelcome, appMobileNotificationTime } from './welcome.js';
@@ -16,7 +18,7 @@ export function appInitNotifications() {
     if (!bell || !dropdown || !preview) return;
     const userId = document.body.dataset.appUserId || '', storageKey = appNotificationReadKey(userId);
     let saved = appReadNotificationState(userId), items = [], filter = 'all', error = null;
-    const appPhone = matchMedia(APP_MOBILE_QUERY), appWelcomeKey = 'app-notifications-welcome:' + userId;
+    const appPhone = matchMedia(APP_MOBILE_QUERY), appWelcomeKey = APP_STORAGE.welcome + userId;
     function appBuildItems(tasks) {
         items = appDeriveNotifications(tasks);
         const welcome = appPhone.matches ? appReadWelcome(userId, document.body.dataset.page === 'notifications') : null;

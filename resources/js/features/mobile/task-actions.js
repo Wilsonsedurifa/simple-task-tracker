@@ -1,5 +1,7 @@
+// mobile/task actions: existing UI behavior and lifecycle, initialized explicitly by the app boot.
+import { APP_API } from '../../core/constants.js';
 import { appTaskState } from '../../core/state.js';
-import { appToast } from '../../core/api.js';
+import { appToast } from '../../core/toast.js';
 import { appOpenTask } from '../task-dialog/dialog.js';
 import { appMobileElement, appMobileSheet } from './components.js';
 
@@ -37,7 +39,7 @@ export function appOpenMobileTaskActions(id, trigger) {
     appMoves.append(appButton('Back', () => { appMoves.hidden = true; appActions.hidden = false; appActions.querySelector('button')?.focus(); }));
     const appConfirm = appMobileElement('section', 'app-drawer-confirm'); appConfirm.hidden = true;
     appConfirm.append(appMobileElement('h3', '', 'Delete this task?'), appMobileElement('p', '', 'This cannot be undone.'));
-    appConfirm.append(appButton('Keep task', () => { appConfirm.hidden = true; appActions.hidden = false; appActions.querySelector('button')?.focus(); }), appButton('Yes, delete', () => appMutate(() => appTaskState.mutate('/api/tasks/' + id, 'DELETE'), 'Task deleted.'), true));
+    appConfirm.append(appButton('Keep task', () => { appConfirm.hidden = true; appActions.hidden = false; appActions.querySelector('button')?.focus(); }), appButton('Yes, delete', () => appMutate(() => appTaskState.mutate(APP_API.tasks + '/' + id, 'DELETE'), 'Task deleted.'), true));
     appActions.append(
         appButton('View details', () => appAfterClose(() => appOpenTask(id, { trigger }))),
         appButton('Edit task', () => appAfterClose(() => appOpenTask(id, { trigger, edit: true }))),

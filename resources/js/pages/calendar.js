@@ -1,14 +1,15 @@
+// calendar: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appMobileCalendarRow } from '../features/calendar/week-strip.js';
-import { appToday, appMinimumDate, appCanCreate, appDateLabel, appTaskCount } from '../features/calendar/labels.js';
+import { appToday, appCanCreate, appDateLabel, appTaskCount } from '../features/calendar/labels.js';
 import { APP_MOBILE_QUERY } from '../core/constants.js';
 import { appGet, appElement as appNode } from '../core/dom.js';
 import { appTaskState } from '../core/state.js';
-import { appDateInput, appLocalDate, appMinimumDueDate } from '../core/dates.js';
+import { appDateInput, appLocalDate } from '../core/dates.js';
 import { appReadWeekStart } from '../shell/preferences.js';
-import { appCalendarDate, appCalendarMonth, appCalendarMonthKey, appCalendarDays, appCalendarWeek, appCalendarBuckets } from '../features/calendar/data.js';
+import { appCalendarDate, appCalendarMonth, appCalendarMonthKey, appCalendarWeek, appCalendarBuckets } from '../features/calendar/data.js';
 import { appOpenTask, appOpenCreate, appOpenDelete } from '../features/task-dialog/dialog.js';
-import { appTaskNode, appIcon } from '../features/tasks/row.js';
-import { appToast } from '../core/api.js';
+import { appIcon } from '../features/tasks/row.js';
+import { appToast } from '../core/toast.js';
 
 import { appGrid } from '../features/calendar/month.js';
 

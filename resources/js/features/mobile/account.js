@@ -1,3 +1,4 @@
+// mobile/account: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { APP_MOBILE_QUERY } from '../../core/constants.js';
 import { appTaskState } from '../../core/state.js';
 import { appLocalDate } from '../../core/dates.js';

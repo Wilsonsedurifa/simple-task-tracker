@@ -1,3 +1,4 @@
+// toast: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { APP_MOBILE_QUERY } from './constants.js';
 // Accessible notifications, including existing mobile dialog placement.
 export function appToast(message, type = 'success') {

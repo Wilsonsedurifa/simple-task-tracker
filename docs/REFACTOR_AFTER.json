@@ -1,0 +1,2081 @@
+{
+  "sources": [
+    {
+      "file": "tests/browser/workspace.mjs",
+      "lines": 428,
+      "bytes": 33852,
+      "imports": [
+        "node:module",
+        "node:child_process",
+        "node:fs",
+        "node:path",
+        "node:assert/strict",
+        "./dashboard-checks.mjs",
+        "./calendar-checks.mjs",
+        "./notification-checks.mjs",
+        "./settings-checks.mjs",
+        "./pet-checks.mjs",
+        "./mobile-checks.mjs",
+        "./mobile-home-checks.mjs",
+        "./mobile-task-checks.mjs",
+        "./mobile-calendar-checks.mjs",
+        "./mobile-account-checks.mjs",
+        "./landing-checks.mjs"
+      ]
+    },
+    {
+      "file": "tests/Feature/Api/PetTest.php",
+      "lines": 279,
+      "bytes": 14123,
+      "imports": []
+    },
+    {
+      "file": "config/session.php",
+      "lines": 233,
+      "bytes": 8423,
+      "imports": []
+    },
+    {
+      "file": "tests/Feature/Api/TaskApiTest.php",
+      "lines": 224,
+      "bytes": 6709,
+      "imports": []
+    },
+    {
+      "file": "tests/browser/notification-checks.mjs",
+      "lines": 214,
+      "bytes": 19259,
+      "imports": [
+        "node:assert/strict"
+      ]
+    },
+    {
+      "file": "resources/js/pages/tasks.js",
+      "lines": 203,
+      "bytes": 15331,
+      "imports": [
+        "../features/board/move-menu.js",
+        "../features/tasks/list.js",
+        "../features/board/board.js",
+        "../features/board/dnd.js",
+        "../features/tasks/filters.js",
+        "../core/constants.js",
+        "../core/dom.js",
+        "../core/state.js",
+        "../core/toast.js",
+        "../features/task-dialog/dialog.js",
+        "../core/dates.js",
+        "../features/tasks/row.js",
+        "../shell/preferences.js"
+      ]
+    },
+    {
+      "file": "resources/js/features/pet/widget.js",
+      "lines": 201,
+      "bytes": 16303,
+      "imports": [
+        "../../core/dom.js",
+        "../../core/constants.js",
+        "../../core/storage.js",
+        "../../core/state.js",
+        "../../core/api.js",
+        "../../core/toast.js",
+        "../../shell/preferences.js",
+        "./data.js",
+        "./art.js",
+        "../../shell/appearance.js"
+      ]
+    },
+    {
+      "file": "tests/browser/settings-checks.mjs",
+      "lines": 201,
+      "bytes": 16022,
+      "imports": [
+        "node:assert/strict",
+        "node:fs/promises",
+        "../../resources/js/features/settings/data-export.js"
+      ]
+    },
+    {
+      "file": "resources/css/features/013-legacy-task-list.css",
+      "lines": 200,
+      "bytes": 4081,
+      "imports": []
+    },
+    {
+      "file": "resources/css/layout/009-sidebar.css",
+      "lines": 196,
+      "bytes": 3498,
+      "imports": []
+    },
+    {
+      "file": "resources/css/features/020-legacy-inspector.css",
+      "lines": 195,
+      "bytes": 3457,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/notifications/page.js",
+      "lines": 194,
+      "bytes": 15360,
+      "imports": [
+        "../../core/constants.js",
+        "../../core/constants.js",
+        "../../core/dom.js",
+        "../../core/state.js",
+        "../../shell/nav.js",
+        "../task-dialog/dialog.js",
+        "../tasks/row.js",
+        "../../core/dates.js",
+        "../../core/toast.js",
+        "./derive.js",
+        "./read-state.js",
+        "./welcome.js"
+      ]
+    },
+    {
+      "file": "resources/css/features/018-legacy-board.css",
+      "lines": 193,
+      "bytes": 3595,
+      "imports": []
+    },
+    {
+      "file": "resources/js/pages/calendar.js",
+      "lines": 191,
+      "bytes": 16579,
+      "imports": [
+        "../features/calendar/week-strip.js",
+        "../features/calendar/labels.js",
+        "../core/constants.js",
+        "../core/dom.js",
+        "../core/state.js",
+        "../core/dates.js",
+        "../shell/preferences.js",
+        "../features/calendar/data.js",
+        "../features/task-dialog/dialog.js",
+        "../features/tasks/row.js",
+        "../core/toast.js",
+        "../features/calendar/month.js",
+        "../features/calendar/day-list.js",
+        "../features/calendar/week-strip.js",
+        "../features/calendar/week-strip.js"
+      ]
+    },
+    {
+      "file": "resources/js/features/task-dialog/dialog.js",
+      "lines": 188,
+      "bytes": 15987,
+      "imports": [
+        "./view-panel.js",
+        "../../core/constants.js",
+        "../../core/dom.js",
+        "../../core/state.js",
+        "../../core/toast.js",
+        "../../core/dates.js"
+      ]
+    },
+    {
+      "file": "config/database.php",
+      "lines": 184,
+      "bytes": 6876,
+      "imports": []
+    },
+    {
+      "file": "resources/js/pages/dashboard.js",
+      "lines": 176,
+      "bytes": 13653,
+      "imports": [
+        "../core/constants.js",
+        "../features/dashboard/quick-add.js",
+        "../core/storage.js",
+        "../core/dom.js",
+        "../core/state.js",
+        "../core/toast.js",
+        "../core/dates.js",
+        "../features/dashboard/data.js",
+        "../features/tasks/row.js",
+        "../features/task-dialog/dialog.js",
+        "../features/dashboard/chart.js",
+        "../features/dashboard/side-row.js"
+      ]
+    },
+    {
+      "file": "tests/browser/calendar-checks.mjs",
+      "lines": 175,
+      "bytes": 15113,
+      "imports": [
+        "node:assert/strict"
+      ]
+    },
+    {
+      "file": "resources/css/landing.css",
+      "lines": 171,
+      "bytes": 16038,
+      "imports": []
+    },
+    {
+      "file": "resources/css/layout/011-topbar.css",
+      "lines": 157,
+      "bytes": 2987,
+      "imports": []
+    },
+    {
+      "file": "config/logging.php",
+      "lines": 140,
+      "bytes": 4606,
+      "imports": []
+    },
+    {
+      "file": "tests/Feature/Pages/GoogleAuthIntentTest.php",
+      "lines": 137,
+      "bytes": 4826,
+      "imports": []
+    },
+    {
+      "file": "config/cache.php",
+      "lines": 136,
+      "bytes": 4369,
+      "imports": []
+    },
+    {
+      "file": "tests/browser/pet-checks.mjs",
+      "lines": 130,
+      "bytes": 10182,
+      "imports": [
+        "node:assert/strict"
+      ]
+    },
+    {
+      "file": "config/queue.php",
+      "lines": 129,
+      "bytes": 4199,
+      "imports": []
+    },
+    {
+      "file": "tests/Feature/Pages/WorkspaceTest.php",
+      "lines": 128,
+      "bytes": 6153,
+      "imports": []
+    },
+    {
+      "file": "tests/browser/mobile-task-checks.mjs",
+      "lines": 127,
+      "bytes": 13230,
+      "imports": [
+        "node:assert/strict"
+      ]
+    },
+    {
+      "file": "config/app.php",
+      "lines": 126,
+      "bytes": 4289,
+      "imports": []
+    },
+    {
+      "file": "tests/browser/dashboard-checks.mjs",
+      "lines": 121,
+      "bytes": 10502,
+      "imports": [
+        "node:assert/strict"
+      ]
+    },
+    {
+      "file": "config/auth.php",
+      "lines": 121,
+      "bytes": 4096,
+      "imports": []
+    },
+    {
+      "file": "config/mail.php",
+      "lines": 118,
+      "bytes": 3631,
+      "imports": []
+    },
+    {
+      "file": "resources/css/layout/030-shell-modern.css",
+      "lines": 116,
+      "bytes": 11969,
+      "imports": []
+    },
+    {
+      "file": "resources/js/core/state.js",
+      "lines": 114,
+      "bytes": 5509,
+      "imports": [
+        "./constants.js",
+        "./api.js",
+        "./toast.js",
+        "./dates.js"
+      ]
+    },
+    {
+      "file": "app/Services/PetService.php",
+      "lines": 113,
+      "bytes": 4827,
+      "imports": []
+    },
+    {
+      "file": "resources/css/components/025-dialog.css",
+      "lines": 113,
+      "bytes": 1961,
+      "imports": []
+    },
+    {
+      "file": "resources/css/components/012-stat-cards.css",
+      "lines": 108,
+      "bytes": 1976,
+      "imports": []
+    },
+    {
+      "file": "resources/js/shell/appearance.js",
+      "lines": 108,
+      "bytes": 6285,
+      "imports": [
+        "../core/storage.js"
+      ]
+    },
+    {
+      "file": "resources/js/shell/mobile.js",
+      "lines": 106,
+      "bytes": 8030,
+      "imports": [
+        "../core/constants.js",
+        "../features/task-dialog/dialog.js",
+        "../features/mobile/components.js",
+        "../features/mobile/task-actions.js"
+      ]
+    },
+    {
+      "file": "app/Http/Controllers/GoogleAuthController.php",
+      "lines": 102,
+      "bytes": 3868,
+      "imports": []
+    },
+    {
+      "file": "resources/css/features/005-legacy-dashboard.css",
+      "lines": 102,
+      "bytes": 12617,
+      "imports": []
+    },
+    {
+      "file": "tests/browser/mobile-checks.mjs",
+      "lines": 102,
+      "bytes": 10261,
+      "imports": [
+        "node:assert/strict"
+      ]
+    },
+    {
+      "file": "resources/css/base/048-public-auth.css",
+      "lines": 100,
+      "bytes": 18841,
+      "imports": []
+    },
+    {
+      "file": "tests/Feature/Api/SettingsTest.php",
+      "lines": 98,
+      "bytes": 5158,
+      "imports": []
+    },
+    {
+      "file": "resources/css/components/015-badges.css",
+      "lines": 95,
+      "bytes": 1763,
+      "imports": []
+    },
+    {
+      "file": "resources/css/components/023-forms.css",
+      "lines": 90,
+      "bytes": 1632,
+      "imports": []
+    },
+    {
+      "file": "resources/views/partials/task-create.blade.php",
+      "lines": 90,
+      "bytes": 4457,
+      "imports": []
+    },
+    {
+      "file": "tests/Feature/Api/TaskStagesTest.php",
+      "lines": 89,
+      "bytes": 4174,
+      "imports": []
+    },
+    {
+      "file": "resources/css/features/034-task-list.css",
+      "lines": 86,
+      "bytes": 10487,
+      "imports": []
+    },
+    {
+      "file": "resources/css/features/038-calendar.css",
+      "lines": 86,
+      "bytes": 8784,
+      "imports": []
+    },
+    {
+      "file": "tests/browser/mobile-home-checks.mjs",
+      "lines": 85,
+      "bytes": 6775,
+      "imports": [
+        "node:assert/strict"
+      ]
+    },
+    {
+      "file": "tests/Feature/Pages/PageFlowTest.php",
+      "lines": 85,
+      "bytes": 3901,
+      "imports": []
+    },
+    {
+      "file": "resources/css/auth.css",
+      "lines": 84,
+      "bytes": 7797,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/mobile/task-screens.js",
+      "lines": 84,
+      "bytes": 8010,
+      "imports": [
+        "../../core/constants.js",
+        "./components.js",
+        "../tasks/row.js",
+        "../task-dialog/dialog.js"
+      ]
+    },
+    {
+      "file": "resources/css/features/044-pet.css",
+      "lines": 81,
+      "bytes": 9921,
+      "imports": []
+    },
+    {
+      "file": "config/filesystems.php",
+      "lines": 80,
+      "bytes": 2532,
+      "imports": []
+    },
+    {
+      "file": "app/Services/GoogleAccountService.php",
+      "lines": 79,
+      "bytes": 2461,
+      "imports": []
+    },
+    {
+      "file": "resources/css/features/036-dashboard.css",
+      "lines": 79,
+      "bytes": 8952,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/mobile/home.js",
+      "lines": 79,
+      "bytes": 5434,
+      "imports": [
+        "../../core/constants.js",
+        "../../core/state.js",
+        "../../core/dates.js",
+        "../task-dialog/dialog.js",
+        "./components.js"
+      ]
+    },
+    {
+      "file": "app/Services/GoogleLoginService.php",
+      "lines": 78,
+      "bytes": 2513,
+      "imports": []
+    },
+    {
+      "file": "app/Http/Controllers/TaskController.php",
+      "lines": 77,
+      "bytes": 2625,
+      "imports": []
+    },
+    {
+      "file": "resources/css/mobile/053-tasks.css",
+      "lines": 77,
+      "bytes": 6942,
+      "imports": []
+    },
+    {
+      "file": "resources/js/landing.js",
+      "lines": 77,
+      "bytes": 6959,
+      "imports": []
+    },
+    {
+      "file": "resources/css/components/026-toast.css",
+      "lines": 76,
+      "bytes": 1514,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/calendar/week-strip.js",
+      "lines": 76,
+      "bytes": 6151,
+      "imports": [
+        "../../core/dom.js",
+        "../../core/state.js",
+        "../../core/dates.js",
+        "./data.js",
+        "./labels.js",
+        "../tasks/row.js"
+      ]
+    },
+    {
+      "file": "app/Http/Controllers/AuthController.php",
+      "lines": 74,
+      "bytes": 2309,
+      "imports": []
+    },
+    {
+      "file": "resources/css/layout/027-legacy-responsive.css",
+      "lines": 73,
+      "bytes": 1432,
+      "imports": []
+    },
+    {
+      "file": "tests/Feature/Pages/AccessControlTest.php",
+      "lines": 72,
+      "bytes": 2397,
+      "imports": []
+    },
+    {
+      "file": "app/Services/TaskService.php",
+      "lines": 70,
+      "bytes": 2162,
+      "imports": []
+    },
+    {
+      "file": "resources/css/features/021-legacy-inspector.css",
+      "lines": 68,
+      "bytes": 1272,
+      "imports": []
+    },
+    {
+      "file": "app/Http/Controllers/Auth/EmailVerificationController.php",
+      "lines": 64,
+      "bytes": 1900,
+      "imports": []
+    },
+    {
+      "file": "resources/css/components/022-buttons.css",
+      "lines": 64,
+      "bytes": 1143,
+      "imports": []
+    },
+    {
+      "file": "resources/css/features/014-legacy-task-list.css",
+      "lines": 60,
+      "bytes": 1094,
+      "imports": []
+    },
+    {
+      "file": "database/migrations/0001_01_01_000002_create_jobs_table.php",
+      "lines": 59,
+      "bytes": 1883,
+      "imports": []
+    },
+    {
+      "file": "tests/browser/mobile-calendar-checks.mjs",
+      "lines": 58,
+      "bytes": 6339,
+      "imports": [
+        "node:assert/strict"
+      ]
+    },
+    {
+      "file": "tests/browser/notification-data.mjs",
+      "lines": 58,
+      "bytes": 4323,
+      "imports": [
+        "node:assert/strict",
+        "../../resources/js/features/notifications/derive.js",
+        "../../resources/js/features/notifications/read-state.js"
+      ]
+    },
+    {
+      "file": "resources/js/features/notifications/derive.js",
+      "lines": 56,
+      "bytes": 3090,
+      "imports": [
+        "../../core/dates.js",
+        "../dashboard/data.js"
+      ]
+    },
+    {
+      "file": "tests/Feature/Api/TaskContractTest.php",
+      "lines": 56,
+      "bytes": 2588,
+      "imports": []
+    },
+    {
+      "file": "tests/TaskSorterTest.php",
+      "lines": 56,
+      "bytes": 1669,
+      "imports": []
+    },
+    {
+      "file": "resources/css/features/046-settings.css",
+      "lines": 55,
+      "bytes": 6167,
+      "imports": []
+    },
+    {
+      "file": "resources/css/tasks.css",
+      "lines": 55,
+      "bytes": 2219,
+      "imports": []
+    },
+    {
+      "file": "resources/css/mobile/051-account.css",
+      "lines": 54,
+      "bytes": 5526,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/mobile/task-actions.js",
+      "lines": 54,
+      "bytes": 4363,
+      "imports": [
+        "../../core/constants.js",
+        "../../core/state.js",
+        "../../core/toast.js",
+        "../task-dialog/dialog.js",
+        "./components.js"
+      ]
+    },
+    {
+      "file": "resources/js/shell/nav.js",
+      "lines": 54,
+      "bytes": 3260,
+      "imports": [
+        "./appearance.js"
+      ]
+    },
+    {
+      "file": "resources/css/themes/001-light.css",
+      "lines": 53,
+      "bytes": 1431,
+      "imports": []
+    },
+    {
+      "file": "resources/js/core/dates.js",
+      "lines": 53,
+      "bytes": 2744,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/settings/data.js",
+      "lines": 53,
+      "bytes": 4243,
+      "imports": [
+        "../../core/constants.js",
+        "../../core/state.js",
+        "../../core/toast.js",
+        "./data-export.js",
+        "../../core/dates.js"
+      ]
+    },
+    {
+      "file": "resources/js/tasks.js",
+      "lines": 53,
+      "bytes": 2469,
+      "imports": [
+        "./core/state.js",
+        "./features/task-dialog/dialog.js",
+        "./shell/appearance.js",
+        "./shell/nav.js",
+        "./features/notifications/page.js",
+        "./shell/preferences.js",
+        "./features/pet/widget.js",
+        "./shell/mobile.js",
+        "./features/mobile/task-screens.js",
+        "./features/mobile/account.js",
+        "./shell/offline.js",
+        "./shell/public-auth.js",
+        "./shell/search.js",
+        "./pages/tasks.js",
+        "./pages/dashboard.js",
+        "./features/mobile/home.js",
+        "./pages/calendar.js",
+        "./pages/settings.js"
+      ]
+    },
+    {
+      "file": "resources/views/landing.blade.php",
+      "lines": 53,
+      "bytes": 10699,
+      "imports": []
+    },
+    {
+      "file": "routes/web.php",
+      "lines": 53,
+      "bytes": 2233,
+      "imports": []
+    },
+    {
+      "file": "tests/browser/mobile-desktop-baseline.mjs",
+      "lines": 51,
+      "bytes": 5604,
+      "imports": [
+        "node:module",
+        "node:child_process",
+        "node:fs/promises",
+        "node:assert/strict",
+        "node:path"
+      ]
+    },
+    {
+      "file": "app/Http/Controllers/PetController.php",
+      "lines": 50,
+      "bytes": 1763,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/tasks/row.js",
+      "lines": 50,
+      "bytes": 3302,
+      "imports": [
+        "../../core/state.js",
+        "../../core/dates.js",
+        "../../core/dom.js",
+        "../../core/dom.js"
+      ]
+    },
+    {
+      "file": "tests/browser/landing-checks.mjs",
+      "lines": 50,
+      "bytes": 6581,
+      "imports": [
+        "node:assert/strict"
+      ]
+    },
+    {
+      "file": "resources/css/components/016-empty-and-skeleton.css",
+      "lines": 49,
+      "bytes": 938,
+      "imports": []
+    },
+    {
+      "file": "resources/js/core/api.js",
+      "lines": 49,
+      "bytes": 1982,
+      "imports": [
+        "./toast.js"
+      ]
+    },
+    {
+      "file": "resources/js/features/calendar/month.js",
+      "lines": 49,
+      "bytes": 4046,
+      "imports": [
+        "../../core/dom.js",
+        "../../core/dates.js",
+        "./data.js",
+        "./labels.js"
+      ]
+    },
+    {
+      "file": "resources/js/features/dashboard/quick-add.js",
+      "lines": 49,
+      "bytes": 3785,
+      "imports": [
+        "../../core/constants.js",
+        "../../core/dom.js",
+        "../../core/state.js",
+        "../../core/toast.js"
+      ]
+    },
+    {
+      "file": "database/migrations/0001_01_01_000000_create_users_table.php",
+      "lines": 49,
+      "bytes": 1473,
+      "imports": []
+    },
+    {
+      "file": "resources/css/features/035-drawer.css",
+      "lines": 47,
+      "bytes": 4501,
+      "imports": []
+    },
+    {
+      "file": "resources/css/themes/002-dark.css",
+      "lines": 47,
+      "bytes": 1253,
+      "imports": []
+    },
+    {
+      "file": "tests/browser/refactor-visual.mjs",
+      "lines": 47,
+      "bytes": 6618,
+      "imports": [
+        "node:module",
+        "node:child_process",
+        "node:fs/promises",
+        "node:crypto",
+        "node:path",
+        "node:assert/strict"
+      ]
+    },
+    {
+      "file": "resources/css/features/019-legacy-board.css",
+      "lines": 46,
+      "bytes": 972,
+      "imports": []
+    },
+    {
+      "file": "resources/css/features/039-notifications.css",
+      "lines": 46,
+      "bytes": 5767,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/dashboard/data.js",
+      "lines": 46,
+      "bytes": 2280,
+      "imports": [
+        "../../core/dates.js"
+      ]
+    },
+    {
+      "file": "resources/css/base/007-reset.css",
+      "lines": 44,
+      "bytes": 709,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/calendar.blade.php",
+      "lines": 44,
+      "bytes": 5448,
+      "imports": []
+    },
+    {
+      "file": "config/services.php",
+      "lines": 44,
+      "bytes": 1219,
+      "imports": []
+    },
+    {
+      "file": "resources/js/shell/preferences.js",
+      "lines": 43,
+      "bytes": 2582,
+      "imports": [
+        "../core/constants.js",
+        "../core/storage.js"
+      ]
+    },
+    {
+      "file": "resources/views/tasks/index.blade.php",
+      "lines": 43,
+      "bytes": 4093,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/partials/sidebar.blade.php",
+      "lines": 43,
+      "bytes": 4122,
+      "imports": []
+    },
+    {
+      "file": "resources/css/components/017-view-switcher.css",
+      "lines": 42,
+      "bytes": 850,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/calendar/data.js",
+      "lines": 42,
+      "bytes": 1601,
+      "imports": [
+        "../../core/dates.js"
+      ]
+    },
+    {
+      "file": "tests/Unit/PetServiceTest.php",
+      "lines": 42,
+      "bytes": 2066,
+      "imports": []
+    },
+    {
+      "file": "app/Models/Task.php",
+      "lines": 41,
+      "bytes": 967,
+      "imports": []
+    },
+    {
+      "file": "app/Models/User.php",
+      "lines": 41,
+      "bytes": 1024,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/mobile/components.js",
+      "lines": 41,
+      "bytes": 4199,
+      "imports": [
+        "../../core/dom.js",
+        "../tasks/row.js",
+        "../../shell/appearance.js",
+        "../../core/dom.js"
+      ]
+    },
+    {
+      "file": "resources/css/mobile/054-home.css",
+      "lines": 40,
+      "bytes": 4136,
+      "imports": []
+    },
+    {
+      "file": "resources/views/auth/login.blade.php",
+      "lines": 40,
+      "bytes": 2570,
+      "imports": []
+    },
+    {
+      "file": "app/Http/Controllers/Auth/LoginController.php",
+      "lines": 38,
+      "bytes": 1547,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/pet/art.js",
+      "lines": 38,
+      "bytes": 3260,
+      "imports": [
+        "../../core/dom.js"
+      ]
+    },
+    {
+      "file": "resources/views/layouts/app.blade.php",
+      "lines": 38,
+      "bytes": 2501,
+      "imports": []
+    },
+    {
+      "file": "tests/browser/mobile-account-checks.mjs",
+      "lines": 38,
+      "bytes": 6511,
+      "imports": [
+        "node:assert/strict"
+      ]
+    },
+    {
+      "file": "resources/js/features/board/move-menu.js",
+      "lines": 37,
+      "bytes": 2484,
+      "imports": [
+        "../../core/dom.js"
+      ]
+    },
+    {
+      "file": "resources/js/features/mobile/account.js",
+      "lines": 37,
+      "bytes": 3366,
+      "imports": [
+        "../../core/constants.js",
+        "../../core/state.js",
+        "../../core/dates.js",
+        "./components.js",
+        "../tasks/row.js"
+      ]
+    },
+    {
+      "file": "resources/views/auth/register.blade.php",
+      "lines": 37,
+      "bytes": 2792,
+      "imports": []
+    },
+    {
+      "file": "resources/views/partials/task-dialog.blade.php",
+      "lines": 37,
+      "bytes": 4709,
+      "imports": []
+    },
+    {
+      "file": "app/Providers/AppServiceProvider.php",
+      "lines": 36,
+      "bytes": 989,
+      "imports": []
+    },
+    {
+      "file": "resources/css/layout/031-shell-modern.css",
+      "lines": 36,
+      "bytes": 3297,
+      "imports": []
+    },
+    {
+      "file": "resources/css/mobile/052-calendar.css",
+      "lines": 36,
+      "bytes": 3886,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/settings/account.js",
+      "lines": 36,
+      "bytes": 2291,
+      "imports": [
+        "../../core/api.js",
+        "../../core/toast.js",
+        "./errors.js"
+      ]
+    },
+    {
+      "file": "database/migrations/2026_10_15_140000_create_pets_and_add_task_xp_awarded_at.php",
+      "lines": 36,
+      "bytes": 1233,
+      "imports": []
+    },
+    {
+      "file": "database/migrations/0001_01_01_000001_create_cache_table.php",
+      "lines": 35,
+      "bytes": 873,
+      "imports": []
+    },
+    {
+      "file": "resources/views/partials/task-delete.blade.php",
+      "lines": 34,
+      "bytes": 1282,
+      "imports": []
+    },
+    {
+      "file": "tests/Feature/Pages/MobileFoundationTest.php",
+      "lines": 34,
+      "bytes": 1466,
+      "imports": []
+    },
+    {
+      "file": "resources/css/base.css",
+      "lines": 32,
+      "bytes": 2833,
+      "imports": []
+    },
+    {
+      "file": "app/Http/Controllers/SettingsController.php",
+      "lines": 31,
+      "bytes": 940,
+      "imports": []
+    },
+    {
+      "file": "tests/Feature/Pages/LandingPageTest.php",
+      "lines": 31,
+      "bytes": 1206,
+      "imports": []
+    },
+    {
+      "file": "database/migrations/2026_09_30_043704_create_tasks_table.php",
+      "lines": 31,
+      "bytes": 745,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/task-dialog/view-panel.js",
+      "lines": 30,
+      "bytes": 3092,
+      "imports": [
+        "../../core/constants.js",
+        "../../core/dom.js",
+        "../../core/state.js",
+        "../../core/dates.js"
+      ]
+    },
+    {
+      "file": "tests/browser/calendar-data.mjs",
+      "lines": 29,
+      "bytes": 2275,
+      "imports": [
+        "node:assert/strict",
+        "../../resources/js/features/calendar/data.js",
+        "../../resources/js/core/dates.js"
+      ]
+    },
+    {
+      "file": "resources/js/features/settings/sections.js",
+      "lines": 28,
+      "bytes": 1572,
+      "imports": []
+    },
+    {
+      "file": "resources/js/shell/offline.js",
+      "lines": 28,
+      "bytes": 2109,
+      "imports": [
+        "../core/toast.js"
+      ]
+    },
+    {
+      "file": "resources/js/features/pet/data.js",
+      "lines": 27,
+      "bytes": 2266,
+      "imports": [
+        "../../core/dates.js"
+      ]
+    },
+    {
+      "file": "resources/js/features/settings/errors.js",
+      "lines": 27,
+      "bytes": 1729,
+      "imports": []
+    },
+    {
+      "file": "resources/css/layout/010-sidebar.css",
+      "lines": 26,
+      "bytes": 440,
+      "imports": []
+    },
+    {
+      "file": "database/migrations/2026_10_14_052638_add_user_id_to_tasks_table.php",
+      "lines": 26,
+      "bytes": 635,
+      "imports": []
+    },
+    {
+      "file": "app/Http/Controllers/Auth/RegisterController.php",
+      "lines": 25,
+      "bytes": 766,
+      "imports": []
+    },
+    {
+      "file": "app/Models/Pet.php",
+      "lines": 25,
+      "bytes": 584,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/calendar/day-list.js",
+      "lines": 25,
+      "bytes": 1778,
+      "imports": [
+        "../../core/dom.js",
+        "../../core/dates.js",
+        "./labels.js",
+        "../tasks/row.js"
+      ]
+    },
+    {
+      "file": "tests/Feature/Pages/MobileHomeTest.php",
+      "lines": 25,
+      "bytes": 914,
+      "imports": []
+    },
+    {
+      "file": "app/Http/Requests/UpdateTaskRequest.php",
+      "lines": 24,
+      "bytes": 520,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/notifications/read-state.js",
+      "lines": 24,
+      "bytes": 1287,
+      "imports": [
+        "../../core/constants.js",
+        "../../core/storage.js"
+      ]
+    },
+    {
+      "file": "tests/Feature/Pages/MobileCalendarTest.php",
+      "lines": 24,
+      "bytes": 913,
+      "imports": []
+    },
+    {
+      "file": "tests/Feature/Pages/MobileTasksTest.php",
+      "lines": 24,
+      "bytes": 895,
+      "imports": []
+    },
+    {
+      "file": "app/Http/Requests/JsonFormRequest.php",
+      "lines": 23,
+      "bytes": 569,
+      "imports": []
+    },
+    {
+      "file": "app/Http/Requests/UpdatePasswordRequest.php",
+      "lines": 23,
+      "bytes": 880,
+      "imports": []
+    },
+    {
+      "file": "resources/js/core/dom.js",
+      "lines": 23,
+      "bytes": 1572,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/dashboard/chart.js",
+      "lines": 23,
+      "bytes": 1654,
+      "imports": [
+        "../../core/dom.js",
+        "./data.js"
+      ]
+    },
+    {
+      "file": "resources/js/features/notifications/welcome.js",
+      "lines": 23,
+      "bytes": 1317,
+      "imports": [
+        "../../core/constants.js",
+        "../../core/storage.js"
+      ]
+    },
+    {
+      "file": "resources/js/shell/search.js",
+      "lines": 23,
+      "bytes": 1197,
+      "imports": [
+        "../features/task-dialog/dialog.js"
+      ]
+    },
+    {
+      "file": "resources/views/tasks/dashboard.blade.php",
+      "lines": 23,
+      "bytes": 1291,
+      "imports": []
+    },
+    {
+      "file": "database/migrations/2026_10_14_060000_add_google_id_to_users_table.php",
+      "lines": 23,
+      "bytes": 581,
+      "imports": []
+    },
+    {
+      "file": "database/migrations/2026_10_15_000000_add_due_dates_to_tasks_table.php",
+      "lines": 23,
+      "bytes": 629,
+      "imports": []
+    },
+    {
+      "file": "app/Http/Requests/StoreTaskRequest.php",
+      "lines": 22,
+      "bytes": 674,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/board/dnd.js",
+      "lines": 22,
+      "bytes": 1687,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/settings/preferences.js",
+      "lines": 22,
+      "bytes": 1319,
+      "imports": [
+        "../../shell/preferences.js",
+        "../../core/toast.js"
+      ]
+    },
+    {
+      "file": "resources/views/pages/placeholder.blade.php",
+      "lines": 22,
+      "bytes": 1161,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/settings.blade.php",
+      "lines": 22,
+      "bytes": 1255,
+      "imports": []
+    },
+    {
+      "file": "tests/Feature/Pages/ExampleTest.php",
+      "lines": 22,
+      "bytes": 467,
+      "imports": []
+    },
+    {
+      "file": "tests/Feature/Pages/MobileAccountTest.php",
+      "lines": 22,
+      "bytes": 877,
+      "imports": []
+    },
+    {
+      "file": "tests/Feature/Pages/PetPageTest.php",
+      "lines": 22,
+      "bytes": 812,
+      "imports": []
+    },
+    {
+      "file": "database/migrations/2026_10_15_130000_add_stage_to_tasks_table.php",
+      "lines": 22,
+      "bytes": 505,
+      "imports": []
+    },
+    {
+      "file": "app/Http/Requests/SavePetRequest.php",
+      "lines": 21,
+      "bytes": 685,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/dashboard/side-row.js",
+      "lines": 21,
+      "bytes": 1185,
+      "imports": [
+        "../../core/dom.js",
+        "../../core/dates.js",
+        "./data.js",
+        "../tasks/row.js"
+      ]
+    },
+    {
+      "file": "resources/views/tasks/notifications.blade.php",
+      "lines": 21,
+      "bytes": 2008,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/partials/mobile-home.blade.php",
+      "lines": 21,
+      "bytes": 2487,
+      "imports": []
+    },
+    {
+      "file": "tests/browser/dashboard-data.mjs",
+      "lines": 21,
+      "bytes": 1587,
+      "imports": [
+        "node:assert/strict",
+        "../../resources/js/features/dashboard/data.js"
+      ]
+    },
+    {
+      "file": "app/Http/Requests/LoginRequest.php",
+      "lines": 20,
+      "bytes": 467,
+      "imports": []
+    },
+    {
+      "file": "app/Http/Requests/RegisterRequest.php",
+      "lines": 20,
+      "bytes": 557,
+      "imports": []
+    },
+    {
+      "file": "resources/js/shell/public-auth.js",
+      "lines": 20,
+      "bytes": 2146,
+      "imports": []
+    },
+    {
+      "file": "tests/browser/task-dates.mjs",
+      "lines": 20,
+      "bytes": 1094,
+      "imports": [
+        "node:assert/strict",
+        "../../resources/js/core/dates.js"
+      ]
+    },
+    {
+      "file": "app/Http/Requests/IndexTaskRequest.php",
+      "lines": 19,
+      "bytes": 373,
+      "imports": []
+    },
+    {
+      "file": "tests/browser/pet-data.mjs",
+      "lines": 19,
+      "bytes": 1658,
+      "imports": [
+        "node:assert/strict",
+        "../../resources/js/features/pet/data.js"
+      ]
+    },
+    {
+      "file": "app/Http/Requests/ReopenTaskRequest.php",
+      "lines": 18,
+      "bytes": 374,
+      "imports": []
+    },
+    {
+      "file": "resources/js/core/toast.js",
+      "lines": 18,
+      "bytes": 929,
+      "imports": [
+        "./constants.js"
+      ]
+    },
+    {
+      "file": "resources/js/features/board/board.js",
+      "lines": 18,
+      "bytes": 1417,
+      "imports": [
+        "../../core/dom.js",
+        "../../shell/preferences.js",
+        "../tasks/row.js"
+      ]
+    },
+    {
+      "file": "resources/js/features/tasks/filters.js",
+      "lines": 18,
+      "bytes": 1468,
+      "imports": [
+        "../../core/dates.js"
+      ]
+    },
+    {
+      "file": "resources/css/components/024-alerts.css",
+      "lines": 17,
+      "bytes": 357,
+      "imports": []
+    },
+    {
+      "file": "resources/css/layout/008-shell.css",
+      "lines": 17,
+      "bytes": 425,
+      "imports": []
+    },
+    {
+      "file": "resources/css/themes/029-accent-and-species-tokens.css",
+      "lines": 17,
+      "bytes": 1025,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/tasks/list.js",
+      "lines": 17,
+      "bytes": 845,
+      "imports": [
+        "../../core/dom.js",
+        "../../core/dates.js",
+        "./row.js"
+      ]
+    },
+    {
+      "file": "resources/views/tasks/partials/mobile-navigation.blade.php",
+      "lines": 17,
+      "bytes": 3560,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/partials/topbar.blade.php",
+      "lines": 17,
+      "bytes": 2454,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/pet.blade.php",
+      "lines": 17,
+      "bytes": 2289,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/settings/account.blade.php",
+      "lines": 17,
+      "bytes": 3007,
+      "imports": []
+    },
+    {
+      "file": "config/pets.php",
+      "lines": 17,
+      "bytes": 525,
+      "imports": []
+    },
+    {
+      "file": "resources/views/auth/continue.blade.php",
+      "lines": 16,
+      "bytes": 566,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/dashboard/side-panel.blade.php",
+      "lines": 16,
+      "bytes": 1703,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/dashboard/stats.blade.php",
+      "lines": 16,
+      "bytes": 1222,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/dashboard/summary.blade.php",
+      "lines": 16,
+      "bytes": 1678,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/partials/mobile-profile.blade.php",
+      "lines": 16,
+      "bytes": 3065,
+      "imports": []
+    },
+    {
+      "file": "routes/auth.php",
+      "lines": 16,
+      "bytes": 884,
+      "imports": []
+    },
+    {
+      "file": "tests/Unit/ExampleTest.php",
+      "lines": 16,
+      "bytes": 243,
+      "imports": []
+    },
+    {
+      "file": "app/Http/Resources/TaskResource.php",
+      "lines": 15,
+      "bytes": 354,
+      "imports": []
+    },
+    {
+      "file": "resources/js/core/storage.js",
+      "lines": 14,
+      "bytes": 675,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/settings/appearance.blade.php",
+      "lines": 14,
+      "bytes": 2489,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/partials/pet-adoption.blade.php",
+      "lines": 13,
+      "bytes": 1757,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/partials/pet-widget.blade.php",
+      "lines": 13,
+      "bytes": 1950,
+      "imports": []
+    },
+    {
+      "file": "app/Notifications/QueuedVerifyEmail.php",
+      "lines": 12,
+      "bytes": 249,
+      "imports": []
+    },
+    {
+      "file": "resources/views/layouts/auth.blade.php",
+      "lines": 12,
+      "bytes": 1305,
+      "imports": []
+    },
+    {
+      "file": "routes/tasks.php",
+      "lines": 12,
+      "bytes": 564,
+      "imports": []
+    },
+    {
+      "file": "app/Http/Requests/UpdateProfileRequest.php",
+      "lines": 11,
+      "bytes": 201,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/settings/data-export.js",
+      "lines": 11,
+      "bytes": 723,
+      "imports": []
+    },
+    {
+      "file": "resources/views/emails/verify.blade.php",
+      "lines": 11,
+      "bytes": 412,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/dashboard/quick-add.blade.php",
+      "lines": 11,
+      "bytes": 1784,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/partials/mobile-header.blade.php",
+      "lines": 11,
+      "bytes": 1518,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/settings/preferences.blade.php",
+      "lines": 11,
+      "bytes": 2763,
+      "imports": []
+    },
+    {
+      "file": "resources/css/features/006-legacy-dashboard.css",
+      "lines": 10,
+      "bytes": 191,
+      "imports": []
+    },
+    {
+      "file": "resources/js/pages/settings.js",
+      "lines": 10,
+      "bytes": 668,
+      "imports": [
+        "../features/settings/sections.js",
+        "../features/settings/preferences.js",
+        "../features/settings/account.js",
+        "../features/settings/data.js"
+      ]
+    },
+    {
+      "file": "resources/views/errors/419.blade.php",
+      "lines": 10,
+      "bytes": 541,
+      "imports": []
+    },
+    {
+      "file": "resources/views/layouts/error.blade.php",
+      "lines": 10,
+      "bytes": 653,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/partials/appearance.blade.php",
+      "lines": 10,
+      "bytes": 1210,
+      "imports": []
+    },
+    {
+      "file": "tests/browser/refactor-inventory.mjs",
+      "lines": 10,
+      "bytes": 1400,
+      "imports": [
+        "node:fs/promises",
+        "node:path"
+      ]
+    },
+    {
+      "file": "tests/TestCase.php",
+      "lines": 10,
+      "bytes": 142,
+      "imports": []
+    },
+    {
+      "file": "resources/css/app.css",
+      "lines": 9,
+      "bytes": 339,
+      "imports": []
+    },
+    {
+      "file": "app/Http/Controllers/Controller.php",
+      "lines": 8,
+      "bytes": 77,
+      "imports": []
+    },
+    {
+      "file": "resources/css/base/028-tokens.css",
+      "lines": 8,
+      "bytes": 819,
+      "imports": []
+    },
+    {
+      "file": "resources/css/themes/003-kawaii.css",
+      "lines": 8,
+      "bytes": 618,
+      "imports": []
+    },
+    {
+      "file": "resources/css/themes/004-racing.css",
+      "lines": 8,
+      "bytes": 629,
+      "imports": []
+    },
+    {
+      "file": "resources/js/features/calendar/labels.js",
+      "lines": 8,
+      "bytes": 871,
+      "imports": [
+        "./data.js",
+        "../../core/dates.js"
+      ]
+    },
+    {
+      "file": "resources/views/auth/partials/sorting-mockup.blade.php",
+      "lines": 8,
+      "bytes": 687,
+      "imports": []
+    },
+    {
+      "file": "resources/views/auth/verify-email.blade.php",
+      "lines": 8,
+      "bytes": 1163,
+      "imports": []
+    },
+    {
+      "file": "resources/views/emails/verify-text.blade.php",
+      "lines": 8,
+      "bytes": 197,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/settings/data.blade.php",
+      "lines": 8,
+      "bytes": 2079,
+      "imports": []
+    },
+    {
+      "file": "routes/console.php",
+      "lines": 8,
+      "bytes": 210,
+      "imports": []
+    },
+    {
+      "file": "routes/pets.php",
+      "lines": 8,
+      "bytes": 248,
+      "imports": []
+    },
+    {
+      "file": "resources/css/themes/043-accent-and-species-tokens.css",
+      "lines": 7,
+      "bytes": 470,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/partials/notification-dropdown.blade.php",
+      "lines": 7,
+      "bytes": 1440,
+      "imports": []
+    },
+    {
+      "file": "resources/css/base/032-tokens.css",
+      "lines": 6,
+      "bytes": 193,
+      "imports": []
+    },
+    {
+      "file": "resources/views/components/google-button.blade.php",
+      "lines": 6,
+      "bytes": 775,
+      "imports": []
+    },
+    {
+      "file": "resources/views/errors/404.blade.php",
+      "lines": 6,
+      "bytes": 370,
+      "imports": []
+    },
+    {
+      "file": "resources/js/auth.js",
+      "lines": 5,
+      "bytes": 1795,
+      "imports": []
+    },
+    {
+      "file": "resources/views/auth/verify-invalid.blade.php",
+      "lines": 5,
+      "bytes": 513,
+      "imports": []
+    },
+    {
+      "file": "resources/css/base/047-tokens.css",
+      "lines": 4,
+      "bytes": 384,
+      "imports": []
+    },
+    {
+      "file": "resources/js/core/constants.js",
+      "lines": 4,
+      "bytes": 388,
+      "imports": []
+    },
+    {
+      "file": "routes/api.php",
+      "lines": 4,
+      "bytes": 172,
+      "imports": []
+    },
+    {
+      "file": "resources/css/base/037-tokens.css",
+      "lines": 3,
+      "bytes": 207,
+      "imports": []
+    },
+    {
+      "file": "resources/css/base/040-tokens.css",
+      "lines": 3,
+      "bytes": 308,
+      "imports": []
+    },
+    {
+      "file": "resources/css/base/045-tokens.css",
+      "lines": 3,
+      "bytes": 185,
+      "imports": []
+    },
+    {
+      "file": "resources/css/base/050-tokens.css",
+      "lines": 3,
+      "bytes": 146,
+      "imports": []
+    },
+    {
+      "file": "resources/css/layout/033-shell-modern.css",
+      "lines": 3,
+      "bytes": 250,
+      "imports": []
+    },
+    {
+      "file": "resources/views/tasks/partials/workspace-dialogs.blade.php",
+      "lines": 3,
+      "bytes": 99,
+      "imports": []
+    },
+    {
+      "file": "resources/css/features/041-pet.css",
+      "lines": 2,
+      "bytes": 165,
+      "imports": []
+    },
+    {
+      "file": "resources/css/mobile/049-foundation.css",
+      "lines": 2,
+      "bytes": 185,
+      "imports": []
+    },
+    {
+      "file": "resources/css/themes/042-kawaii.css",
+      "lines": 2,
+      "bytes": 121,
+      "imports": []
+    },
+    {
+      "file": "resources/views/layouts/partials/offline.blade.php",
+      "lines": 2,
+      "bytes": 265,
+      "imports": []
+    },
+    {
+      "file": "resources/js/app.js",
+      "lines": 1,
+      "bytes": 3,
+      "imports": []
+    },
+    {
+      "file": "resources/views/layouts/partials/theme-boot.blade.php",
+      "lines": 1,
+      "bytes": 591,
+      "imports": []
+    },
+    {
+      "file": "resources/views/partials/logout-modal.blade.php",
+      "lines": 1,
+      "bytes": 575,
+      "imports": []
+    },
+    {
+      "file": "resources/views/partials/page-title.blade.php",
+      "lines": 1,
+      "bytes": 170,
+      "imports": []
+    },
+    {
+      "file": "resources/views/partials/toast-container.blade.php",
+      "lines": 1,
+      "bytes": 58,
+      "imports": []
+    }
+  ],
+  "bundles": [
+    {
+      "entry": "_fonts-C9MNnjVw.css",
+      "file": "assets/fonts-C9MNnjVw.css",
+      "bytes": 2352,
+      "isEntry": false,
+      "imports": [],
+      "dynamicImports": []
+    },
+    {
+      "entry": "_instrument-sans-400-normal-D1W7dsQl.woff",
+      "file": "assets/instrument-sans-400-normal-D1W7dsQl.woff",
+      "bytes": 21240,
+      "isEntry": false,
+      "imports": [],
+      "dynamicImports": []
+    },
+    {
+      "entry": "_instrument-sans-400-normal-DRC__1Mx.woff2",
+      "file": "assets/instrument-sans-400-normal-DRC__1Mx.woff2",
+      "bytes": 16860,
+      "isEntry": false,
+      "imports": [],
+      "dynamicImports": []
+    },
+    {
+      "entry": "_instrument-sans-500-normal-Dk9ku72i.woff2",
+      "file": "assets/instrument-sans-500-normal-Dk9ku72i.woff2",
+      "bytes": 17232,
+      "isEntry": false,
+      "imports": [],
+      "dynamicImports": []
+    },
+    {
+      "entry": "_instrument-sans-500-normal-Z6ESRlEs.woff",
+      "file": "assets/instrument-sans-500-normal-Z6ESRlEs.woff",
+      "bytes": 21652,
+      "isEntry": false,
+      "imports": [],
+      "dynamicImports": []
+    },
+    {
+      "entry": "_instrument-sans-600-normal-B7fBEWYG.woff2",
+      "file": "assets/instrument-sans-600-normal-B7fBEWYG.woff2",
+      "bytes": 17408,
+      "isEntry": false,
+      "imports": [],
+      "dynamicImports": []
+    },
+    {
+      "entry": "_instrument-sans-600-normal-B9e8oLYv.woff",
+      "file": "assets/instrument-sans-600-normal-B9e8oLYv.woff",
+      "bytes": 21676,
+      "isEntry": false,
+      "imports": [],
+      "dynamicImports": []
+    },
+    {
+      "entry": "_storage-BZrz1osv.js",
+      "file": "assets/storage-BZrz1osv.js",
+      "bytes": 6130,
+      "isEntry": false,
+      "imports": [],
+      "dynamicImports": []
+    },
+    {
+      "entry": "resources/css/app.css",
+      "file": "assets/app-C_Aj58yI.css",
+      "bytes": 38888,
+      "isEntry": true,
+      "imports": [],
+      "dynamicImports": []
+    },
+    {
+      "entry": "resources/css/auth.css",
+      "file": "assets/auth-DK5RFqJO.css",
+      "bytes": 9670,
+      "isEntry": true,
+      "imports": [],
+      "dynamicImports": []
+    },
+    {
+      "entry": "resources/css/base.css",
+      "file": "assets/base-B-x5-r9U.css",
+      "bytes": 2601,
+      "isEntry": true,
+      "imports": [],
+      "dynamicImports": []
+    },
+    {
+      "entry": "resources/css/landing.css",
+      "file": "assets/landing-CFbUHZpV.css",
+      "bytes": 15237,
+      "isEntry": true,
+      "imports": [],
+      "dynamicImports": []
+    },
+    {
+      "entry": "resources/css/tasks.css",
+      "file": "assets/tasks-sWIqW6SK.css",
+      "bytes": 141619,
+      "isEntry": true,
+      "imports": [],
+      "dynamicImports": []
+    },
+    {
+      "entry": "resources/js/app.js",
+      "file": "assets/app-BvRk9kiK.js",
+      "bytes": 0,
+      "isEntry": true,
+      "imports": [],
+      "dynamicImports": []
+    },
+    {
+      "entry": "resources/js/auth.js",
+      "file": "assets/auth-CwitMPRE.js",
+      "bytes": 1373,
+      "isEntry": true,
+      "imports": [],
+      "dynamicImports": []
+    },
+    {
+      "entry": "resources/js/features/mobile/home.js",
+      "file": "assets/home-Dg95_hw1.js",
+      "bytes": 3218,
+      "isEntry": false,
+      "imports": [
+        "_storage-BZrz1osv.js",
+        "resources/js/tasks.js"
+      ],
+      "dynamicImports": []
+    },
+    {
+      "entry": "resources/js/landing.js",
+      "file": "assets/landing-Di7jNNHW.js",
+      "bytes": 4623,
+      "isEntry": true,
+      "imports": [],
+      "dynamicImports": []
+    },
+    {
+      "entry": "resources/js/pages/calendar.js",
+      "file": "assets/calendar-qrj-3J75.js",
+      "bytes": 16503,
+      "isEntry": false,
+      "imports": [
+        "_storage-BZrz1osv.js",
+        "resources/js/tasks.js"
+      ],
+      "dynamicImports": []
+    },
+    {
+      "entry": "resources/js/pages/dashboard.js",
+      "file": "assets/dashboard-DqIM-t55.js",
+      "bytes": 11397,
+      "isEntry": false,
+      "imports": [
+        "_storage-BZrz1osv.js",
+        "resources/js/tasks.js"
+      ],
+      "dynamicImports": []
+    },
+    {
+      "entry": "resources/js/pages/settings.js",
+      "file": "assets/settings-Caj2LB7r.js",
+      "bytes": 6692,
+      "isEntry": false,
+      "imports": [
+        "_storage-BZrz1osv.js",
+        "resources/js/tasks.js"
+      ],
+      "dynamicImports": []
+    },
+    {
+      "entry": "resources/js/pages/tasks.js",
+      "file": "assets/tasks-DbbC8474.js",
+      "bytes": 12679,
+      "isEntry": false,
+      "imports": [
+        "_storage-BZrz1osv.js",
+        "resources/js/tasks.js"
+      ],
+      "dynamicImports": []
+    },
+    {
+      "entry": "resources/js/tasks.js",
+      "file": "assets/tasks-BMl7o-Cc.js",
+      "bytes": 69512,
+      "isEntry": true,
+      "imports": [
+        "_storage-BZrz1osv.js"
+      ],
+      "dynamicImports": [
+        "resources/js/pages/tasks.js",
+        "resources/js/pages/dashboard.js",
+        "resources/js/features/mobile/home.js",
+        "resources/js/pages/calendar.js",
+        "resources/js/pages/settings.js"
+      ]
+    }
+  ]
+}

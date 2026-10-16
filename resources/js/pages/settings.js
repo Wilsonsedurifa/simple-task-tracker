@@ -1,3 +1,4 @@
+// settings: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appSettingsTabs } from '../features/settings/sections.js';
 import { appSettingsPreferences } from '../features/settings/preferences.js';
 import { appSettingsAccount } from '../features/settings/account.js';

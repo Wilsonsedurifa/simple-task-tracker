@@ -1,9 +1,7 @@
-import { appGet, appElement as appNode } from '../../core/dom.js';
-import { appLocalDate } from '../../core/dates.js';
-import { appCompletionDays, appRelativeTime } from './data.js';
-import { appTaskNode, appIcon } from '../tasks/row.js';
+// dashboard/chart: existing UI behavior and lifecycle, initialized explicitly by the app boot.
+import { appGet, appText, appElement as appNode } from '../../core/dom.js';
+import { appCompletionDays } from './data.js';
 
-function appText(id, text) { const node = appGet(id); if (node) node.textContent = String(text); }
 export function appChart(tasks) {
     const days = appCompletionDays(tasks), maximum = Math.max(1, ...days.map(day => day.count));
     const total = days.reduce((sum, day) => sum + day.count, 0);

@@ -1,3 +1,4 @@
+// tasks/row: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appTaskState } from '../../core/state.js';
 import { appDueLabel, appLocalDate } from '../../core/dates.js';
 

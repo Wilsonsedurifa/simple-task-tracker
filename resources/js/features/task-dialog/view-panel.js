@@ -1,9 +1,9 @@
+// task dialog/view panel: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { APP_MOBILE_QUERY } from '../../core/constants.js';
-import { appGet } from '../../core/dom.js';
+import { appGet, appText } from '../../core/dom.js';
 import { appTaskState } from '../../core/state.js';
 import { appDateInput, appDueLabel } from '../../core/dates.js';
 const appLabels = { todo: 'To do', in_progress: 'In progress', review: 'Review' };
-function appText(id, text) { const element = appGet(id); if (element) element.textContent = text; }
 export function appRenderView(task) {
     appText('detail-title',task.title);appText('detail-description',task.description || 'No description added.');
     appGet('detail-title')?.setAttribute('title',task.title);

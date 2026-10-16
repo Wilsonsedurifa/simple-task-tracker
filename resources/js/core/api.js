@@ -1,5 +1,5 @@
+// api: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appToast } from './toast.js';
-export { appToast } from './toast.js';
 
 export class AppApiError extends Error {
     constructor(message, errors = {}, status = 0) {

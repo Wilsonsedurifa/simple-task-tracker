@@ -1,3 +1,4 @@
+// mobile/components: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appElement as appMobileElement } from '../../core/dom.js';
 import { appIcon, appTaskNode } from '../tasks/row.js';
 import { appCloseOnBackdrop } from '../../shell/appearance.js';
@@ -10,7 +11,6 @@ export function appMobileStatCard({ label, value, tone = 'accent', icon = 'check
     card.dataset.appTone = tone; const circle = appMobileElement('span', 'app-mobile-stat-icon'); circle.setAttribute('aria-hidden', 'true'); circle.append(appIcon(icon));
     const text = appMobileElement('span'); text.append(appMobileElement('span', '', label), appMobileElement('strong', '', value)); card.append(circle, text); return card;
 }
-export function appMobileChipRow(label) { const row = appMobileElement('div', 'app-mobile-chip-row'); row.setAttribute('role', 'group'); row.setAttribute('aria-label', label); return row; }
 export function appMobileTaskRow(task) { return appTaskNode(task, false); }
 export function appMobileSectionHeader(title, href, linkText = 'View all →') {
     const header = appMobileElement('div', 'app-mobile-section-header'); header.append(appMobileElement('h2', '', title));

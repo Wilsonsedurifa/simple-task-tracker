@@ -1,3 +1,4 @@
+// tasks/list: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appElement } from '../../core/dom.js';
 import { appTaskGroup as appGroup } from '../../core/dates.js';
 import { appTaskNode } from './row.js';

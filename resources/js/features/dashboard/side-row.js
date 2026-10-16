@@ -1,6 +1,7 @@
-import { appGet, appElement as appNode } from '../../core/dom.js';
+// dashboard/side row: existing UI behavior and lifecycle, initialized explicitly by the app boot.
+import { appElement as appNode } from '../../core/dom.js';
 import { appLocalDate } from '../../core/dates.js';
-import { appCompletionDays, appRelativeTime } from './data.js';
+import { appRelativeTime } from './data.js';
 import { appTaskNode, appIcon } from '../tasks/row.js';
 
 export function appSideRow(task, done = false) {

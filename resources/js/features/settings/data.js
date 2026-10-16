@@ -1,6 +1,7 @@
-import { appReadSettings, appSaveSettings } from '../../shell/preferences.js';
+// settings/data: existing UI behavior and lifecycle, initialized explicitly by the app boot.
+import { APP_API } from '../../core/constants.js';
 import { appTaskState } from '../../core/state.js';
-import { appRequest, appToast } from '../../core/api.js';
+import { appToast } from '../../core/toast.js';
 import { appTasksCsv } from './data-export.js';
 import { appDateInput } from '../../core/dates.js';
 
@@ -43,7 +44,7 @@ export function appSettingsData() {
         if (deleting) return; deleting = true; submit.disabled = true; cancel.disabled = true; opener.disabled = true;
         confirm.setAttribute('aria-busy', 'true');
         try {
-            const result = await appTaskState.mutate('/api/tasks/completed', 'DELETE');
+            const result = await appTaskState.mutate(APP_API.tasks + '/completed', 'DELETE');
             const message = 'Deleted ' + result.deleted_count + ' completed task' + (result.deleted_count === 1 ? '' : 's') + '.';
             if (note) note.textContent = message; appToast(message); confirm.hidden = true;
         } catch (error) { if (note) note.textContent = error.message; appToast(error.message, 'error'); }

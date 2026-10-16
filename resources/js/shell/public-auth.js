@@ -1,3 +1,4 @@
+// public auth: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 export function appInitPublicAuth() {
     document.querySelectorAll('[data-password-toggle]').forEach(button => button.addEventListener('click', () => {
         const input = document.getElementById(button.dataset.passwordToggle); if (!input) return;

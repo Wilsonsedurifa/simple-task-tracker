@@ -1,8 +1,6 @@
+// settings/preferences: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appReadSettings, appSaveSettings } from '../../shell/preferences.js';
-import { appTaskState } from '../../core/state.js';
-import { appRequest, appToast } from '../../core/api.js';
-import { appTasksCsv } from './data-export.js';
-import { appDateInput } from '../../core/dates.js';
+import { appToast } from '../../core/toast.js';
 
 
 export function appSettingsPreferences() {

@@ -1,3 +1,4 @@
+// tasks/filters: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appLocalDate } from '../../core/dates.js';
 
 export function appFiltered(tasks, filters, appPhone) {

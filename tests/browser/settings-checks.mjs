@@ -66,7 +66,9 @@ export async function appSettingsChecks(page, browser, base) {
         }
         await page.locator('#app-settings-tab-appearance').click();
         await page.reload();
-    await page.waitForFunction(() => !document.getElementById('app-completed-summary')?.textContent.startsWith('Loading'));
+        await page.waitForFunction(() => !document.getElementById('app-completed-summary')?.textContent.startsWith('Loading')).catch(async error => {
+            throw Error(JSON.stringify({ mode, errors: appErrors, console: appConsole, dataStatus: await page.locator('#app-data-status').textContent() }) + '\n' + error.message);
+        });
         assert.equal(await page.locator('html').getAttribute('data-theme-mode'), mode);
         assert.equal(await page.locator('#app-settings-accents input:checked').inputValue(), await page.locator('html').getAttribute('data-accent'));
     }
@@ -161,6 +163,7 @@ export async function appSettingsChecks(page, browser, base) {
     await other.getByRole('button', { name: 'Continue', exact: true }).click();
     await other.waitForURL('**/dashboard');
     await other.goto(base + '/settings#preferences');
+    await other.waitForFunction(() => /^\d+ completed/.test(document.getElementById('app-completed-summary')?.textContent || ''));
     assert.equal(await other.locator('#app-default-view').inputValue(), 'board');
     assert.equal(await other.locator('#app-default-sort').inputValue(), 'priority');
     await other.locator('#app-week-start').selectOption('sunday');
@@ -171,6 +174,7 @@ export async function appSettingsChecks(page, browser, base) {
     await blockedContext.addInitScript(() => { Storage.prototype.getItem = () => { throw Error('Blocked'); }; Storage.prototype.setItem = () => { throw Error('Blocked'); }; });
     const blocked = await blockedContext.newPage();
     await blocked.goto(base + '/settings#appearance');
+    await blocked.waitForFunction(() => /^\d+ completed/.test(document.getElementById('app-completed-summary')?.textContent || ''));
     await blocked.locator('#app-density').selectOption('compact');
     assert.equal(await blocked.locator('html').getAttribute('data-app-density'), 'compact');
     assert.match(await blocked.locator('#app-settings-status').textContent(), /could not be saved/);

@@ -75,11 +75,13 @@ export async function appPetChecks(main, browser, base) {
     await page.evaluate(() => { document.querySelectorAll('.toast,.app-pet-xp-chip').forEach(node => node.remove()); document.activeElement?.blur(); });
     await page.screenshot({ path: 'storage/app/ui-review/pet-page.png', fullPage: true });
     await page.goto(base + '/settings#preferences');
+    await page.waitForFunction(() => /^\d+ completed/.test(document.getElementById('app-completed-summary')?.textContent || ''));
     await page.locator('#app-show-pet').uncheck();
     assert.equal(await page.locator('#sidebar [data-app-pet-nav]').isVisible(), false);
     await page.goto(base + '/dashboard');
     assert.equal(await page.locator('[data-app-pet-widget]').isVisible(), false);
     await page.goto(base + '/settings#preferences');
+    await page.waitForFunction(() => /^\d+ completed/.test(document.getElementById('app-completed-summary')?.textContent || ''));
     await page.locator('#app-show-pet').check();
     await page.locator('#app-reduce-pet-motion').check();
     await page.goto(base + '/pet');

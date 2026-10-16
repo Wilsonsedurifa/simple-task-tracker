@@ -30,7 +30,9 @@ export async function appMobileChecks(main, browser, base) {
     let reads = 0, writes = 0;
     page.on('request', request => { if (new URL(request.url()).pathname === '/api/tasks' && request.method() === 'GET') reads++; if (new URL(request.url()).pathname.startsWith('/api/') && !['GET', 'HEAD'].includes(request.method())) writes++; });
     for (const route of ['dashboard', 'tasks', 'calendar', 'notifications', 'settings', 'pet']) {
-        const before = reads; await page.goto(base + '/' + route);
+        const before = reads;
+        const initialTasks = page.waitForResponse(response => new URL(response.url()).pathname === '/api/tasks' && response.request().method() === 'GET');
+        await page.goto(base + '/' + route); await initialTasks;
         await page.waitForFunction(() => ![...document.querySelectorAll('main [aria-busy="true"]')].some(node => node.offsetParent !== null));
         assert.equal(reads - before, 1, 'one shared task fetch on ' + route);
         assert.equal(await page.locator('.app-topbar').isVisible(), false); assert.equal(await page.locator('#sidebar').isVisible(), false);

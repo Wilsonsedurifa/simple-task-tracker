@@ -19,3 +19,5 @@ export function appSvgElement(tag, attrs = {}) {
     for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, String(value));
     return node;
 }
+
+export function appText(id, text) { const node = appGet(id); if (node) node.textContent = String(text); }

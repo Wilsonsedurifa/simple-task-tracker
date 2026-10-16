@@ -1,3 +1,4 @@
+// board/move menu: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appElement } from '../../core/dom.js';
 
 export function appInitMoveMenu(appMove, appStageLabels) {

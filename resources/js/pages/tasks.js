@@ -1,3 +1,4 @@
+// tasks: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appInitMoveMenu } from '../features/board/move-menu.js';
 import { appRenderList } from '../features/tasks/list.js';
 import { appRenderBoard } from '../features/board/board.js';
@@ -6,10 +7,10 @@ import { appFiltered } from '../features/tasks/filters.js';
 import { APP_MOBILE_QUERY } from '../core/constants.js';
 import { appGet, appElement as appElement } from '../core/dom.js';
 import { appTaskState } from '../core/state.js';
-import { appToast } from '../core/api.js';
+import { appToast } from '../core/toast.js';
 import { appOpenTask, appOpenDelete, appOpenCreate } from '../features/task-dialog/dialog.js';
-import { appLocalDate, appTaskGroup as appGroup } from '../core/dates.js';
-import { appTaskNode, appIcon } from '../features/tasks/row.js';
+import { appLocalDate } from '../core/dates.js';
+import { appIcon } from '../features/tasks/row.js';
 import { appReadSettings, appSaveSettings, appReducedMotion } from '../shell/preferences.js';
 
 const appStageLabels = { todo: 'To do', in_progress: 'In progress', review: 'Review', completed: 'Completed' };

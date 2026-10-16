@@ -1,3 +1,4 @@
+// dates: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 export function appLocalDate(value) {
     if (value === null || value === undefined || value === '') return null;
     if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {

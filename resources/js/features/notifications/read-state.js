@@ -1,6 +1,8 @@
+// notifications/read state: existing UI behavior and lifecycle, initialized explicitly by the app boot.
+import { APP_STORAGE } from '../../core/constants.js';
 import { appReadStorage, appWriteStorage } from '../../core/storage.js';
 export function appNotificationReadKey(userId) {
-    return userId ? 'app-notifications-read:' + String(userId) : null;
+    return userId ? APP_STORAGE.read + String(userId) : null;
 }
 
 export function appReadNotificationState(userId) {

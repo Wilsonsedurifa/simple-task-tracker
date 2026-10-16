@@ -1,3 +1,4 @@
+// nav: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appOpenAppearance, appCloseOnBackdrop } from './appearance.js';
 
 let appLogoutTrigger = null;
