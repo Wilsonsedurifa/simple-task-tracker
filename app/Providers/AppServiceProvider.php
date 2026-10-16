@@ -22,6 +22,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if ($this->app->environment('production')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         // Browser/feature tests must use built assets even when a developer has Vite running.
         if ($this->app->environment('testing')) {
             Vite::useHotFile(storage_path('framework/testing/vite.hot'));
