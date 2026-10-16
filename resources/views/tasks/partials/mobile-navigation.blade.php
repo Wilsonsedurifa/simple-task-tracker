@@ -1,0 +1,17 @@
+<nav class="app-bottom-nav" aria-label="Main">
+    <a href="{{ route('dashboard') }}" @if(request()->routeIs('dashboard')) aria-current="page" @endif><svg class="app-shell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m3 11 9-8 9 8M5 9v12h5v-7h4v7h5V9"/></svg><span>Home</span></a>
+    <a href="{{ route('calendar') }}" @if(request()->routeIs('calendar')) aria-current="page" @endif><svg class="app-shell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 2v5M16 2v5M3 10h18M5 5h14v16H5z"/></svg><span>Calendar</span></a>
+    <button id="app-mobile-add" type="button" class="app-mobile-add" aria-haspopup="dialog" aria-controls="create-modal"><span class="app-mobile-add-circle"><svg class="app-shell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><span>Add</span></button>
+    <a href="{{ route('tasks') }}" @if(request()->routeIs('tasks')) aria-current="page" @endif><svg class="app-shell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h1M3 12h1M3 18h1"/></svg><span>Tasks</span></a>
+    <a href="{{ route('settings') }}#profile" @if(request()->routeIs('settings')) aria-current="page" @endif><svg class="app-shell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M4 22v-4a8 8 0 0 1 16 0v4"/></svg><span>Profile</span></a>
+</nav>
+<dialog id="app-more" class="app-more-sheet app-mobile-bottom-sheet" data-app-mobile-sheet aria-labelledby="app-more-title">
+    <div class="app-popover-heading"><h2 id="app-more-title">Your workspace</h2><button type="button" class="app-shell-button" data-app-close-more aria-label="Close more navigation">×</button></div>
+    <nav aria-label="More">
+        <a href="{{ route('notifications') }}" data-app-notifications @if(request()->routeIs('notifications')) aria-current="page" @endif><svg class="app-shell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10 21h4"/></svg><span>Notifications</span><span class="app-unread-dot app-notification-count" data-app-unread hidden aria-hidden="true"></span></a>
+        <a href="{{ route('settings') }}"><svg class="app-shell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/></svg><span>Settings</span></a>
+        @if(Route::has('pet'))<a href="{{ route('pet') }}" data-app-pet-nav><svg class="app-shell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 10 5 3 3 12v5a9 5 0 0 0 18 0v-5L19 3l-3 7M8 15h.01M16 15h.01"/></svg><span>My pet</span></a>@endif
+        <button type="button" data-app-appearance aria-haspopup="dialog" aria-controls="app-appearance"><svg class="app-shell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4v16"/></svg><span>Appearance</span></button>
+        <button type="button" id="app-mobile-logout"><svg class="app-shell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 4H5v16h4M14 8l4 4-4 4M8 12h10"/></svg><span>Log out</span></button>
+    </nav>
+</dialog>

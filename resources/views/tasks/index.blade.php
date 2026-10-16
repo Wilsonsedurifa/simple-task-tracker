@@ -1,16 +1,43 @@
-<!doctype html>
-<html lang="en" data-theme="light" data-accent="indigo">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="csrf-token" content="{{ csrf_token() }}"><meta name="color-scheme" content="light dark"><meta name="theme-color" content="#f6f7fb"><title>Simple Task Tracker</title>
-<script>(()=>{try{const s=localStorage,m=s.getItem('task-theme')||'system',a=s.getItem('task-accent')||'indigo',d=matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=m==='system'?(d?'dark':'light'):m;document.documentElement.dataset.themeMode=m;document.documentElement.dataset.accent=a}catch{document.documentElement.dataset.theme='light';document.documentElement.dataset.themeMode='system';document.documentElement.dataset.accent='indigo'}})()</script>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-@vite(['resources/css/tasks.css', 'resources/js/tasks.js'])
-</head>
-<body>
-<header class="topbar"><a class="brand" href="{{ route('tasks') }}">Simple <span>Task Tracker</span></a><div class="header-controls"><div class="theme-control" role="group" aria-label="Theme"><button type="button" data-theme-choice="light">Light</button><button type="button" data-theme-choice="dark">Dark</button><button type="button" data-theme-choice="system">System</button></div><div class="accent-control" role="group" aria-label="Accent color"><button type="button" class="accent-dot indigo" data-accent-choice="indigo" aria-label="Indigo"></button><button type="button" class="accent-dot emerald" data-accent-choice="emerald" aria-label="Emerald"></button><button type="button" class="accent-dot rose" data-accent-choice="rose" aria-label="Rose"></button><button type="button" class="accent-dot amber" data-accent-choice="amber" aria-label="Amber"></button><button type="button" class="accent-dot sky" data-accent-choice="sky" aria-label="Sky"></button></div><form id="logout-form" method="POST" action="{{ route('logout') }}">@csrf<button class="text-button" type="submit">Log out</button></form></div></header>
-<main class="app-shell"><section class="hero"><div><p class="eyebrow">YOUR FOCUS SPACE</p><h1>Keep the next thing <em>clear.</em></h1></div><p>High priority first, then the oldest task.</p></section>
-<section class="summary"><div class="progress-card"><div><span id="task-counter">0 of 0 completed</span><span id="progress-percent">0%</span></div><div id="progress-track" class="progress-track" role="progressbar" aria-label="Completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="progress-bar"></div></div></div><div class="stat"><span>Open</span><strong id="open-count">0</strong></div><div class="stat"><span>Completed</span><strong id="done-count">0</strong></div></section>
-<div class="workspace"><section class="panel composer"><p class="eyebrow">NEW TASK</p><h2>Add to your list</h2><form id="task-form" novalidate><label for="task-title">Title</label><input id="task-title" maxlength="255" placeholder="What needs attention?" required><p id="title-error" class="error" role="alert" hidden></p><label for="task-priority">Priority</label><select id="task-priority"><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select><label for="task-due-date">Due date <span>(optional)</span></label><input id="task-due-date" type="date"><button id="add-task-button" class="primary" type="submit">Add task</button></form></section>
-<section class="panel tasks-panel"><div class="list-heading"><div><p class="eyebrow">TASKS</p><h2>Your list</h2></div><label class="search" for="task-search">⌕<input id="task-search" type="search" placeholder="Search tasks"></label></div><div class="filters"><div role="group" aria-label="Status"><button class="filter active" data-status="all">All</button><button class="filter" data-status="pending">Open</button><button class="filter" data-status="completed">Completed</button></div><div role="group" aria-label="Priority"><button class="filter active" data-priority="all">Any priority</button><button class="filter" data-priority="high">High</button><button class="filter" data-priority="medium">Medium</button><button class="filter" data-priority="low">Low</button></div></div><p id="list-error" class="error" role="alert" hidden></p><div id="task-list" class="task-list" aria-live="polite"></div></section></div></main>
-<dialog id="logout-modal" class="modal" aria-labelledby="logout-title"><form method="POST" action="{{ route('logout') }}">@csrf<h2 id="logout-title">Log out?</h2><p>You can sign back in whenever you need your tasks.</p><div><button id="cancel-logout" type="button" class="secondary">Cancel</button><button class="danger" type="submit">Log out</button></div></form></dialog><div id="toasts" class="toasts" aria-live="polite"></div>
-</body></html>
+@extends('layouts.app')
+@section('title', 'Tasks | Simple Task Tracker')
+@section('page', 'tasks')
+@section('heading', 'Tasks')
+@section('subtitle', 'Loading your tasks…')
+@section('content')
+<section class="app-task-stats" aria-label="Task statistics" aria-live="polite">
+    @foreach (['total' => ['Total', 'M4 5h16v15H4z M8 2v6 M16 2v6 M4 10h16'], 'completed' => ['Completed', 'm5 12 4 4L19 6'], 'pending' => ['In progress', 'M12 3a9 9 0 1 0 9 9 M12 7v5l3 2'], 'overdue' => ['Overdue', 'M12 8v5 M12 17h.01 M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18']] as $key => [$label, $path])
+    <button type="button" class="app-task-stat" data-app-stat="{{ $key }}" aria-pressed="false">
+        <span class="app-stat-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="{{ $path }}"/></svg></span>
+        <span><span class="app-stat-label">{{ $label }}</span><strong id="stat-{{ $key }}">0</strong></span>
+    </button>
+    @endforeach
+</section>
+<section class="app-tasks-workspace" aria-labelledby="tasks-heading">
+    <h2 id="tasks-heading" class="app-sr-only">Task board</h2>
+    <div class="app-task-toolbar">
+        <div class="app-status-control" role="group" aria-label="Status">
+            <button type="button" data-filter="" aria-pressed="true">All <span id="count-all">0</span></button>
+            <button type="button" data-filter="pending" aria-pressed="false">Pending <span id="count-pending">0</span></button>
+            <button type="button" class="app-mobile-only" data-filter="in_progress" aria-pressed="false">In Progress <span id="count-in-progress">0</span></button>
+            <button type="button" data-filter="completed" aria-pressed="false">Completed <span id="count-completed">0</span></button>
+        </div>
+        <label class="app-toolbar-field" for="priority-filter">Priority<select id="priority-filter" class="input"><option value="">Any priority</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></label>
+        <label class="app-toolbar-field app-mobile-only" for="due-filter">Due date<select id="due-filter" class="input"><option value="">Any</option><option value="today">Today</option><option value="overdue">Overdue</option><option value="week">This week</option><option value="none">No deadline</option></select></label>
+        <label class="app-toolbar-field" for="sort-filter">Sort by<select id="sort-filter" class="input"><option value="priority">Default (priority)</option><option value="deadline">Deadline first</option></select></label>
+    </div>
+    <div id="app-filter-chips" class="app-filter-chips" aria-label="Active filters" hidden></div>
+    <p id="app-task-announcement" class="app-sr-only" aria-live="polite" aria-atomic="true"></p>
+    <div id="list-error" class="app-task-error" role="alert" hidden></div>
+    <div id="app-task-empty" class="app-task-empty" hidden></div>
+    <div id="task-list-view" hidden><div id="task-list" class="app-task-list" aria-busy="true"></div></div>
+    <div id="task-board-container" class="app-task-board" tabindex="0" aria-label="Task board. Scroll horizontally to see more columns." aria-busy="true">
+        @foreach (['todo' => 'To do', 'inprogress' => 'In progress', 'review' => 'Review', 'completed' => 'Completed'] as $key => $label)
+        <section class="app-board-column" data-column="{{ $key }}" aria-label="{{ $label }}">
+            <header class="app-column-header"><h3><span class="app-stage-dot app-stage-{{ $key }}" aria-hidden="true"></span>{{ $label }}</h3><span id="count-kanban-{{ $key }}" class="app-column-count">0</span></header>
+            <button type="button" class="app-column-add" data-add-column="{{ $key }}" aria-label="Add task to {{ $label }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14 M5 12h14"/></svg>Add task</button>
+            <div id="cards-kanban-{{ $key }}" class="app-column-cards"></div>
+        </section>
+        @endforeach
+    </div>
+</section>
+@endsection

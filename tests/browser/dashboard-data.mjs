@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import { appGreeting, appCompletionDays, appRecentCompleted, appRelativeTime } from '../../resources/js/modules/app-dashboard-data.js';
+
+assert.equal(appGreeting(new Date(2026, 9, 15, 1), 'Art'), 'Magandang gabi, Art');
+assert.equal(appGreeting(new Date(2026, 9, 15, 8), 'Art'), 'Magandang umaga, Art');
+assert.equal(appGreeting(new Date(2026, 9, 15, 14), 'Art'), 'Magandang hapon, Art');
+assert.equal(appGreeting(new Date(2026, 9, 15, 20)), 'Magandang gabi');
+const now = new Date(2026, 9, 15, 12);
+const ordered = Array.from({ length: 12 }, (_, index) => ({ id: index, status: 'completed', completed_at: new Date(2026, 9, index + 1, 23, 59).getTime() }));
+const selected = appRecentCompleted(ordered);
+assert.deepEqual(selected.map(task => task.id), [4, 5, 6, 7, 8, 9, 10, 11]);
+assert.equal(ordered[0].id, 0, 'selection never changes source ordering');
+const days = appCompletionDays(ordered, now);
+assert.equal(days.length, 7);
+assert.deepEqual(days.map(day => day.date.getDate()), [9, 10, 11, 12, 13, 14, 15]);
+assert.deepEqual(days.map(day => day.count), [1, 1, 1, 1, 0, 0, 0]);
+assert.deepEqual(appCompletionDays([], now).map(day => day.count), [0, 0, 0, 0, 0, 0, 0]);
+assert.equal(appRelativeTime(now.getTime(), now.getTime()), 'Just now');
+assert.equal(appRelativeTime(now.getTime() - 7200000, now.getTime()), '2 hours ago');
+assert.equal(appRelativeTime(null), 'Completion time unavailable');
+console.log('PASS: local greetings, seven local-date chart buckets, latest-eight membership without reordering, and relative completion times.');

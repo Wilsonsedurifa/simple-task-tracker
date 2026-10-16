@@ -1,25 +1,61 @@
-const kawaiiChoice=document.createElement("button");kawaiiChoice.type="button";kawaiiChoice.dataset.themeChoice="kawaii";kawaiiChoice.textContent="Kawaii";document.querySelector(".theme-control")?.append(kawaiiChoice);const dashboardNav=document.createElement("nav");dashboardNav.className="dashboard-nav";dashboardNav.setAttribute("aria-label","Dashboard");[["Overview",".hero"],["My tasks","#task-list"],["Quick add",".composer"]].forEach(([label,target])=>{const link=document.createElement("a");link.href="#";link.textContent=label;link.addEventListener("click",event=>{event.preventDefault();document.querySelector(target)?.scrollIntoView({behavior:"smooth",block:"start"})});dashboardNav.append(link)});document.querySelector(".topbar .brand")?.after(dashboardNav);const decorations=document.createElement("div");decorations.className="kawaii-floaters";decorations.setAttribute("aria-hidden","true");["♥","✦","☁","♡","✧","☁"].forEach(symbol=>{const item=document.createElement("i");item.textContent=symbol;decorations.append(item)});document.body.prepend(decorations);document.addEventListener("visibilitychange",()=>document.documentElement.classList.toggle("tab-hidden",document.hidden));
-const API="/api/tasks",state={tasks:[],status:"all",priority:"all",query:"",newIds:new Set()};
-const $=s=>document.querySelector(s),list=$("#task-list"),form=$("#task-form"),title=$("#task-title"),priority=$("#task-priority"),add=$("#add-task-button"),error=$("#title-error"),listError=$("#list-error"),toasts=$("#toasts");
-const status=t=>t.status||(t.completed?"completed":"pending");
-async function api(url,opt={}){let r;try{r=await fetch(url,{...opt,headers:{Accept:"application/json","Content-Type":"application/json","X-CSRF-TOKEN":$("meta[name='csrf-token']").content,...opt.headers}})}catch{throw Error("Cannot reach the server. Please try again.")}const b=await r.json().catch(()=>null);if(!r.ok){const e=Error(b?.message||"Something went wrong.");e.errors=b?.errors||{};throw e}return b}
-function make(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=String(text);return e}
-function toast(message,type="success",undo){const el=make("div",`toast ${type}`,message);if(undo){const b=make("button","","Undo");b.onclick=()=>{undo();el.remove()};el.append(b)}toasts.append(el);if(!undo)setTimeout(()=>el.remove(),4000)}
-function setError(msg=""){error.textContent=msg;error.hidden=!msg;title.setAttribute("aria-invalid",String(!!msg))}
-function visible(){return state.tasks.filter(t=>(state.status==="all"||status(t)===state.status)&&(state.priority==="all"||t.priority===state.priority)&&String(t.title||"").toLowerCase().includes(state.query))}
-function summary(){const total=state.tasks.length,done=state.tasks.filter(t=>status(t)==="completed").length,pct=total?Math.round(done/total*100):0;$("#task-counter").textContent=`${done} of ${total} completed`;$("#progress-percent").textContent=`${pct}%`;$("#open-count").textContent=total-done;$("#done-count").textContent=done;$("#progress-bar").style.setProperty("--progress",`${pct}%`);$("#progress-track").setAttribute("aria-valuenow",pct)}
-function card(t){const done=status(t)==="completed",el=make("article",`task${done?" completed":""}${state.newIds.has(t.id)?" enter":""}`);el.dataset.id=t.id;const complete=make("button","complete",done?"✓":"");complete.type="button";complete.dataset.action="complete";complete.disabled=done;complete.setAttribute("aria-label",done?"Completed":"Mark complete");const main=make("div","task-main"),h=make("h3","task-title",t.title),badge=make("span",`badge ${t.priority}`,t.priority),del=make("button","delete","Delete");del.type="button";del.dataset.action="delete";del.setAttribute("aria-label",`Delete ${t.title}`);main.append(h);el.append(complete,main,badge,del);return el}
-function render(){list.replaceChildren();listError.hidden=true;const tasks=visible();if(!tasks.length)list.append(make("div","empty",state.tasks.length?"No tasks match these filters.":"Your task list is clear. Add the first one above."));else tasks.forEach(t=>list.append(card(t)));summary();setTimeout(()=>state.newIds.clear(),300)}
-function skeleton(){list.replaceChildren(...Array.from({length:3},()=>make("div","skeleton")))}
-async function load(){skeleton();try{state.tasks=await api(API);render()}catch(e){list.replaceChildren();listError.textContent=e.message;listError.hidden=false;summary()}}
-async function create(){setError();const data={title:title.value.trim(),priority:priority.value,due_date:$("#task-due-date").value||null};if(!data.title)return setError("A task title is required.");add.disabled=true;add.textContent="Adding…";try{const t=await api(API,{method:"POST",body:JSON.stringify(data)});state.tasks.push(t);state.newIds.add(t.id);form.reset();priority.value="medium";render();toast("Task added")}catch(e){setError(e.errors?.title?.[0]||e.errors?.due_date?.[0]||e.message)}finally{add.disabled=false;add.textContent="Add task"}}
-async function complete(id){const i=state.tasks.findIndex(t=>String(t.id)===id),old=state.tasks[i];if(!old)return;state.tasks[i]={...old,status:"completed",completed:true};render();try{await api(`${API}/${id}/complete`,{method:"PATCH"});await load();toast("Task completed")}catch(e){state.tasks[i]=old;render();toast(e.message,"error")}}
-function remove(id){const i=state.tasks.findIndex(t=>String(t.id)===id),old=state.tasks[i];if(!old)return;state.tasks.splice(i,1);render();let undone=false;const timer=setTimeout(async()=>{if(undone)return;try{await api(`${API}/${id}`,{method:"DELETE"});toast("Task deleted")}catch(e){state.tasks.splice(i,0,old);render();toast(e.message,"error")}},5000);toast("Task removed","success",()=>{undone=true;clearTimeout(timer);state.tasks.splice(i,0,old);render();toast("Task restored")})}
-function filter(type,value){state[type]=value;document.querySelectorAll(`[data-${type}]`).forEach(e=>{const active=e.dataset[type]===value;e.classList.toggle("active",active);e.setAttribute("aria-pressed",String(active))});render()}
-function save(k,v){try{localStorage.setItem(k,v)}catch{}}
-function updateThemeColor(){$("meta[name='theme-color']").content=getComputedStyle(document.documentElement).getPropertyValue("--theme-color").trim()}
-function theme(mode){const dark=matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.dataset.themeMode=mode;document.documentElement.dataset.theme=mode==="system"?(dark?"dark":"light"):mode;if(mode==="kawaii"){document.documentElement.dataset.accent="kawaii-pink";save("task-accent-kawaii","kawaii-pink")}document.querySelectorAll("[data-theme-choice]").forEach(e=>e.setAttribute("aria-pressed",String(e.dataset.themeChoice===mode)));save("task-theme",mode);updateThemeColor()}
-function accent(value){document.documentElement.dataset.accent=value;document.querySelectorAll("[data-accent-choice]").forEach(e=>e.setAttribute("aria-pressed",String(e.dataset.accentChoice===value)));save("task-accent",value);updateThemeColor()}
-form.addEventListener("submit",e=>{e.preventDefault();create()});list.addEventListener("click",e=>{const b=e.target.closest("button"),id=e.target.closest(".task")?.dataset.id;if(b?.dataset.action==="complete")complete(id);if(b?.dataset.action==="delete")remove(id)});
-document.querySelectorAll("[data-status]").forEach(e=>e.onclick=()=>filter("status",e.dataset.status));document.querySelectorAll("[data-priority]").forEach(e=>e.onclick=()=>filter("priority",e.dataset.priority));let timer;$("#task-search").addEventListener("input",e=>{clearTimeout(timer);timer=setTimeout(()=>{state.query=e.target.value.trim().toLowerCase();render()},180)});document.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement!==$("#task-search")){e.preventDefault();$("#task-search").focus()}if(e.key==="Escape"&&document.activeElement===$("#task-search")){e.target.value="";state.query="";render()}});
-document.querySelectorAll("[data-theme-choice]").forEach(e=>e.onclick=()=>theme(e.dataset.themeChoice));document.querySelectorAll("[data-accent-choice]").forEach(e=>e.onclick=()=>accent(e.dataset.accentChoice));matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{if(document.documentElement.dataset.themeMode==="system")theme("system")});$("#logout-form").addEventListener("submit",e=>{e.preventDefault();$("#logout-modal").showModal()});$("#cancel-logout").onclick=()=>$("#logout-modal").close();theme(document.documentElement.dataset.themeMode||"system");accent(document.documentElement.dataset.accent||"indigo");requestAnimationFrame(()=>document.documentElement.classList.add("ready"));load();
+import { appTaskState, appInitTaskBadge } from './modules/app-state.js';
+import { appOpenCreate, appInitDialogs } from './modules/app-dialog.js';
+import { appInitTasks } from './modules/app-tasks.js';
+import { appInitDashboard } from './modules/app-dashboard.js';
+import { appInitAppearance } from './modules/app-appearance.js';
+import { appInitShell } from './modules/app-shell.js';
+import { appInitCalendar } from './modules/app-calendar.js';
+import { appInitSettings } from './modules/app-settings.js';
+import { appInitNotifications } from './modules/app-notifications.js';
+import { appInitPreferences } from './modules/app-preferences.js';
+import { appInitPet } from './modules/app-pet.js';
+import { appInitMobile } from './modules/app-mobile.js';
+import { appInitMobileHome } from './modules/app-mobile-home.js';
+import { appInitMobileTaskScreens } from './modules/app-mobile-task-screens.js';
+import { appInitMobileAccount } from './modules/app-mobile-account.js';
+import { appInitOffline } from './modules/app-offline.js';
+import { appInitPublicAuth } from './modules/app-public-auth.js';
+
+function appInitGlobalSearch() {
+    const search = document.getElementById('task-search');
+    search?.addEventListener('keydown', event => {
+        if (event.key === 'Enter' && document.body.dataset.page !== 'tasks') {
+            event.preventDefault();
+            location.assign('/tasks?q=' + encodeURIComponent(search.value.trim()));
+        }
+    });
+    document.addEventListener('keydown', event => {
+        const target = event.target;
+        const typing = target instanceof HTMLElement && Boolean(target.closest('input,textarea,select,[contenteditable="true"]'));
+        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+            if (document.querySelector('dialog[open]')) return;
+            event.preventDefault(); search?.focus(); search?.select();
+        }
+        if (event.key.toLowerCase() === 'n' && !typing && !event.ctrlKey && !event.metaKey && !event.altKey && !document.querySelector('dialog[open]')) {
+            event.preventDefault(); appOpenCreate();
+        }
+    });
+}
+function appSafeInit(name, init) {
+    try { init(); } catch (error) { console.error('Task Tracker '+name+':', error); }
+}
+appSafeInit('offline', appInitOffline);
+if (document.body.classList.contains('app-workspace')) {
+appSafeInit('preferences', appInitPreferences);
+appSafeInit('appearance', appInitAppearance);
+appSafeInit('shell', appInitShell);
+appSafeInit('task badge', appInitTaskBadge);
+appSafeInit('dialogs', appInitDialogs);
+appSafeInit('notifications', appInitNotifications);
+appSafeInit('global search', appInitGlobalSearch);
+appSafeInit('pet', appInitPet);
+appSafeInit('mobile foundation', appInitMobile);
+appSafeInit('mobile task screens', appInitMobileTaskScreens);
+if (document.body.dataset.page === 'tasks') appSafeInit('task page', appInitTasks);
+if (document.body.dataset.page === 'dashboard') appSafeInit('dashboard', appInitDashboard);
+if (document.body.dataset.page === 'dashboard') appSafeInit('mobile home', appInitMobileHome);
+if (document.body.dataset.page === 'calendar') appSafeInit('calendar', appInitCalendar);
+if (document.body.dataset.page === 'settings') appSafeInit('settings', appInitSettings);
+appSafeInit('mobile account', appInitMobileAccount);
+appTaskState.load().catch(() => {});
+} else appSafeInit('public auth', appInitPublicAuth);

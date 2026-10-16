@@ -1,0 +1,249 @@
+import { appTaskState } from './app-state.js';
+import { appToast } from './app-api.js';
+import { appLocalDate, appDateInput, appTaskGroup } from './app-dates.js';
+import { appGreeting, appCompletionDays, appRecentCompleted, appRelativeTime } from './app-dashboard-data.js';
+import { appTaskNode, appIcon } from './app-task-components.js';
+import { appOpenTask, appOpenCreate, appOpenDelete } from './app-dialog.js';
+
+const appGet = id => document.getElementById(id);
+function appNode(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = String(text);
+    return node;
+}
+function appText(id, text) { const node = appGet(id); if (node) node.textContent = String(text); }
+function appEmpty(title, copy, action = null, label = 'Add a task') {
+    const empty = appNode('div', 'app-designed-empty app-dashboard-empty');
+    empty.append(appIcon('check'), appNode('h3', '', title), appNode('p', '', copy));
+    if (action) {
+        const button = appNode('button', 'button button-secondary', label);
+        button.type = 'button'; button.addEventListener('click', action); empty.append(button);
+    }
+    return empty;
+}
+export function appInitDashboard() {
+    const root = document.querySelector('.app-dashboard-grid');
+    if (!root) return;
+    let appTab = 'deadlines', appDay = '', appSubmitting = false;
+    try { const saved = localStorage.getItem('app-dashboard-tab'); if (['deadlines', 'active', 'done'].includes(saved)) appTab = saved; } catch {}
+    function appHeader() {
+        const now = new Date(), firstName = document.querySelector('.user-name')?.textContent.trim().split(/\s+/)[0] || '';
+        appText('db-greeting', appGreeting(now, firstName));
+        appText('db-date', now.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }));
+        appGet('app-quick-due')?.setAttribute('min', appDateInput(now));
+    }
+    function appSelectTab(tab, focus = false) {
+        appTab = tab;
+        for (const name of ['deadlines', 'active', 'done']) {
+            const button = appGet('app-tab-' + name), panel = appGet('app-panel-' + name);
+            button?.setAttribute('aria-selected', String(name === tab));
+            if (button) button.tabIndex = name === tab ? 0 : -1;
+            if (panel) panel.hidden = name !== tab;
+        }
+        if (focus) appGet('app-tab-' + tab)?.focus();
+        try { localStorage.setItem('app-dashboard-tab', tab); } catch {}
+    }
+    function appChart(tasks) {
+        const days = appCompletionDays(tasks), maximum = Math.max(1, ...days.map(day => day.count));
+        const total = days.reduce((sum, day) => sum + day.count, 0);
+        const chart = appGet('db-summary-chart'), table = appGet('app-chart-table');
+        if (!chart || !table) return;
+        chart.replaceChildren(); table.replaceChildren();
+        for (const [index, { date, count }] of days.entries()) {
+            const column = appNode('div', 'db-chart-column app-chart-column' + (index === 6 ? ' is-today' : ''));
+            const track = appNode('div', 'app-chart-track'), bar = appNode('span', 'app-chart-bar');
+            bar.style.setProperty('--h', count ? count / maximum * 100 + '%' : '0%'); track.append(bar);
+            column.append(appNode('span', 'app-chart-value', count), track, appNode('small', '', date.toLocaleDateString(undefined, { weekday: 'short' })));
+            if (index === 6) column.setAttribute('aria-current', 'date');
+            chart.append(column);
+            const row = appNode('tr'), heading = appNode('th', '', date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }));
+            heading.setAttribute('scope', 'row'); row.append(heading, appNode('td', '', count)); table.append(row);
+        }
+        chart.setAttribute('aria-label', total + ' completed in the last 7 days. Today is highlighted.');
+        appText('db-chart-total', total + ' completed in the last 7 days');
+    }
+    function appSideRow(task, done = false) {
+        const row = appTaskNode(task, false); row.classList.add('app-side-row');
+        row.querySelector('.app-task-actions')?.remove();
+        const date = appLocalDate(done ? task.completed_at : task.due_date || task.created_at);
+        const tile = appNode('span', 'app-dashboard-date-tile');
+        tile.setAttribute('aria-hidden', 'true');
+        if (date) tile.append(appNode('small', '', date.toLocaleDateString(undefined, { month: 'short' })), appNode('strong', '', date.getDate()));
+        else tile.append(appIcon('check'));
+        row.prepend(tile);
+        if (done) {
+            const relative = row.querySelector('.app-task-due');
+            if (relative) { relative.textContent = appRelativeTime(task.completed_at); if (task.completed_at) relative.setAttribute('title', new Date(task.completed_at).toLocaleString()); }
+        }
+        return row;
+    }
+    function appWeek(open, today, overdue) {
+        const strip = appGet('app-week-strip'), actions = appGet('app-week-actions');
+        if (!strip || !actions) return;
+        strip.replaceChildren(); actions.replaceChildren();
+        for (let index = 0; index < 7; index++) {
+            const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() + index), key = appDateInput(date);
+            const count = open.filter(task => appDateInput(task.due_date) === key).length;
+            const button = appNode('button', 'app-week-day' + (index === 0 ? ' app-week-today' : ''));
+            button.type = 'button'; button.dataset.appDay = key; button.setAttribute('aria-pressed', String(appDay === key));
+            button.setAttribute('aria-label', date.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' }) + ': ' + count + ' open tasks');
+            const dot = appNode('span', 'app-week-count' + (count ? ' app-week-has-tasks' : ''), count || '·');
+            dot.setAttribute('aria-hidden', 'true');
+            button.append(appNode('small', '', date.toLocaleDateString(undefined, { weekday: 'short' })), appNode('strong', '', date.getDate()), dot);
+            button.addEventListener('click', () => { appDay = appDay === key ? '' : key; appRender(appTaskState.tasks); });
+            strip.append(button);
+        }
+        const all = appNode('button', 'app-clear-filters', 'All dates'); all.type = 'button'; all.dataset.appDay = '';
+        all.setAttribute('aria-pressed', String(!appDay)); all.addEventListener('click', () => { appDay = ''; appRender(appTaskState.tasks); }); actions.append(all);
+        const past = appNode('button', 'app-overdue-filter' + (overdue ? ' app-is-overdue' : ''), overdue + ' overdue'); past.type = 'button'; past.dataset.appDay = 'overdue';
+        past.setAttribute('aria-pressed', String(appDay === 'overdue')); past.addEventListener('click', () => { appDay = appDay === 'overdue' ? '' : 'overdue'; appRender(appTaskState.tasks); }); actions.append(past);
+    }
+    function appRender(tasks) {
+        const active = document.activeElement, taskId = active?.closest('[data-task-id]')?.dataset.taskId, action = active?.dataset.action, day = active?.dataset.appDay;
+        const sourceId = active?.closest('#app-inprogress-cards,#app-deadline-list,#app-active-list,#app-done-list')?.id;
+        const scrolls = ['app-deadline-list', 'app-active-list', 'app-done-list'].map(id => [id, appGet(id)?.scrollTop || 0]);
+        const open = tasks.filter(task => task.status === 'pending'), done = tasks.filter(task => task.status === 'completed');
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const todayCount = open.filter(task => appLocalDate(task.due_date)?.getTime() === today.getTime()).length;
+        const overdue = open.filter(task => task.due_date && appLocalDate(task.due_date) < today).length;
+        for (const [key, count] of Object.entries({ pending: open.length, today: todayCount, overdue, completed: done.length })) {
+            appText('db-summary-' + key, count);
+            const link = document.querySelector('[data-app-metric="' + key + '"]');
+            link?.classList.toggle('app-metric-positive', count > 0);
+            link?.setAttribute('aria-label', ({ pending: 'Open', today: 'Due today', overdue: 'Overdue', completed: 'Completed' }[key]) + ': ' + count + '. View tasks');
+        }
+        appText('db-summary-total', tasks.length); appText('app-dashboard-done', done.length);
+        const percent = tasks.length ? Math.round(done.length / tasks.length * 100) : 0;
+        appText('db-summary-percent', percent + '%');
+        const progress = appGet('db-summary-progress');
+        progress?.style.setProperty('--progress', percent + '%'); progress?.setAttribute('aria-valuenow', String(percent));
+        progress?.setAttribute('aria-valuetext', done.length + ' of ' + tasks.length + ' completed');
+        if (appGet('db-summary-label')) appGet('db-summary-label').hidden = !tasks.length;
+        if (appGet('app-dashboard-first-run')) appGet('app-dashboard-first-run').hidden = Boolean(tasks.length);
+        appChart(tasks);
+        const inprogress = open.filter(task => task.stage === 'in_progress'), cards = appGet('app-inprogress-cards');
+        appText('app-inprogress-count', inprogress.length);
+        if (cards) {
+            cards.replaceChildren(...inprogress.slice(0, 4).map(task => { const card = appTaskNode(task, true); card.draggable = false; card.querySelector('[data-action="move"]')?.remove(); return card; }));
+            if (!inprogress.length) cards.append(appEmpty(tasks.length ? 'Ready when you are' : 'Welcome to your workspace', tasks.length ? 'Start a task from the board to give it your focus.' : 'Add your first task above. Your next small step belongs here.', tasks.length ? () => location.assign('/tasks?view=board') : () => appGet('app-quick-title')?.focus(), tasks.length ? 'View board' : 'Add your first task'));
+            cards.setAttribute('aria-busy', 'false');
+        }
+        const deadlines = open.filter(task => task.due_date);
+        appText('app-count-deadlines', deadlines.length); appText('app-count-active', open.length); appText('app-count-done', done.length);
+        appWeek(open, today, overdue);
+        const list = appGet('app-deadline-list');
+        if (list) {
+            list.replaceChildren();
+            const filtered = deadlines.filter(task => !appDay || (appDay === 'overdue' ? appLocalDate(task.due_date) < today : appDateInput(task.due_date) === appDay));
+            let previous = null;
+            for (const task of filtered) {
+                const group = appTaskGroup(task, today);
+                if (group !== previous) { list.append(appNode('h3', 'app-side-group', group)); previous = group; }
+                list.append(appSideRow(task));
+            }
+            if (!filtered.length) list.append(appEmpty(appDay ? 'A little space on this date' : 'No deadlines on the horizon', appDay ? 'Choose another day or show all dates.' : 'Add a due date when a task needs a little structure.', appDay ? () => { appDay = ''; appRender(appTaskState.tasks); } : () => appOpenCreate(), appDay ? 'Show all dates' : 'Add a task'));
+        }
+        const noDate = open.length - deadlines.length, noDateLink = appGet('app-no-deadline');
+        if (noDateLink) { noDateLink.hidden = !noDate; noDateLink.textContent = '+' + noDate + ' without a deadline'; }
+        for (const [id, items, title, copy] of [
+            ['app-active-list', open.slice(0, 8), 'Everything is clear', 'No open tasks. Enjoy the breathing room.'],
+            ['app-done-list', appRecentCompleted(tasks), 'Small wins start here', 'Your completed tasks will appear here.'],
+        ]) {
+            const container = appGet(id); if (!container) continue;
+            container.replaceChildren(...items.map(task => appSideRow(task, id === 'app-done-list')));
+            if (!items.length) container.append(appEmpty(title, copy, !tasks.length ? () => appGet('app-quick-title')?.focus() : null));
+        }
+        for (const [id, scroll] of scrolls) if (appGet(id)) appGet(id).scrollTop = scroll;
+        if (day !== undefined) document.querySelector('[data-app-day="' + CSS.escape(day) + '"]')?.focus({ preventScroll: true });
+        else if (taskId && sourceId && !document.querySelector('dialog[open]')) {
+            const row = appGet(sourceId)?.querySelector('[data-task-id="' + CSS.escape(taskId) + '"]');
+            const target = action ? row?.querySelector('[data-action="' + action + '"]') : row;
+            (target || appGet('app-tab-' + appTab))?.focus({ preventScroll: true });
+        }
+        if (appGet('db-summary-error')) appGet('db-summary-error').hidden = true;
+        root.setAttribute('aria-busy', 'false');
+    }
+    root.addEventListener('click', async event => {
+        const row = event.target.closest('[data-task-id]'); if (!row) return;
+        const button = event.target.closest('[data-action]'), id = row.dataset.taskId, action = button?.dataset.action;
+        if (action === 'toggle-check') {
+            const task = appTaskState.tasks.find(item => String(item.id) === id); if (!task || appTaskState.isMoving(id)) return;
+            try { await appTaskState.move(id, task.status === 'completed' ? 'todo' : 'completed'); appToast(task.status === 'completed' ? 'Task reopened.' : 'Task completed.'); }
+            catch (error) { appToast(error.message, 'error'); }
+        } else if (action === 'edit') appOpenTask(id, { edit: true, trigger: button });
+        else if (action === 'delete') appOpenDelete(id);
+        else appOpenTask(id, { trigger: row });
+    });
+    root.addEventListener('keydown', event => {
+        if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('[data-task-id]')) { event.preventDefault(); appOpenTask(event.target.dataset.taskId, { trigger: event.target }); }
+    });
+    const tabs = [...root.querySelectorAll('[data-app-tab]')];
+    for (const [index, button] of tabs.entries()) {
+        button.addEventListener('click', () => appSelectTab(button.dataset.appTab));
+        button.addEventListener('keydown', event => {
+            if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+            event.preventDefault();
+            const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+            if (tabs[next]) appSelectTab(tabs[next].dataset.appTab, true);
+        });
+    }
+    const form = appGet('app-quick-form'), details = appGet('app-quick-details'), toggle = appGet('app-quick-toggle'), description = appGet('app-quick-description');
+    toggle?.addEventListener('click', () => {
+        if (!details) return;
+        details.hidden = !details.hidden; toggle.setAttribute('aria-expanded', String(!details.hidden)); toggle.textContent = details.hidden ? 'Add details' : 'Hide details';
+        if (!details.hidden) description?.focus();
+    });
+    description?.addEventListener('input', () => {
+        appText('app-quick-count', description.value.length + '/1000'); appGet('app-quick-count')?.classList.toggle('app-limit', description.value.length === 1000);
+    });
+    description?.addEventListener('keydown', event => { if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') { event.preventDefault(); form?.requestSubmit(); } });
+    function appQuickErrors(error = null) {
+        form?.querySelectorAll('.app-field-error').forEach(node => node.remove());
+        form?.querySelectorAll('[aria-invalid]').forEach(node => { node.removeAttribute('aria-invalid'); node.removeAttribute('aria-describedby'); });
+        if (description) description.setAttribute('aria-describedby', 'app-quick-count');
+        const box = appGet('app-quick-error'); if (box) { box.hidden = !error; box.textContent = error?.message || ''; }
+        let first = null;
+        for (const [key, messages] of Object.entries(error?.errors || {})) {
+            const field = form?.elements.namedItem(key); if (!(field instanceof HTMLElement)) continue;
+            if (key === 'description' && details && toggle) { details.hidden = false; toggle.setAttribute('aria-expanded', 'true'); toggle.textContent = 'Hide details'; }
+            const message = appNode('p', 'app-field-error', messages[0]); message.id = 'app-quick-error-' + key; message.setAttribute('role', 'alert');
+            field.setAttribute('aria-invalid', 'true'); field.setAttribute('aria-describedby', message.id); field.after(message); first ||= field;
+        }
+        first?.focus();
+    }
+    form?.addEventListener('submit', async event => {
+        event.preventDefault(); if (appSubmitting) return;
+        appSubmitting = true; appQuickErrors();
+        const values = { title: appGet('app-quick-title')?.value.trim() || '', priority: appGet('app-quick-priority')?.value || 'medium', due_date: appGet('app-quick-due')?.value || null, description: description?.value || null };
+        const controls = [...form.querySelectorAll('input,select,textarea,button')]; controls.forEach(control => { control.disabled = true; });
+        appText('app-quick-submit', 'Adding…');
+        try {
+            await appTaskState.mutate('/api/tasks', 'POST', values);
+            form.reset(); if (details) details.hidden = true;
+            toggle?.setAttribute('aria-expanded', 'false'); if (toggle) toggle.textContent = 'Add details';
+            appText('app-quick-count', '0/1000'); appGet('app-quick-count')?.classList.remove('app-limit'); appToast('Task added.');
+        } catch (error) { appQuickErrors(error); }
+        finally {
+            controls.forEach(control => { control.disabled = false; }); appSubmitting = false; appText('app-quick-submit', 'Add task');
+            (form.querySelector('[aria-invalid]') || appGet('app-quick-title'))?.focus({ preventScroll: true });
+        }
+    });
+    appHeader(); appChart([]); appSelectTab(appTab); root.setAttribute('aria-busy', 'true');
+    for (const id of ['app-deadline-list', 'app-active-list', 'app-done-list']) {
+        const container = appGet(id); if (!container) continue;
+        for (let index = 0; index < 3; index++) { const skeleton = appNode('div', 'app-task-skeleton'); skeleton.setAttribute('aria-hidden', 'true'); container.append(skeleton); }
+    }
+    appTaskState.subscribe(appRender);
+    appTaskState.onError(error => {
+        const box = appGet('db-summary-error'); if (!box) return;
+        box.hidden = false; box.replaceChildren(appNode('p', '', error.message));
+        const retry = appNode('button', 'button button-secondary', 'Try again'); retry.type = 'button';
+        retry.addEventListener('click', async () => { retry.disabled = true; try { await appTaskState.load({ force: true }); } catch {} finally { if (retry.isConnected) retry.disabled = false; } }); box.append(retry);
+        root.querySelectorAll('.app-task-skeleton').forEach(node => node.remove()); root.setAttribute('aria-busy', 'false');
+        appGet('app-inprogress-cards')?.setAttribute('aria-busy', 'false');
+    });
+    const appRefresh = () => { if (document.hidden) return; appHeader(); if (appTaskState.loaded) appRender(appTaskState.tasks); };
+    setInterval(appRefresh, 60000);
+    document.addEventListener('visibilitychange', appRefresh);
+}

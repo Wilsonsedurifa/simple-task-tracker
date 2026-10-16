@@ -1,40 +1,76 @@
-const tasks = [
-    { t: 'Archive old notes', p: 'low', d: 6 },
-    { t: 'Send the weekly update', p: 'medium', d: 4 },
-    { t: 'Fix checkout validation', p: 'high', d: 3 },
-    { t: 'Review project handoff', p: 'medium', d: 1 },
-    { t: 'Update the README', p: 'low', d: 0, done: true },
-];
-
-const rank = { high: 0, medium: 1, low: 2 };
-let filter = 'all';
-const $ = (selector) => document.querySelector(selector);
-
-function render() {
-    const list = $('#list');
-    list.innerHTML = '';
-    const rows = tasks.map((task, index) => ({ ...task, index }))
-        .sort((a, b) => rank[a.p] - rank[b.p] || b.d - a.d)
-        .filter((task) => filter === 'all' || task.p === filter);
-
-    if (!rows.length) list.innerHTML = '<li class="empty">No tasks here yet.</li>';
-
-    rows.forEach((task) => {
-        const item = document.createElement('li');
-        item.className = `row${task.done ? ' done' : ''}`;
-        const check = document.createElement('button');
-        check.className = 'chk'; check.dataset.i = task.index; check.setAttribute('aria-label', 'Toggle complete');
-        const title = document.createElement('span'); title.className = 'row__t'; title.textContent = task.t;
-        const age = document.createElement('span'); age.className = 'row__age'; age.textContent = task.d ? `${task.d}d` : 'today';
-        const priority = document.createElement('span'); priority.className = `pill p-${task.p}`; priority.textContent = task.p[0].toUpperCase() + task.p.slice(1);
-        item.append(check, title, age, priority); list.append(item);
-    });
-
-    ['all', 'high', 'medium', 'low'].forEach((kind) => { $(`#c-${kind}`).textContent = kind === 'all' ? tasks.length : tasks.filter((task) => task.p === kind).length; });
-    $('#count').textContent = `${tasks.filter((task) => !task.done).length} open`;
+function lpInit(name, init) {
+    try { init(); } catch (error) { console.error('Landing ' + name + ':', error); }
 }
-
-$('#list').addEventListener('click', (event) => { const check = event.target.closest('.chk'); if (check) { tasks[check.dataset.i].done = !tasks[check.dataset.i].done; render(); } });
-document.querySelectorAll('.chip').forEach((chip) => chip.addEventListener('click', () => { filter = chip.dataset.f; document.querySelectorAll('.chip').forEach((item) => item.classList.toggle('is-on', item === chip)); render(); }));
-$('#add').addEventListener('submit', (event) => { event.preventDefault(); const title = $('#title').value.trim(); if (!title) return; tasks.push({ t: title, p: $('#prio').value, d: 0 }); $('#title').value = ''; render(); });
-render();
+lpInit('navigation', () => {
+    const nav = document.querySelector('.lp-nav'), button = document.querySelector('.lp-burger'), links = document.getElementById('lp-links'), header = document.querySelector('.lp-header');
+    if (!nav || !button || !links) return;
+    const media = matchMedia('(max-width:859px)');
+    function lpClose(focus = false) { nav.classList.remove('is-open'); button.setAttribute('aria-expanded','false'); button.setAttribute('aria-label','Open navigation'); if (focus) button.focus(); }
+    button.addEventListener('click', () => { const open = !nav.classList.contains('is-open'); nav.classList.toggle('is-open',open); button.setAttribute('aria-expanded',String(open)); button.setAttribute('aria-label',open ? 'Close navigation' : 'Open navigation'); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && nav.classList.contains('is-open')) { event.preventDefault(); lpClose(true); } });
+    document.addEventListener('click', event => { if (!nav.contains(event.target)) lpClose(); });
+    links.addEventListener('click', event => {
+        const link = event.target.closest('a[href^="#"]'); if (!link) return;
+        const wasOpen = nav.classList.contains('is-open'); lpClose();
+        if (wasOpen) { const target = document.querySelector(link.getAttribute('href')); if (target) { target.setAttribute('tabindex','-1'); requestAnimationFrame(() => target.focus({preventScroll:true})); } }
+    });
+    media.addEventListener('change', () => lpClose());
+    const lpScroll = () => header?.classList.toggle('is-scrolled',scrollY > 8);
+    addEventListener('scroll',lpScroll,{passive:true}); lpScroll();
+});
+lpInit('active section', () => {
+    const links = [...document.querySelectorAll('#lp-links a[href^="#"]')], visible = new Map();
+    if (!('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver(entries => {
+        for (const entry of entries) visible.set(entry.target.id,entry.isIntersecting);
+        let active = null, distance = Infinity;
+        for (const link of links) { const id = link.hash.slice(1), section = document.getElementById(id); if (section && visible.get(id)) { const delta = Math.abs(section.getBoundingClientRect().top - 110); if (delta < distance) { active = link; distance = delta; } } }
+        for (const link of links) if (link === active) link.setAttribute('aria-current','location'); else link.removeAttribute('aria-current');
+    },{rootMargin:'-90px 0px -30% 0px',threshold:[0,.15,.5]});
+    for (const link of links) { const section = document.getElementById(link.hash.slice(1)); if (section) observer.observe(section); }
+});
+lpInit('theme', () => {
+    const buttons = [...document.querySelectorAll('[data-lp-theme-choice]')], root = document.documentElement, note = document.getElementById('lp-theme-status');
+    if (!buttons.length) return;
+    function lpTheme(theme, announce = true) {
+        if (!buttons.some(button => button.dataset.lpThemeChoice === theme)) theme = 'light';
+        root.dataset.lpTheme = theme;
+        for (const button of buttons) { const active = button.dataset.lpThemeChoice === theme; button.setAttribute('aria-checked',String(active)); button.tabIndex = active ? 0 : -1; }
+        let saved = true; try { localStorage.setItem('lp-theme',theme); } catch { saved = false; }
+        if (note && announce) note.textContent = theme[0].toUpperCase() + theme.slice(1) + (saved ? ' theme selected.' : ' applied. Browser storage is unavailable.');
+    }
+    for (const button of buttons) {
+        button.addEventListener('click', () => lpTheme(button.dataset.lpThemeChoice));
+        button.addEventListener('keydown', event => {
+            const index = buttons.indexOf(button), offset = ['ArrowRight','ArrowDown'].includes(event.key) ? 1 : ['ArrowLeft','ArrowUp'].includes(event.key) ? -1 : 0;
+            if (!offset && !['Home','End'].includes(event.key)) return;
+            event.preventDefault(); const next = event.key === 'Home' ? 0 : event.key === 'End' ? buttons.length-1 : (index+offset+buttons.length)%buttons.length;
+            const target = buttons[next]; if (target) { lpTheme(target.dataset.lpThemeChoice); target.focus(); }
+        });
+    }
+    lpTheme(root.dataset.lpTheme,false);
+    addEventListener('storage',event => { if (event.key === 'lp-theme') { const theme = buttons.some(button => button.dataset.lpThemeChoice === event.newValue) ? event.newValue : 'light'; root.dataset.lpTheme = theme; for (const button of buttons) { const active = button.dataset.lpThemeChoice === theme; button.setAttribute('aria-checked',String(active)); button.tabIndex=active?0:-1; } } });
+});
+lpInit('pet demo', () => {
+    const tasks = [...document.querySelectorAll('[data-lp-task]')], card = document.querySelector('.lp-pet-card'), bar = document.getElementById('lp-progress'), speech = document.getElementById('lp-speech'), label = document.getElementById('lp-xp-label'), reset = document.getElementById('lp-reset');
+    if (!tasks.length || !card || !bar || !speech || !label) return;
+    function lpDemo() {
+        const done = tasks.filter(task => task.checked).length, xp = tasks.reduce((total,task) => total + (task.checked ? Number(task.value) : 0),0);
+        const overdue = tasks.some(task => task.hasAttribute('data-lp-overdue') && !task.checked);
+        const mood = done === tasks.length ? 'happy' : overdue ? 'sad' : done ? 'happy' : 'neutral';
+        card.dataset.mood = mood; card.style.setProperty('--s',String(.72 + .14*done)); bar.style.setProperty('--w',xp/60*100+'%'); bar.setAttribute('aria-valuenow',String(xp));
+        label.textContent = xp + ' XP · ' + ['Baby','Little','Young','Grown'][done];
+        speech.textContent = done === tasks.length ? 'Naubos mo lahat! Mochi grew up!' : overdue ? 'Mochi is sad: 1 task is overdue. Kaya pa yan!' : done ? 'A little progress! Isa-isa lang, tutulungan kita.' : 'One small step? Nandito lang ako.';
+    }
+    tasks.forEach(task => task.addEventListener('change',lpDemo));
+    reset?.addEventListener('click', () => { tasks.forEach(task => { task.checked=false; }); lpDemo(); });
+    lpDemo();
+});
+lpInit('reveal', () => {
+    const nodes = [...document.querySelectorAll('.lp-rv')];
+    if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion:reduce)').matches) { nodes.forEach(node => node.classList.add('is-in')); return; }
+    try {
+        const observer = new IntersectionObserver(entries => { for (const entry of entries) if (entry.isIntersecting) { entry.target.classList.add('is-in'); observer.unobserve(entry.target); } },{threshold:.08});
+        nodes.forEach(node => observer.observe(node));
+    } catch (error) { nodes.forEach(node => node.classList.add('is-in')); throw error; }
+});

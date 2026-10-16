@@ -18,13 +18,13 @@ class AccessControlTest extends TestCase
 
     public function test_landing_page_links_are_valid_and_guests_do_not_reach_an_account(): void
     {
-        $this->get(route('landing'))
+        $this->get(route('welcome'))
             ->assertOk()
             ->assertSee('href="'.route('login').'"', false)
-            ->assertSee('href="'.route('login').'"', false)
-            ->assertSee('href="#sorting"', false)
+            ->assertSee('href="'.route('register').'"', false)
+            ->assertSee('href="#features"', false)
             ->assertSee('href="#how"', false)
-            ->assertSee('href="#api"', false)
+            ->assertSee('href="#pet"', false)
             ->assertSee('href="#faq"', false)
             ->assertDontSee('href="'.route('tasks').'"', false);
 
@@ -53,7 +53,7 @@ class AccessControlTest extends TestCase
         $this->assertAuthenticatedAs($user);
 
         $this->get(route('continue'))->assertOk();
-        $this->post(route('continue.store'))->assertRedirect(route('tasks'));
+        $this->post(route('continue.store'))->assertRedirect(route('dashboard'));
 
         $this->post(route('logout'))->assertRedirect(route('login'));
         $this->assertGuest();

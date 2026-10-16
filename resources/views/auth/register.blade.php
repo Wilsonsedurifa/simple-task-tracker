@@ -12,7 +12,7 @@
 
     <section class="auth-card" aria-labelledby="register-heading">
         <p class="auth-label">Create account</p>
-        <h2 id="register-heading">Your next task is waiting.</h2>
+        <h1 id="register-heading">Your next task is waiting.</h1>
 
         <form method="POST" action="{{ route('register.store') }}" data-register-form>
             @csrf

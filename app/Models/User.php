@@ -33,4 +33,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Task::class);
     }
+
+    public function pet(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Pet::class);
+    }
 }
