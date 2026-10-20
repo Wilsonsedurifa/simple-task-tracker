@@ -8,8 +8,10 @@ function appOpenLogout(trigger) {
     appLogoutTrigger = trigger; modal.showModal();
     document.getElementById('cancel-logout')?.focus();
 }
-export function appSetUnreadCount(value) {
-    const count = Math.max(0, Number.isFinite(Number(value)) ? Math.floor(Number(value)) : 0);
+const unreadSources = new Map();
+export function appSetUnreadCount(value, source = 'tasks') {
+    unreadSources.set(source, Math.max(0, Number.isFinite(Number(value)) ? Math.floor(Number(value)) : 0));
+    const count = [...unreadSources.values()].reduce((total, unread) => total + unread, 0);
     document.body.dataset.appUnreadCount = String(count);
     document.getElementById('app-more-button')?.setAttribute('aria-label', count ? 'More navigation, ' + count + ' unread notifications' : 'More navigation');
     document.querySelectorAll('[data-app-unread]').forEach(dot => { dot.hidden = count === 0; dot.textContent = count > 9 ? '9+' : count ? String(count) : ''; });

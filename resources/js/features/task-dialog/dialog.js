@@ -85,6 +85,8 @@ export function appOpenTask(id, { edit=false, fromUrl=false, trigger=document.ac
     appActive=task.id;appTrigger=trigger;appRenderView(task);appSetMode('view');
     const modal=appGet('app-task-dialog');
     if(!modal)return;
+    modal.dataset.taskId=String(task.id);
+    modal.dataset.ownerId=String(task.user_id);
     if(!fromUrl)appUpdateUrl(task.id,!modal.open&&!new URL(location.href).searchParams.has('task'));
     if(!modal.open)modal.showModal();
     if(edit)appEditTask();else appGet('detail-edit-btn')?.focus();
@@ -163,13 +165,15 @@ export function appInitDialogs() {
     });
     appGet('cancel-edit-button')?.addEventListener('click',()=>appGuard(()=>{appSetMode('view');const task=appTaskState.tasks.find(task=>task.id===appActive);if(task)appRenderView(task);appGet('detail-edit-btn')?.focus();}));
     appGet('detail-edit-btn')?.addEventListener('click',appEditTask);
+    appGet('app-detail-invite')?.addEventListener('click',()=>appGet('app-share-task')?.click());
+    appGet('app-detail-menu')?.addEventListener('click',event=>{const menu=appGet('app-detail-menu-items');const open=menu?.hidden; if(menu)menu.hidden=!open;event.currentTarget.setAttribute('aria-expanded',String(open));});
     appGet('detail-close-btn')?.addEventListener('click',()=>appGuard(appCloseTask));
     appGet('detail-delete-btn')?.addEventListener('click',()=>{const bar=appGet('app-drawer-delete');if(bar)bar.hidden=false;appGet('app-cancel-drawer-delete')?.focus();});
     appGet('app-cancel-drawer-delete')?.addEventListener('click',()=>{const bar=appGet('app-drawer-delete');if(bar)bar.hidden=true;appGet('detail-delete-btn')?.focus();});
     appGet('app-confirm-drawer-delete')?.addEventListener('click',async event=>{if(appSaving)return;appSaving=true;event.currentTarget.disabled=true;try{await appTaskState.mutate(APP_API.tasks + '/'+appActive,'DELETE');view?.close();appUpdateUrl(null);appToast('Task deleted.');}catch(error){appToast(error.message,'error');}finally{appSaving=false;appGet('app-confirm-drawer-delete')?.removeAttribute('disabled');}});
-    for(const [id,stage] of [['app-detail-start','in_progress'],['app-detail-review','review']])appGet(id)?.addEventListener('click',async event=>{if(appSaving)return;appSaving=true;event.currentTarget.disabled=true;try{await appTaskState.move(appActive,stage);appToast('Moved to '+appLabels[stage]+'.');}catch(error){appToast(error.message,'error');}finally{appSaving=false;appGet(id)?.removeAttribute('disabled');}});
+    document.querySelectorAll('#app-status-stepper [data-stage]').forEach(button=>button.addEventListener('click',async()=>{const stage=button.dataset.stage;if(appSaving||stage==='completed')return;appSaving=true;try{await appTaskState.move(appActive,stage);appToast('Moved to '+appLabels[stage]+'.');}catch(error){appToast(error.message,'error');}finally{appSaving=false;}}));
     appGet('app-clear-due')?.addEventListener('click',()=>{const field=appGet('app-edit-due');if(field)field.value='';appCounter('edit');});
-    appGet('detail-complete-btn')?.addEventListener('click',async event=>{if(appSaving)return;appSaving=true;event.currentTarget.disabled=true;try{await appToggleTask(appActive);}catch(error){appToast(error.message,'error');}finally{appSaving=false;appGet('detail-complete-btn')?.removeAttribute('disabled');}});
+    appGet('detail-complete-btn')?.addEventListener('click',async event=>{if(appSaving)return;appSaving=true;event.currentTarget.disabled=true;try{const next=event.currentTarget.dataset.nextStage;if(next==='completed'||next==='todo')await appToggleTask(appActive);else await appTaskState.move(appActive,next);appToast('Task updated.');}catch(error){appToast(error.message,'error');}finally{appSaving=false;appGet('detail-complete-btn')?.removeAttribute('disabled');}});
     appGet('confirm-delete-button')?.addEventListener('click',async event=>{if(appSaving)return;appSaving=true;event.currentTarget.disabled=true;try{await appTaskState.mutate(APP_API.tasks + '/'+appActive,'DELETE');appGet('delete-modal')?.close();view?.close();appUpdateUrl(null);appToast('Task deleted.');}catch(error){appToast(error.message,'error');}finally{appSaving=false;appGet('confirm-delete-button')?.removeAttribute('disabled');}});
     view?.addEventListener('cancel',event=>{event.preventDefault();appGuard(appCloseTask);});
     let backdrop=false;view?.addEventListener('pointerdown',event=>{backdrop=event.target===view;});

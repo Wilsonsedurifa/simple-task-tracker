@@ -8,7 +8,7 @@
 @section('content')
 <div id="db-summary-error" class="app-task-error" role="alert" hidden></div>
 @include('tasks.dashboard.stats')
-<div class="app-dashboard-grid">
+<div class="app-dashboard-grid" data-username="{{ auth()->user()->username }}">
     @include('tasks.partials.mobile-home')
     <div class="app-dashboard-main">
 @include('tasks.dashboard.quick-add')

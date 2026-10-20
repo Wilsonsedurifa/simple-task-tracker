@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\SettingsController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ContinueRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => auth()->check() ? redirect()->route('dashboard') : view('landing'))->name('landing');
 Route::view('/welcome', 'landing')->name('welcome');
@@ -15,12 +16,14 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::view('/continue', 'auth.continue')->name('continue');
-    Route::post('/continue', function (Request $request) {
+    Route::post('/continue', function (ContinueRequest $request) {
+        $request->user()->update($request->validated());
         $intended = $request->session()->pull('url.intended', route('dashboard'));
         $host = parse_url($intended, PHP_URL_HOST);
         if (($host && $host !== $request->getHost()) || str_starts_with($intended, '//')) {
             $intended = route('dashboard');
         }
+
         return redirect()->to($intended);
     })->name('continue.store');
     Route::get('/dashboard', fn () => view('tasks.dashboard'))->name('dashboard');
@@ -41,6 +44,7 @@ Route::middleware('auth')->group(function () {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('login');
     })->name('logout');
 });
@@ -49,5 +53,6 @@ Route::fallback(function (Request $request) {
     if ($request->is('api/*') || $request->expectsJson()) {
         abort(404);
     }
+
     return response()->view('errors.404', [], 404);
 });

@@ -11,7 +11,11 @@ class TaskService
 {
     public function listing(User $user, ?string $status, string $sort): Collection
     {
-        return Task::forUser($user->id)
+        return Task::query()->with('collaborators')
+            ->where(function (Builder $query) use ($user): void {
+                $query->where('user_id', $user->id)
+                    ->orWhereHas('collaborators', fn (Builder $collaborators) => $collaborators->whereKey($user->id));
+            })
             ->when($status !== null, function (Builder $query) use ($status): void {
                 $query->where('status', $status);
             })

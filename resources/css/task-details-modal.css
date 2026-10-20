@@ -1,0 +1,40 @@
+#app-task-dialog.app-task-drawer{inset:0;margin:auto;width:min(560px,92vw);max-width:92vw;height:auto;max-height:88dvh;border:1px solid var(--border);border-radius:var(--radius-xl);box-shadow:var(--shadow-lg);overflow:hidden;background:var(--surface)}
+#app-task-dialog[open]{display:flex;flex-direction:column}
+#app-task-dialog [hidden]{display:none!important}
+#app-task-dialog .app-drawer-header,#app-task-dialog .app-detail-footer{flex:0 0 auto}
+#app-task-dialog .app-drawer-body{flex:1 1 auto;min-height:0;overscroll-behavior:contain}
+#app-task-dialog.app-task-drawer::backdrop{background:rgb(15 23 42 / 58%);backdrop-filter:blur(6px)}
+#app-task-dialog .app-drawer-header{position:relative;display:block;padding:24px 118px 22px 24px;background:var(--surface);border-bottom:1px solid var(--border)}
+#app-task-dialog .app-drawer-heading{min-width:0}#app-task-dialog .app-drawer-heading h2{margin:5px 0 0;font-size:25px;overflow:visible;-webkit-line-clamp:unset}#app-task-dialog .app-drawer-heading>.app-task-action{position:absolute;top:24px;right:24px;width:42px;height:42px;border:1px solid var(--border);border-radius:11px;background:var(--surface);color:var(--text);font-size:22px}
+#app-task-dialog .app-drawer-menu{position:absolute;top:24px;right:76px;display:block}#app-task-dialog .app-drawer-menu .app-task-action{width:42px;height:42px;border:1px solid var(--border);border-radius:11px;background:var(--surface);color:var(--text);font-size:17px;line-height:1}
+#app-task-dialog .app-drawer-body{padding:24px;overflow-y:scroll;scrollbar-gutter:stable;background:var(--surface);scrollbar-color:var(--primary-soft) var(--surface-muted);scrollbar-width:thin}#app-task-dialog .app-drawer-body::-webkit-scrollbar{width:10px}#app-task-dialog .app-drawer-body::-webkit-scrollbar-track{margin:12px 0;border-radius:999px;background:var(--surface-muted)}#app-task-dialog .app-drawer-body::-webkit-scrollbar-thumb{border:3px solid var(--surface-muted);border-radius:999px;background:var(--primary-soft)}#app-task-dialog .app-drawer-body::-webkit-scrollbar-thumb:hover{background:var(--primary)}
+#app-task-dialog .app-status-stepper{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0 0 34px;border-color:var(--border);background:var(--surface-muted)}#app-task-dialog .app-status-stepper button{min-width:0;border:0;background:transparent;font:inherit;font-size:12px;white-space:nowrap}#app-task-dialog .app-status-stepper button.is-current{background:var(--primary);color:var(--on-primary,#fff);box-shadow:none}#app-task-dialog .app-status-stepper button:not(:disabled):hover{background:var(--primary-soft);color:var(--primary)}
+#app-task-dialog .app-detail-section{padding:26px 0}#app-task-dialog .app-detail-section:last-of-type{padding-bottom:42px}#app-task-dialog .app-detail-description{margin:0;min-height:24px}#app-task-dialog .app-detail-properties{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 20px}#app-task-dialog .app-detail-properties>div{display:block;padding:12px 0}#app-task-dialog .app-detail-properties dt{margin-bottom:4px;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}#app-task-dialog .app-detail-properties dd{font-size:13px}
+#app-task-dialog .app-detail-footer{position:sticky;bottom:0;padding:16px 24px calc(16px + env(safe-area-inset-bottom));background:var(--surface);border-top:1px solid var(--border)}#app-task-dialog .app-detail-footer .button{width:100%;margin:0;box-sizing:border-box;min-height:48px}
+#app-task-dialog .app-detail-menu-items{top:44px}#app-task-dialog .app-link-button{padding:7px 10px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--primary)}
+#app-task-dialog .app-status-stepper{gap:4px;padding:5px;border:1px solid var(--border);border-radius:12px;margin-bottom:22px}
+#app-task-dialog .app-status-stepper button{min-height:38px;padding:7px 3px;border-radius:8px;font-weight:700;cursor:pointer}
+#app-task-dialog .app-status-stepper button:disabled{cursor:default}
+#app-task-dialog .app-detail-section{padding:20px 0;border-top:1px solid var(--border)}
+#app-task-dialog .app-detail-section:first-of-type{padding-top:0;border-top:0}
+#app-task-dialog .app-detail-section:last-of-type{padding-bottom:10px}
+#app-task-dialog .app-detail-section h3{font-size:14px;line-height:1.4;margin:0 0 12px;font-weight:700}
+#app-task-dialog .app-detail-description{font-size:13px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--text-soft)}
+#app-task-dialog .app-detail-properties{margin:0}
+#app-task-dialog .app-detail-properties dd{margin:0;overflow-wrap:anywhere;line-height:1.6}
+#app-task-dialog .app-section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+#app-task-dialog .app-section-heading h3{margin:0}
+#app-task-dialog .app-link-button{font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+#app-task-dialog .app-detail-collaborators{display:grid;gap:10px;font-size:13px;color:var(--muted)}
+#app-task-dialog .app-detail-collaborators p{margin:0}
+#app-task-dialog .app-detail-collaborator{display:flex;align-items:center;gap:10px}
+#app-task-dialog .app-detail-collaborator>span:nth-child(2){flex:1}
+#app-task-dialog .app-detail-avatar{display:grid;place-items:center;flex:none;width:32px;height:32px;border-radius:50%;background:var(--primary-soft);color:var(--primary);font-weight:800}
+#app-task-dialog .app-detail-footer{position:static}
+#app-task-dialog[data-app-task-mode="edit"] .app-detail-footer{display:none}
+#app-task-dialog .app-detail-menu-items{position:absolute;right:0;z-index:5;display:grid;min-width:155px;padding:6px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-lg)}
+#app-task-dialog .app-detail-menu-items button{padding:10px;border:0;border-radius:7px;background:transparent;color:var(--text);text-align:left;font:inherit;font-size:13px;cursor:pointer}
+#app-task-dialog .app-detail-menu-items button:hover{background:var(--surface-muted)}
+#app-task-dialog .app-detail-menu-items .app-detail-delete{color:var(--danger-text)}
+#app-task-dialog button:focus-visible{outline:2px solid var(--primary);outline-offset:3px}
+@media(max-width:639px){#app-task-dialog.app-task-drawer{inset:0;width:100vw;max-width:none;height:100dvh;max-height:100dvh;border:0;border-radius:0}#app-task-dialog .app-drawer-header{padding:20px 108px 18px 18px}#app-task-dialog .app-drawer-heading>.app-task-action{top:20px;right:18px}#app-task-dialog .app-drawer-menu{top:20px;right:70px}#app-task-dialog .app-drawer-body,#app-task-dialog .app-detail-footer{padding-inline:18px}#app-task-dialog .app-drawer-body{scrollbar-width:none}#app-task-dialog .app-drawer-body::-webkit-scrollbar{display:none}#app-task-dialog .app-detail-properties{grid-template-columns:1fr}#app-task-dialog .app-status-stepper{grid-template-columns:repeat(2,1fr)} }

@@ -20,7 +20,6 @@ class GoogleAccountService
                 ->first());
     }
 
-
     public function linkGoogleAccountIfNeeded(User $user, string $googleId, string $email): User
     {
         return DB::transaction(function () use ($user, $googleId, $email): User {
@@ -39,7 +38,6 @@ class GoogleAccountService
             return $lockedUser;
         });
     }
-
 
     public function createFromGoogle(string $intent, array $attributes): ?User
     {
@@ -61,11 +59,12 @@ class GoogleAccountService
                 return null;
             }
 
-            $user = new User();
+            $user = new User;
             $user->forceFill([
                 'name' => $attributes['name'] !== '' ? $attributes['name'] : 'Google User',
                 'email' => strtolower(trim($attributes['email'])),
                 'google_id' => $attributes['google_id'],
+                'username' => $attributes['username'],
                 'email_verified_at' => now(),
                 // Google-only users have no password. A random, non-disclosed value
                 // keeps the existing non-null database column unchanged.
@@ -75,5 +74,4 @@ class GoogleAccountService
             return $user;
         });
     }
-
 }

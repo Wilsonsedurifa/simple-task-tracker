@@ -6,7 +6,7 @@
     <section class="auth-intro">
         <p class="auth-label">Task Tracker</p>
         <h1><span>Start in</span><em>ten seconds.</em></h1>
-        <p>Three small details, then your list is ready.</p>
+        <p>Choose your username, then make room for your next small win.</p>
         @include('auth.partials.sorting-mockup')
     </section>
 
@@ -18,6 +18,9 @@
             @csrf
             <label for="name">Name<input id="name" name="name" type="text" value="{{ old('name') }}" autocomplete="name" required autofocus></label>
             @error('name') <p class="field-error">{{ $message }}</p> @enderror
+            <label for="username">Username<input id="username" name="username" type="text" value="{{ old('username') }}" autocomplete="username" minlength="3" maxlength="30" pattern="[A-Za-z0-9_]+" aria-describedby="username-help" required></label>
+            <p id="username-help" class="password-hint">Your searchable @username. Use 3–30 letters, numbers, or underscores.</p>
+            @error('username') <p class="field-error">{{ $message }}</p> @enderror
             <label for="email">Email<input id="email" name="email" type="email" value="{{ old('email') }}" autocomplete="email" required></label>
             @error('email') <p class="field-error">{{ $message }} <a href="{{ route('login') }}">Log in instead.</a></p> @enderror
             <label for="password">Password</label>

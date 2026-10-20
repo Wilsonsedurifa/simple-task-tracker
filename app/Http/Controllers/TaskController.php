@@ -12,6 +12,7 @@ use App\Services\PetService;
 use App\Services\TaskService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
@@ -48,7 +49,7 @@ class TaskController extends Controller
 
     public function complete(Task $task, PetService $pets): JsonResponse
     {
-        abort_unless($task->user_id === request()->user()->id, 404);
+        Gate::authorize('complete', $task);
 
         return response()->json($pets->complete($task));
     }
@@ -62,7 +63,7 @@ class TaskController extends Controller
 
     public function destroy(Task $task): JsonResponse
     {
-        abort_unless($task->user_id === request()->user()->id, 404);
+        Gate::authorize('delete', $task);
         $task->delete();
 
         return response()->json(['message' => 'Task deleted successfully.']);

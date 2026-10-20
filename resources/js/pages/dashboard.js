@@ -29,8 +29,8 @@ export function appInitDashboard() {
     let appTab = 'deadlines', appDay = '';
     { const saved = appReadStorage(APP_STORAGE.dashboardTab).value; if (['deadlines', 'active', 'done'].includes(saved)) appTab = saved; }
     function appHeader() {
-        const now = new Date(), firstName = document.querySelector('.user-name')?.textContent.trim().split(/\s+/)[0] || '';
-        appText('db-greeting', appGreeting(now, firstName));
+        const now = new Date(), username = root.dataset.username || '';
+        appText('db-greeting', appGreeting(now, username ? username.charAt(0).toUpperCase() + username.slice(1) : ''));
         appText('db-date', now.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }));
         appGet('app-quick-due')?.setAttribute('min', appDateInput(now));
     }

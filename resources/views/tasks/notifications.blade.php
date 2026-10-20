@@ -5,6 +5,7 @@
 @section('subtitle', 'Your deadlines and small wins, in one place.')
 @section('content')
 <section class="app-notifications-page" aria-labelledby="app-notifications-heading">
+    <section class="app-invitation-section" aria-labelledby="app-invitations-heading"><div class="app-notifications-toolbar"><div><h2 id="app-invitations-heading">Task invitations</h2><p class="app-dashboard-hint">Collaborate on tasks shared with you.</p></div></div><div id="app-invitations" class="app-invitation-list" aria-live="polite"></div></section>
     <div class="app-notifications-toolbar">
         <div><h2 id="app-notifications-heading">Your task updates</h2><p id="app-notification-summary" class="app-dashboard-hint" aria-live="polite">Loading your notifications…</p></div>
         <button type="button" class="button button-secondary" data-app-mark-all disabled>Mark all as read</button>

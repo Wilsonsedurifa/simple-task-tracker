@@ -12,14 +12,18 @@ use Illuminate\View\View;
 
 class RegisterController extends Controller
 {
-    public function create(): View { return view('auth.register'); }
+    public function create(): View
+    {
+        return view('auth.register');
+    }
 
     public function store(RegisterRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $user = User::create(['name' => $data['name'], 'email' => $data['email'], 'password' => Hash::make($data['password'])]);
+        $user = User::create(['name' => $data['name'], 'username' => $data['username'], 'email' => $data['email'], 'password' => Hash::make($data['password'])]);
         Auth::login($user);
         $request->session()->regenerate();
+
         return redirect()->route('continue');
     }
 }

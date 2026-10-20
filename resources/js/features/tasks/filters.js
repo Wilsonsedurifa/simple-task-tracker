@@ -12,7 +12,7 @@ export function appFiltered(tasks, filters, appPhone) {
         return appStatusMatch
             && (!filters.stage || task.status === 'pending' && task.stage === filters.stage)
             && (!filters.priority || task.priority === filters.priority)
-            && (!filters.q || (task.title + ' ' + (task.description || '')).toLowerCase().includes(filters.q.toLowerCase()))
+            && (!filters.q || (task.title + ' ' + (task.description || '') + ' ' + (task.collaborator_usernames || []).map(name => '@' + name).join(' ')).toLowerCase().includes(filters.q.toLowerCase()))
             && (!filters.due || task.status === 'pending' && (filters.due === 'none' ? !date : filters.due === 'today' ? date?.getTime() === today.getTime() : filters.due === 'week' ? date && date > appTomorrow && date <= appWeekEnd : date && date < today));
     });
 }

@@ -70,6 +70,10 @@
 .continue-card h1 em { color:var(--accent); }
 .continue-card > p:not(.auth-label) { margin:0 0 28px; color:var(--muted); }
 .continue-card form { display:grid; }
+.continue-username-label { margin-bottom:8px; font-size:14px; font-weight:700; }
+.continue-username-input { width:100%; min-height:48px; padding:12px; border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--surface); color:var(--text); font:inherit; }
+.continue-username-input:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+.continue-card .continue-username-help { margin:10px 0 22px; font-size:13px; color:var(--muted); line-height:1.6; }
 
 @media (min-width:1024px) {
     .auth-page { grid-template-columns:minmax(0, 1fr) 440px; gap:80px; }

@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\View\View;
-use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -18,6 +18,7 @@ class LoginController extends Controller
         if (is_string($returnTo) && str_starts_with($returnTo, '/') && ! str_starts_with($returnTo, '//') && ! preg_match('/[\x00-\x20\\\\]/', $returnTo)) {
             $request->session()->put('url.intended', $returnTo);
         }
+
         return view('auth.login');
     }
 
@@ -29,10 +30,12 @@ class LoginController extends Controller
         }
         if (! Auth::attempt($request->safe()->only(['email', 'password']), $request->boolean('remember'))) {
             RateLimiter::hit($key, 60);
+
             return redirect()->route('login')->withErrors(['email' => 'These credentials do not match our records.'])->onlyInput('email');
         }
         RateLimiter::clear($key);
         $request->session()->regenerate();
-        return redirect()->route('continue');
+
+        return redirect()->route(blank($request->user()->username) ? 'continue' : 'dashboard');
     }
 }

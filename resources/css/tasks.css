@@ -33,7 +33,6 @@
 @import './base/032-tokens.css';
 @import './layout/033-shell-modern.css';
 @import './features/034-task-list.css';
-@import './features/035-drawer.css';
 @import './features/036-dashboard.css';
 @import './base/037-tokens.css';
 @import './features/038-calendar.css';
@@ -53,3 +52,6 @@
 @import './mobile/052-calendar.css';
 @import './mobile/053-tasks.css';
 @import './mobile/054-home.css';
+@import './collaboration.css';
+@import './task-details-modal.css';
+@import './username-setup.css';

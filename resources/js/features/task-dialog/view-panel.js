@@ -3,6 +3,7 @@ import { APP_MOBILE_QUERY } from '../../core/constants.js';
 import { appGet, appText } from '../../core/dom.js';
 import { appTaskState } from '../../core/state.js';
 import { appDateInput, appDueLabel } from '../../core/dates.js';
+import { appRenderDetailsPanel } from '../../tasks/details/panel.js';
 const appLabels = { todo: 'To do', in_progress: 'In progress', review: 'Review' };
 export function appRenderView(task) {
     appText('detail-title',task.title);appText('detail-description',task.description || 'No description added.');
@@ -20,6 +21,7 @@ export function appRenderView(task) {
     appGet('app-task-dialog')?.setAttribute('data-app-task-stage', task.status === 'completed' ? 'completed' : task.stage || 'todo');
     appGet('app-task-dialog')?.querySelector('.app-mobile-detail-status svg path')?.setAttribute('d', task.status === 'completed' ? 'm5 12 4 4L19 6' : 'M12 7v5l3 2 M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18');
     appText('app-detail-completed',task.completed_at?new Date(task.completed_at).toLocaleString():'Not completed');
+    appRenderDetailsPanel(task);
     for(const [id,stage] of [['app-detail-start','in_progress'],['app-detail-review','review']]){const button=appGet(id);if(button)button.hidden=task.status==='completed'||task.stage===stage;}
     appText('detail-complete-text',task.status==='completed'?(appPhone?'Reopen':'Reopen task'):(appPhone?'Mark as Completed':'Mark as completed'));
     appText('app-detail-start',appPhone?'Move to In Progress':'Start');

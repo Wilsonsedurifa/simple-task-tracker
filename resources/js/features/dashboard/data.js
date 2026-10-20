@@ -3,7 +3,7 @@ import { appLocalDate } from '../../core/dates.js';
 
 export function appGreeting(date, name = '') {
     const hour = date.getHours();
-    const greeting = hour >= 5 && hour < 12 ? 'Magandang umaga' : hour >= 12 && hour < 18 ? 'Magandang hapon' : 'Magandang gabi';
+    const greeting = hour >= 5 && hour < 12 ? 'Good morning' : hour >= 12 && hour < 18 ? 'Good afternoon' : 'Good evening';
     return greeting + (name ? ', ' + name : '');
 }
 

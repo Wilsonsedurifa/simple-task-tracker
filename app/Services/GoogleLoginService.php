@@ -35,12 +35,20 @@ class GoogleLoginService
             return $this->existingAccountResponse($email);
         }
 
+        $request->session()->put('google_registration', [
+            'google_id' => $googleId, 'email' => $email, 'name' => $name, 'expires_at' => now()->addMinutes(15)->timestamp,
+        ]);
+
+        return redirect()->route('auth.google.confirm');
+    }
+
+    public function confirm(Request $request, string $username): RedirectResponse
+    {
+        $attributes = $request->session()->get('google_registration');
+        abort_unless($attributes && $attributes['expires_at'] > now()->timestamp, 419);
+        $email = $attributes['email'];
         try {
-            $user = $this->accounts->createFromGoogle($intent, [
-                'google_id' => $googleId,
-                'email' => $email,
-                'name' => $name,
-            ]);
+            $user = $this->accounts->createFromGoogle('register', $attributes + ['username' => $username]);
         } catch (QueryException $exception) {
             if ((string) $exception->getCode() !== '23000') {
                 throw $exception;
@@ -55,9 +63,10 @@ class GoogleLoginService
             return $this->existingAccountResponse($email);
         }
 
+        $request->session()->forget('google_registration');
+
         return $this->login($request, $user);
     }
-
 
     private function existingAccountResponse(string $email): RedirectResponse
     {
@@ -66,13 +75,11 @@ class GoogleLoginService
             ->withInput(['email' => strtolower(trim($email))]);
     }
 
-
     private function login(Request $request, User $user): RedirectResponse
     {
         Auth::login($user, true);
         $request->session()->regenerate();
 
-        return redirect()->route('continue');
+        return redirect()->route(blank($user->username) ? 'continue' : 'dashboard');
     }
-
 }

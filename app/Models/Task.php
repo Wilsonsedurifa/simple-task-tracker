@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
-use App\Models\User;
 use Database\Factories\TaskFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Task extends Model
 {
     protected $attributes = ['stage' => 'todo'];
+
     /** @use HasFactory<TaskFactory> */
     use HasFactory;
 
@@ -29,7 +32,7 @@ class Task extends Model
         return ['due_date' => 'date', 'completed_at' => 'datetime', 'stage' => 'string', 'xp_awarded_at' => 'datetime'];
     }
 
-    public function scopeForUser(\Illuminate\Database\Eloquent\Builder $query, int $userId): \Illuminate\Database\Eloquent\Builder
+    public function scopeForUser(Builder $query, int $userId): Builder
     {
         return $query->where('user_id', $userId);
     }
@@ -37,5 +40,17 @@ class Task extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function collaborators(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)
+            ->withPivot('role')
+            ->withTimestamps();
+    }
+
+    public function invitations(): HasMany
+    {
+        return $this->hasMany(TaskInvitation::class);
     }
 }

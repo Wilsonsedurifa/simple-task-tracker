@@ -37,7 +37,7 @@ class GoogleAuthIntentTest extends TestCase
 
         $this->withSession(['google_auth_intent' => 'login'])
             ->get(route('auth.google.callback'))
-            ->assertRedirect(route('continue'));
+            ->assertRedirect(route('dashboard'));
 
         $this->assertAuthenticatedAs($user);
         $this->assertDatabaseCount('users', 1);
@@ -53,21 +53,28 @@ class GoogleAuthIntentTest extends TestCase
 
         $this->withSession(['google_auth_intent' => 'login'])
             ->get(route('auth.google.callback'))
-            ->assertRedirect(route('continue'));
+            ->assertRedirect(route('dashboard'));
 
         $this->assertAuthenticatedAs($user);
         $this->assertDatabaseHas('users', ['id' => $user->id, 'google_id' => 'google-member']);
         $this->assertDatabaseCount('users', 1);
     }
 
-    public function test_register_with_a_new_google_email_creates_and_logs_in_the_user(): void
+    public function test_register_with_a_new_google_email_requires_confirmation_before_creation(): void
     {
         $this->fakeGoogleUser('google-new', 'NEW@EXAMPLE.COM');
 
         $this->withSession(['google_auth_intent' => 'register'])
             ->get(route('auth.google.callback'))
-            ->assertRedirect(route('continue'));
+            ->assertRedirect(route('auth.google.confirm'));
 
+        $this->assertGuest();
+        $this->assertDatabaseCount('users', 0);
+        $this->get(route('auth.google.confirm'))->assertOk()->assertSee('What should we')->assertSee('Create my account');
+        $this->assertDatabaseCount('users', 0);
+        $this->post(route('auth.google.confirm.store'), ['username' => ''])->assertSessionHasErrors('username');
+        $this->assertDatabaseCount('users', 0);
+        $this->post(route('auth.google.confirm.store'), ['username' => 'google_member'])->assertRedirect(route('dashboard'));
         $this->assertAuthenticated();
         $this->assertDatabaseHas('users', [
             'email' => 'new@example.com',

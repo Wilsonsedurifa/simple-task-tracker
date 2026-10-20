@@ -16,6 +16,8 @@ import { appInitOffline } from './shell/offline.js';
 import { appInitPublicAuth } from './shell/public-auth.js';
 
 import { appInitGlobalSearch } from './shell/search.js';
+import { appInitShareModal } from './collaboration/shareModal.js';
+import { appInitInvitations } from './collaboration/invitations.js';
 
 async function appSafeInit(name, init) {
     try { await init(); } catch (error) { console.error('Task Tracker '+name+':', error); }
@@ -28,6 +30,8 @@ appSafeInit('appearance', appInitAppearance);
 appSafeInit('shell', appInitShell);
 appSafeInit('task badge', appInitTaskBadge);
 appSafeInit('dialogs', appInitDialogs);
+appSafeInit('collaboration', appInitShareModal);
+appSafeInit('invitations', appInitInvitations);
 appSafeInit('notifications', appInitNotifications);
 appSafeInit('global search', appInitGlobalSearch);
 appSafeInit('pet', appInitPet);

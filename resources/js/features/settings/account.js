@@ -10,7 +10,7 @@ export function appSettingsAccount() {
         let busy = false;
         form.addEventListener('submit', async event => {
             event.preventDefault(); if (busy) return; busy = true; appClearErrors(form);
-            const fields = [...form.querySelectorAll('input[name]:not([type="hidden"])')];
+            const fields = [...form.querySelectorAll('input[name]:not([type="hidden"]), select[name]')];
             const data = Object.fromEntries(fields.map(input => [input.name, input.value]));
             const button = form.querySelector('button[type="submit"]'), label = button?.textContent;
             if (button) { button.disabled = true; button.textContent = 'Saving…'; }

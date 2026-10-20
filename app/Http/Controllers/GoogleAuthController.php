@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\GoogleLoginService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -21,7 +22,7 @@ class GoogleAuthController extends Controller
         return $this->redirect($request, 'register');
     }
 
-    public function callback(Request $request, \App\Services\GoogleLoginService $service): RedirectResponse
+    public function callback(Request $request, GoogleLoginService $service): RedirectResponse
     {
         // pull() makes the intent valid for one callback only. A missing or invalid
         // value deliberately becomes "login", which can never create an account.
@@ -79,9 +80,10 @@ class GoogleAuthController extends Controller
     private function redirect(Request $request, string $intent): RedirectResponse
     {
         $request->session()->put('google_auth_intent', $intent);
+        $request->session()->forget('google_registration');
 
         try {
-            return Socialite::driver('google')->redirect();
+            return Socialite::driver('google')->with(['prompt' => 'select_account'])->redirect();
         } catch (Throwable $exception) {
             $request->session()->forget('google_auth_intent');
             Log::error('Google OAuth redirect failed.', ['exception' => $exception::class, 'ip' => $request->ip()]);
@@ -102,5 +104,4 @@ class GoogleAuthController extends Controller
     {
         return redirect()->route($intent === 'register' ? 'register' : 'login');
     }
-
 }

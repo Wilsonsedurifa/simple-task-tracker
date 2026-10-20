@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\Gate;
+
 class ReopenTaskRequest extends JsonFormRequest
 {
     public function authorize(): bool
     {
-        abort_unless($this->route('task')->user_id === $this->user()->id, 404);
+        Gate::authorize('update', $this->route('task'));
 
         return true;
     }
