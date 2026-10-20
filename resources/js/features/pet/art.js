@@ -1,5 +1,7 @@
 // pet/art: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appSvgElement as appPetShape } from '../../core/dom.js';
+import { frontPose } from './art/frontPose.js';
+import { sidePose } from './art/sidePose.js';
 // Original geometric artwork. One rig per species; level/mood classes swap
 // posture, face, proportions and accessories without loading images or fonts.
 export function appPetArt(species, level = 1, mood = 'idle') {
@@ -13,8 +15,8 @@ export function appPetArt(species, level = 1, mood = 'idle') {
     add('path', { d: species === 'fox' ? 'M140 139Q195 103 182 146Q173 178 135 166' : species === 'cat' ? 'M140 152Q191 153 174 111' : species === 'dog' ? 'M141 149Q178 113 181 135' : 'M141 143Q170 137 163 159Q153 173 136 164', class: 'app-pet-tail' });
     add('ellipse', { cx: 100, cy: 137, rx: 49, ry: 41, class: 'app-pet-body' });
     add('ellipse', { cx: 100, cy: 141, rx: 28, ry: 25, class: 'app-pet-belly' });
-    add('ellipse', { cx: 68, cy: 171, rx: 19, ry: 10, class: 'app-pet-body' });
-    add('ellipse', { cx: 132, cy: 171, rx: 19, ry: 10, class: 'app-pet-body' });
+    add('ellipse', { cx: 68, cy: 171, rx: 19, ry: 10, class: 'app-pet-body app-pet-foot app-pet-foot-left' });
+    add('ellipse', { cx: 132, cy: 171, rx: 19, ry: 10, class: 'app-pet-body app-pet-foot app-pet-foot-right' });
     const ears = species === 'bunny' ? ['M65 70Q35-10 64 8Q85 15 83 67', 'M117 67Q115 15 136 8Q165-10 135 70']
         : species === 'dog' ? ['M60 55Q18 43 32 105Q40 118 67 77', 'M140 55Q182 43 168 105Q160 118 133 77']
         : species === 'panda' ? ['M66 65A22 22 0 1 1 83 45', 'M117 45A22 22 0 1 1 134 65']
@@ -34,5 +36,6 @@ export function appPetArt(species, level = 1, mood = 'idle') {
     add('path', { d: 'M63 123Q100 139 137 123L133 141Q100 151 67 141Z M117 139l13 24 13-9-14-20', class: 'app-pet-scarf' });
     add('circle', { cx: 100, cy: 139, r: 9, class: 'app-pet-bell' });
     add('path', { d: 'm72 40-5-28 22 14 11-23 11 23 22-14-5 28Z', class: 'app-pet-crown' });
+    if (species === 'cat') svg.append(frontPose(svg), sidePose());
     return svg;
 }

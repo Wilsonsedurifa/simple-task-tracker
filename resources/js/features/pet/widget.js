@@ -9,8 +9,9 @@ import { appReadSettings, appReducedMotion } from '../../shell/preferences.js';
 import { appPetMood, appPetBadges } from './data.js';
 import { appPetArt } from './art.js';
 import { appCloseOnBackdrop } from '../../shell/appearance.js';
+import { initPetRoom, renderPetRoom, celebratePetTask } from './room.js';
 
-let appPet = null, appPetLoaded = false, appPetVersion = 0, appPetBurstUntil = 0, appPetLastTouch = 0, appPetReturnFocus = null;
+let appPet = null, appPetLoaded = false, appPetVersion = 0, appPetBurstUntil = 0, appPetReturnFocus = null;
 let appPetLevels = [], appPetError = false, appPetBurstTimer, appPetLastSeen = 0;
 function appPetKey(type) { return 'app-pet-' + type + ':' + (document.body?.dataset.appUserId || 'guest'); }
 function appPetRead(type) { return appReadStorage(appPetKey(type)).value; }
@@ -57,6 +58,7 @@ function appPetRender() {
         if (bar) { bar.style.setProperty('--pet-progress', String(appPet.progress_pct / 100)); bar.setAttribute('aria-valuenow', String(appPet.progress_pct)); bar.setAttribute('aria-valuetext', values.xp); }
     }
     if (!appPet) return;
+    renderPetRoom(appPet);
     const stats = appPetGet('app-pet-stats');
     if (stats) {
         stats.replaceChildren();
@@ -126,6 +128,7 @@ async function appPetReward(reward) {
     appPetSeen(reward.level);
     if (!appPet || !appReadSettings().showPet || reward.xp_gained <= 0) return;
     appPetEffects('+' + reward.xp_gained + ' XP', leveledUp);
+    celebratePetTask(appPet, reward);
     const announcement = appPetGet('app-pet-announcement'); if (announcement) announcement.textContent = appPet.name + ' earned ' + reward.xp_gained + ' XP.';
     if (leveledUp) {
         const message = appPet.name + ' grew into a ' + reward.new_stage + ' pet!';
@@ -171,6 +174,7 @@ function appPetFormInit(form, editing) {
     });
 }
 export function appInitPet() {
+    initPetRoom();
     const dialog = appPetGet('app-pet-adoption'); if (!dialog) return;
     try { appPetLevels = JSON.parse(dialog.dataset.appPetLevels || '[]'); } catch { appPetLevels = []; }
     for (const node of document.querySelectorAll('[data-app-pet-preview]')) node.replaceChildren(appPetArt(node.dataset.appPetPreview, 1, 'happy'));
@@ -179,15 +183,6 @@ export function appInitPet() {
     document.querySelectorAll('[data-app-pet-later]').forEach(node => node.addEventListener('click', () => dialog.close()));
     document.querySelectorAll('[data-app-pet-adopt]').forEach(node => node.addEventListener('click', () => appPetOffer(node)));
     document.querySelectorAll('[data-app-pet-retry]').forEach(node => node.addEventListener('click', () => { appPetError = false; appPetRender(); void appPetLoad(); }));
-    for (const button of document.querySelectorAll('[data-app-pet-touch]')) button.addEventListener('click', () => {
-        if (!appPet || Date.now() - appPetLastTouch < 2000) return;
-        appPetLastTouch = Date.now();
-        const speech = button.closest('[data-app-pet-widget]')?.querySelector('[data-app-pet-speech]');
-        const messages = ['Salamat! Nandito lang ako.', 'Small steps, kaya natin!', 'Pahinga rin. You deserve it.', 'High five! Isa-isa lang.'];
-        if (speech) { speech.setAttribute('aria-live', 'polite'); speech.textContent = messages[Math.floor(Math.random() * messages.length)]; }
-        if (!appPetStatic()) { button.classList.remove('app-pet-petted'); requestAnimationFrame(() => button.classList.add('app-pet-petted')); setTimeout(() => button.classList.remove('app-pet-petted'), 700); }
-        appPetEffects('♥', true);
-    });
     appPetFormInit(appPetGet('app-pet-adopt-form'), false);
     appPetFormInit(appPetGet('app-pet-edit-form'), true);
     appTaskState.subscribe(() => { appPetRender(); });

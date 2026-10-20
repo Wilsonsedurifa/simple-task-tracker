@@ -5,7 +5,9 @@
     <div data-app-pet-empty class="app-pet-placeholder" hidden><strong>A little company for your next step.</strong><p>Adopt a companion that grows with you. No pressure, just company.</p><button type="button" class="button button-primary" data-app-pet-adopt>Adopt a pet</button></div>
     <div data-app-pet-content hidden>
         <div class="app-pet-room" data-app-pet-room><span class="app-pet-room-star" aria-hidden="true">✧</span><button type="button" class="app-pet-creature" data-app-pet-touch aria-label="Pet your companion"></button><div class="app-pet-effects" data-app-pet-effects aria-hidden="true"></div></div>
+        <div class="pet-room-controls" role="group" aria-label="Spend time with your pet"><button type="button" data-pet-interaction="pet">♡ Pet</button><button type="button" data-pet-interaction="treat">✦ Treat</button><button type="button" data-pet-interaction="play">↗ Play</button></div>
         <div class="app-pet-identity"><strong data-app-pet-name></strong><span data-app-pet-level></span><span data-app-pet-streak></span></div>
+        <p class="pet-next-milestone" data-pet-next-milestone></p>
         <div class="app-pet-xp" data-app-pet-progress role="progressbar" aria-label="Pet level progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div><p class="app-pet-xp-label" data-app-pet-xp></p>
         <p class="app-pet-mood" data-app-pet-mood></p><p class="app-pet-speech" data-app-pet-speech></p>
         <p class="app-pet-celebration" data-app-pet-celebration role="status" aria-live="polite" hidden></p>

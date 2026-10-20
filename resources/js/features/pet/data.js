@@ -1,8 +1,8 @@
 // pet/data: existing UI behavior and lifecycle, initialized explicitly by the app boot.
 import { appLocalDate } from '../../core/dates.js';
 
-/** Pure local-calendar mood derivation. Precedence is proud > happy >
- * sad/worried > sleepy > idle. Never sorts or mutates the shared task array.
+/** Pure local-calendar mood derivation. Precedence is proud > happy > sleepy > idle.
+ * Never sorts or mutates the shared task array.
  * A temporary happy burst is presentation-only and is not part of this function.
  */
 export function appPetMood(tasks, pet, now = new Date()) {
@@ -10,10 +10,9 @@ export function appPetMood(tasks, pet, now = new Date()) {
     const done = tasks.filter(task => task.status === 'completed');
     const overdue = open.filter(task => { const date = appLocalDate(task.due_date); return date && date < today; }).length;
     const completedToday = done.filter(task => appLocalDate(task.completed_at)?.getTime() === today.getTime()).length;
-    const mood = !open.length && done.length ? 'proud' : completedToday && !overdue ? 'happy' : overdue >= 3 ? 'sad' : overdue ? 'worried' : !completedToday ? 'sleepy' : 'idle';
-    const overdueText = overdue + ' overdue task' + (overdue === 1 ? '' : 's');
-    const reason = { proud: 'all your tasks are completed', happy: 'a little progress today', worried: overdueText, sad: overdueText, sleepy: 'a quiet moment', idle: 'ready for your next step' };
-    const speech = { proud: 'Ang galing! Pahinga rin kapag kaya.', happy: 'Nice one! Small steps count.', worried: 'Kaya pa yan! Isa-isa lang.', sad: 'Isa-isa lang, tutulungan kita.', sleepy: 'Chill muna. Nandito lang ako.', idle: 'Anong next? Sama ako!' };
+    const mood = !open.length && done.length ? 'proud' : completedToday ? 'happy' : !open.length ? 'sleepy' : 'idle';
+    const reason = { proud: 'all your tasks are completed', happy: 'a little progress today', sleepy: 'a quiet moment', idle: 'ready for your next step' };
+    const speech = { proud: 'You did it! Time for a well-earned break.', happy: 'Nice one! Small steps count.', sleepy: 'A quiet moment together. No rush.', idle: 'Ready for our next little adventure?' };
     return { mood, text: (pet?.name || 'Your pet') + ' is ' + mood + ': ' + reason[mood] + '.', speech: speech[mood], overdue, completedToday };
 }
 
